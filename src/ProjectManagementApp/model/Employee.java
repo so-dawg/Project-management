@@ -1,62 +1,74 @@
 package model;
 
  public class Employee {
-    private int id;
-    private String name;
+    private int userId;
+    private String firstName;
+    private String lastName;
+    private int projects;
     private String role;
     private String email;
+    private String password;
+
+    public Employee() {
+
+    }
 
     // Contruction for creating new Employee before insert to data bbase 
-    public Employee  (String name, String role, String email){
-      this.name = name;
-      this.role = role;
+    public Employee  (String firstName, String lastName, int projects, String email, String password, String role){
+      this.firstName = firstName;
+      this.lastName = lastName;
       this.email = email;
+      this.password = password;
+      this.role = role;
     }
 
-    // Contruction for retrieving Employee from data bbase
-    public Employee (int id, String name, String role, String email) {
-      this.id =  id;
-      this.name = name;
-      this.role = role;
-      this.email = email;
-    }
 
     // Getters and Setters
-    public int getId() {
-      return id;
+    public int getUserId() {
+      return userId;
     }
 
-    public void setId(int id) {
-      this.id = id;
+    public void setUserId(int userId) {
+      this.userId = userId;
     }
 
-    public String getName() {
-      return name;
+    public String getFirstName() {
+      return firstName;
     }
 
-    public void setName(String name) {
-      this.name = name
+    public void setLastName(String lastName) {
+      this.lastName = lastName
     }
 
-    public void getRole() {
-      return role;
+    public int getProjects() {
+      return projects;
     }
 
-    public void setRole(String role) {
-      this.role = role;
+    public void setProjects(int projects) {
+      this.projects = projects;
     }
 
     public String getEmail() {
       return email;
     }
 
-    public void setEmail(int email) {
+    public void setEmail(String email) {
       this.email = email
     }
 
-    // Convert to string easy for display
-    @Override
-    public String toString() {
-      return id +" | " + name +" | " role " | " + email;
+    public String getPassword() {
+      return password;
+    }
+
+    public void setPassword(String password) {
+      this.password = password;
+    }
+
+    public String getRole() {
+      return role;
+    }
+
+    public void setRole(String role) {
+      this.role = role;
     }
 }
