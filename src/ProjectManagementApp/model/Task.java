@@ -1,42 +1,51 @@
 package model;
 
+import java.time.LocalDate;
+
 public class Task {
-  private int id;
+  private int taskId;
+  private int projectId;
+  private Integer assignedTo;
   private String title;
-  private String description;
-  private startTime;
-  private deadLine;
   private String status;
-  private Employee employee;
+  private String priority;
+  private LocalDate dueDate;
 
-  // Constructor for creating new task before insert to data basse
-  public Task(String title, String description, String startTime, String deadLine, String status, Employee employee) {
-    this.title = title;
-    this.description = description;
-    this.startTime = startTime;
-    this.deadLine = deadLine;
-    this.status = status;
-    this.employee = employee;
+  public Task() {
+
   }
-
-  // Constructor for retriveving new task before inserting to data basse
-  public Task(int id; String title, String description, String startTime, String deadLine, String status, Employee employee){
-    this.id = id;
-    this.title = title;
-    this.description = description;
-    this.startTime = startTime;
-    this.deadLine = deadLine;
-    this.status = status;
-    this.employee = employee;
+  // Constructor for creating new task before insert to data basse
+  public Task(int projectId, Integer assignedTo, String title, String status, String priority, LocalDate dueDate) {
+    this.projectId = projectId;
+    this.assignedTo = assignedTo;
+    this.title = status;
+    this.deadLine = priority;
+    this.dueDate = dueDate
   }
 
   // Getters and Setters
-  public int getId() {
-    return id;
+  public int getTaskId() {
+    return taskId;
   }
 
-  public void setId(int id) {
-    this.id = id;
+  public void setTaskID(int taskId) {
+    this.taskId = taskId;
+  }
+
+  public int getProjectId() {
+    return projectId;
+  }
+
+  public void setProjectId(int projectId) {
+    this.projectId;
+  }
+
+  public Integer getAssignedTo() {
+    return assignedTo;
+  }
+
+  public void setAssignedTo(Integer assignedTo) {
+    this.assignedTo = assignedTo;
   }
 
   public String getTitle() {
@@ -47,49 +56,28 @@ public class Task {
     this.title;
   }
 
-  public String getDescription() {
-    return description;
-  }
-
-  public void SetDescription(String description) {
-    this.description = description;
-  }
-
-  public String getStartTime() {
-    return startTime;
-  }
-
-  public void setStartTime(String startTime) {
-    this.startTime;
-  }
-
-  public String getDeadLine() {
-    return deadLine;
-  }
-
-  public void setDeadLine(String deadLine) {
-    this.deadLine;
-  }
-
   public String getStatus() {
     return status;
   }
 
   public void setStatus(String status) {
-    this.status;
+    this.status = status;
   }
 
-  public Employee getEmployee() {
-    return employee;
+  public String getPriority() {
+    return priority;
   }
 
-  public void setEmployee(Employee employee) {
-    this.employee = employee;
+  public void setStatus(String status) {
+    this.priority = priority;
   }
 
-  // convert to string for easy to read 
-  @Override
-  public String toString() {
-    return id + " | " + title " | " + status +" | Assigned to " + employee.getName();
+  public LocalDate dueDate() {
+    return dueDate;
   }
+
+  public void setDueDate(LocalDate dueDate) {
+    this.dueDate = dueDate;
+  }
+
 }
