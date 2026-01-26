@@ -17,6 +17,10 @@ enum m_role {
   OWNER, MEMBER
 }
 
+enum m_role {
+  OWNER, MEMBER
+}
+
 public class member {
 =======
 
@@ -29,6 +33,7 @@ public class member {
   private String email;
   private String password;
 <<<<<<< HEAD
+<<<<<<< HEAD
   private m_role role;
 
   public member(int userId, String firstName, String lastName, String email, String password, m_role role) {
@@ -37,6 +42,11 @@ public class member {
 
   public member(int userId, String firstName, String lastName, String email, String password, String role) {
 >>>>>>> 283bbd6 (update member.java)
+=======
+  private m_role role;
+
+  public member(int userId, String firstName, String lastName, String email, String password, m_role role) {
+>>>>>>> caa7927 (write function)
 
     this.userId = userId;
     this.firstName = firstName;
@@ -63,10 +73,14 @@ public class member {
     return password;
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
   public m_role getRole() {
 =======
   public String getRole() {
 >>>>>>> 283bbd6 (update member.java)
+=======
+  public m_role getRole() {
+>>>>>>> caa7927 (write function)
     return role;
   }
 
@@ -88,10 +102,14 @@ public class member {
     this.password = password;
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
   public void setRole(m_role role) {
 =======
   public void setRole(String role) {
 >>>>>>> 283bbd6 (update member.java)
+=======
+  public void setRole(m_role role) {
+>>>>>>> caa7927 (write function)
     this.role = role;
   }
   @Override
@@ -111,6 +129,7 @@ public class member {
             "pisal.kun@example.com",
             "1234",
 <<<<<<< HEAD
+<<<<<<< HEAD
             m_role.MEMBER
         );
     m.setRole(m_role.OWNER);
@@ -120,8 +139,11 @@ public class member {
 >>>>>>> 200c870f22560b28ffc23cf1a0fad96f5343b59e
 =======
             "member"
+=======
+            m_role.MEMBER
+>>>>>>> caa7927 (write function)
         );
-    m.setRole("owner");
+    m.setRole(m_role.OWNER);
     System.out.println(m.toString());
   }
 }
