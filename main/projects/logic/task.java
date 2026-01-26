@@ -1,30 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> origin/main
-package logic;
-
-public class task {
-    member taskMem = new member(null, 0);
-    public static void main(String[] name){
-        System.out.println(taskMem.name);
-    }
-    
-}
-=======
-<<<<<<< HEAD
-public class task {
-  int deadline;
-  int project_id;
-  enum status;
-  enum priority;
-  String title;
-  String assigned_to;
-=======
-import java.time.localDate;
->>>>>>> 200c870 (write function)
-=======
 import java.time.localDate;
 >>>>>>> origin/main
 
