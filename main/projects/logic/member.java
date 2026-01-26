@@ -1,5 +1,9 @@
 package logic;
 
+enum m_role {
+  OWNER, MEMBER
+}
+
 public class member {
 
   private int userId;
@@ -7,9 +11,9 @@ public class member {
   private String lastName;
   private String email;
   private String password;
-  private String role;
+  private m_role role;
 
-  public member(int userId, String firstName, String lastName, String email, String password, String role) {
+  public member(int userId, String firstName, String lastName, String email, String password, m_role role) {
 
     this.userId = userId;
     this.firstName = firstName;
@@ -35,7 +39,7 @@ public class member {
   public String getPassword() {
     return password;
   }
-  public String getRole() {
+  public m_role getRole() {
     return role;
   }
 
@@ -56,7 +60,7 @@ public class member {
   public void setPassword(String password) {
     this.password = password;
   }
-  public void setRole(String role) {
+  public void setRole(m_role role) {
     this.role = role;
   }
   @Override
@@ -75,9 +79,9 @@ public class member {
             "kun",
             "pisal.kun@example.com",
             "1234",
-            "member"
+            m_role.MEMBER
         );
-    m.setRole("owner");
+    m.setRole(m_role.OWNER);
     System.out.println(m.toString());
   }
 }
