@@ -5,7 +5,7 @@ CREATE TABLE users (
   last_name VARCHAR(100),
   projects INT,
   email VARCHAR(250),
-  passsword VARCHAR(250),
+  password VARCHAR(250),
   role ENUM('owner', 'member') DEFAULT 'member'
 );
 
