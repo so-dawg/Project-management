@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-package logic;
-
-public class task {
-    member taskMem = new member(null, 0);
-    public static void main(String[] name){
-        System.out.println(taskMem.name);
-    }
-    
-}
-=======
 import java.time.localDate;
 
 enum task_status {
@@ -78,4 +67,4 @@ public class task {
     this.priority = priority;
   }
 }
->>>>>>> 200c870f22560b28ffc23cf1a0fad96f5343b59e
+
