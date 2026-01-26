@@ -1,6 +1,7 @@
 package logic;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 public class member {
     String name;
     int age;
@@ -12,6 +13,8 @@ public class member {
     }
 }
 =======
+=======
+>>>>>>> a7ea37b (clean all files)
 
 enum m_role {
   OWNER, MEMBER
