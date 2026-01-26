@@ -1,10 +1,31 @@
 package logic;
+<<<<<<< HEAD
 
 enum m_role {
   OWNER, MEMBER
 }
 
 public class member {
+=======
+<<<<<<< HEAD
+public class member {
+    String name;
+    int age;
+    member(String name,int age){
+        this.name = name;
+        if(age != 10){
+            this.age = 10;
+        } 
+    }
+}
+=======
+
+enum m_role {
+  OWNER, MEMBER
+}
+
+public class member {
+>>>>>>> origin/main
 
   private int userId;
   private String firstName;
@@ -85,4 +106,8 @@ public class member {
     System.out.println(m.toString());
   }
 }
+<<<<<<< HEAD
 >>>>>>> 08319c4 (update member.java)
+=======
+>>>>>>> 200c870f22560b28ffc23cf1a0fad96f5343b59e
+>>>>>>> origin/main

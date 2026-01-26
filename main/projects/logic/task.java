@@ -1,5 +1,8 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/main
 package logic;
 
 public class task {
@@ -10,6 +13,7 @@ public class task {
     
 }
 =======
+<<<<<<< HEAD
 public class task {
   int deadline;
   int project_id;
@@ -20,6 +24,9 @@ public class task {
 =======
 import java.time.localDate;
 >>>>>>> 200c870 (write function)
+=======
+import java.time.localDate;
+>>>>>>> origin/main
 
 enum task_status {
   PENDING, IN_PROGRESS, COMPLETED, CANCELLED
@@ -88,4 +95,8 @@ public class task {
     this.priority = priority;
   }
 }
+<<<<<<< HEAD
 >>>>>>> d9cac3c (init commit)
+=======
+>>>>>>> 200c870f22560b28ffc23cf1a0fad96f5343b59e
+>>>>>>> origin/main
