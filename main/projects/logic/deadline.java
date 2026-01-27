@@ -37,8 +37,4 @@ public class deadline {
     public void setDueDate(String dueDate) {
         this.duedate  = dueDate;
     }
-    public static void main(String[] args) {
-      deadline d = new deadline(12, "muny", "2026-12-14");
-      System.out.println(d.getInfo());
-    }
-}
+  }
