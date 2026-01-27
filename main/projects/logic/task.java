@@ -1,5 +1,5 @@
 package logic;
-import java.time.*;
+
 
 enum task_status {
   PENDING, IN_PROGRESS, COMPLETED, CANCELLED
@@ -11,7 +11,6 @@ enum Task_Priority {
 
 public class task {
   private String deadline;
-  private int project_id;
   private task_status status;
   private Task_Priority priority;
   private String title;
