@@ -75,7 +75,3 @@ public class task {
     System.out.println(t.toString());
   }
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> tra
