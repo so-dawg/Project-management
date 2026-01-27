@@ -1,4 +1,8 @@
 package logic;
+<<<<<<< HEAD
+=======
+
+>>>>>>> tra
 enum m_role {
   OWNER, MEMBER
 }
