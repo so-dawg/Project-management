@@ -1,32 +1,85 @@
-enum m_role {
-  OWNER, MEMBER
-}
-
-public class member {
+public class Member {
 
 
-  private int userId;
-  private String firstName;
-  private String lastName;
-  private String email;
-  private String password;
-  private m_role role;
+  int Id;
+  boolean isSet = false;
+  String firstName;
+  String lastName;
+  String email;
+  String password;
+  final String role = "member";
 
 
-  public member(int userId, String firstName, String lastName, String email, String password, m_role role) {
-
-    this.userId = userId;
+  public Member(String firstName, String lastName, String email, String password) {
     this.firstName = firstName;
     this.lastName = lastName;
+    setEmail(email);
+    setPassword(password);
+  }
+
+  public void setMemberId(int Id){
+
+    if (!isSet) {
+      this.Id = Id;
+      isSet = true;
+    }
+  }
+
+  public void setEmail(String email) {
+
+    if (email == null) {
+      System.out.println("Email is empty !");
+      return ;
+    }
+
+    int atIndex = email.indexOf("@");
+    int dotIndex = email.lastIndexOf(".");
+
+    if (!email.contains("@") || !email.contains(".")) {
+      System.out.println("Invalid email !");
+      return ;
+    }
+
+    if (atIndex <= 0) {
+      System.out.println("Invalid email !");
+      return ;
+    }
+
+    if (dotIndex <= atIndex + 1) {
+      System.out.println("Invalid email !");
+      return ;
+    }
+
+    if (dotIndex >= email.length()-1) {
+      System.out.println("Invalid email !");
+      return ;
+    }
+
     this.email = email;
+  }
+
+  public void setPassword (String password) {
+    if (password == null || password.isEmpty()) {
+      System.out.println("Password is empty!");
+      return;
+    }
+
+    if (password.length() < 8) {
+      System.out.println("Password must have 8 digits or above !");
+      return ;
+    }
+
+    String pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()]).+$";
+
+    if (!password.matches(pattern)) {
+      System.out.println("Password must have lowercase character uppercase character number and special character !");
+      return ;
+    }
+
     this.password = password;
-    this.role = role;
   }
-  
+
   // getter
-  public int getUserId() {
-    return userId;
-  }
   public String getFirstName() {
     return firstName;
   }
@@ -39,49 +92,30 @@ public class member {
   public String getPassword() {
     return password;
   }
-  public m_role getRole() {
+  public String getRole() {
     return role;
   }
 
-  //setter 
-
-  public void setUserId(int userId) {
-    this.userId = userId;
-  }
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
-  public void setEmail(String email) {
-    this.email = email;
-  }
-  public void setPassword(String password) {
-    this.password = password;
-  }
-  public void setRole(m_role role) {
-    this.role = role;
-  }
   @Override
   public String toString() {
-    return "User ID: " + userId + "\n" +
+    return "User ID: " + Id + "\n" +
            "Name: " + firstName + " " + lastName + "\n" +
            "Email: " + email + "\n" +
-           "Role: " + role;
+           "Password: " + password + "\n" +
+           "role: " + role;
   }
 
   // Test with temporary data 
   public static void main(String[] args) {
-    member m = new member(
-            1,
+    Member m = new Member(
             "pisal",
             "kun",
             "pisal.kun@example.com",
-            "member",
-            m_role.MEMBER
+            "Yeager$hhsggsi1"
         );
-    m.setRole(m_role.OWNER);
+    m.setMemberId(1);
+    m.setEmail("pisal.kjs@sauco.");
+    m.setPassword("141212411");
     System.out.println(m.toString());
   }
 }
