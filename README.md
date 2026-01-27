@@ -65,7 +65,7 @@ git clone https://github.com/so-dawg/Project-management.git
 cd Project-management
 ```
 
-If your repository uses Maven:
+If you are uses Maven:
 ```bash
 # build
 mvn clean package
@@ -74,7 +74,7 @@ mvn clean package
 java -jar target/<artifact-id>-<version>.jar
 ```
 
-If your repository uses Gradle (with wrapper):
+If you are uses Gradle (with wrapper):
 ```bash
 # build
 ./gradlew build
