@@ -1,5 +1,5 @@
-import java.time.localDate;
->>>>>>> origin/main
+package logic;
+import java.time.*;
 
 enum task_status {
   PENDING, IN_PROGRESS, COMPLETED, CANCELLED
@@ -10,30 +10,21 @@ enum Task_Priority {
 }
 
 public class task {
-  private localDate deadline;
+  private String deadline;
   private int project_id;
   private task_status status;
   private Task_Priority priority;
   private String title;
   private String assigned_to;
 
-  public task(String title, String assigned_to, Task_Priority priority, task_status status, int project_id, localDate deadline){
+  public task(String title, String assigned_to, Task_Priority priority, task_status status, String deadline){
     this.title = title;
     this.assigned_to = assigned_to;
     this.status = status;
     this.priority = priority;
     this.deadline = deadline;
-    this.project_id = project_id;
   }
   
-  public void addTask(String title, String assigned_to, Task_Priority priority, task_status status, int project_id, localDate deadline){
-    this.title = title;
-    this.assigned_to = assigned_to;
-    this.status = status;
-    this.priority = priority;
-    this.deadline = deadline;
-    this.project_id = project_id;
-  }
 
   public String get_name() {
     return title;
@@ -41,7 +32,7 @@ public class task {
   public String get_assigned_to() {
     return assigned_to;
   }
-  public localDate get_deadline() {
+  public String get_deadline() {
     return deadline;
   }
   public task_status get_status() {
@@ -58,7 +49,7 @@ public class task {
   public void set_assigned_to(String assigned_to) {
     this.assigned_to = assigned_to;
   }
-  public void set_deadline(localDate deadline) {
+  public void set_deadline(String deadline) {
     this.deadline = deadline;
   }
   public void set_status(task_status status) {
@@ -67,9 +58,20 @@ public class task {
   public void set_priority(Task_Priority priority) {
     this.priority = priority;
   }
+
+  @Override
+  public String toString() {
+    return "Title: " + title + "\n" +
+           "Assigned to: " + assigned_to + "\n" +
+           "Status: " + status + "\n" +
+           "Priority: " + priority + "\n" +
+           "Deadline: " + deadline;
+  }
+
+  public static void main(String[] args) {
+    task t = new task("coding", "tra", Task_Priority.HIGH, task_status.PENDING, "2026-12-14");
+
+    t.set_priority(Task_Priority.LOW);
+    System.out.println(t.toString());
+  }
 }
-<<<<<<< HEAD
->>>>>>> d9cac3c (init commit)
-=======
->>>>>>> 200c870f22560b28ffc23cf1a0fad96f5343b59e
->>>>>>> origin/main
