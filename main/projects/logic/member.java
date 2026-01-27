@@ -79,7 +79,7 @@ public class member {
             "pisal",
             "kun",
             "pisal.kun@example.com",
-            "member"
+            "member",
             m_role.MEMBER
         );
     m.setRole(m_role.OWNER);
