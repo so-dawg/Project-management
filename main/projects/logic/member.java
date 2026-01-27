@@ -1,58 +1,20 @@
 package logic;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-public class member {
-    String name;
-    int age;
-    member(String name,int age){
-        this.name = name;
-        if(age != 10){
-            this.age = 10;
-        } 
-    }
-}
-=======
-=======
->>>>>>> a7ea37b (clean all files)
-
-enum m_role {
-  OWNER, MEMBER
-}
-
 enum m_role {
   OWNER, MEMBER
 }
 
 public class member {
-<<<<<<< HEAD
-=======
 
-public class member {
->>>>>>> 283bbd6 (update member.java)
-=======
->>>>>>> f454431 (kae oy run)
 
   private int userId;
   private String firstName;
   private String lastName;
   private String email;
   private String password;
-<<<<<<< HEAD
-<<<<<<< HEAD
   private m_role role;
 
-  public member(int userId, String firstName, String lastName, String email, String password, m_role role) {
-=======
-  private String role;
-
-  public member(int userId, String firstName, String lastName, String email, String password, String role) {
->>>>>>> 283bbd6 (update member.java)
-=======
-  private m_role role;
 
   public member(int userId, String firstName, String lastName, String email, String password, m_role role) {
->>>>>>> caa7927 (write function)
 
     this.userId = userId;
     this.firstName = firstName;
@@ -78,15 +40,7 @@ public class member {
   public String getPassword() {
     return password;
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
   public m_role getRole() {
-=======
-  public String getRole() {
->>>>>>> 283bbd6 (update member.java)
-=======
-  public m_role getRole() {
->>>>>>> caa7927 (write function)
     return role;
   }
 
@@ -107,15 +61,7 @@ public class member {
   public void setPassword(String password) {
     this.password = password;
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
   public void setRole(m_role role) {
-=======
-  public void setRole(String role) {
->>>>>>> 283bbd6 (update member.java)
-=======
-  public void setRole(m_role role) {
->>>>>>> caa7927 (write function)
     this.role = role;
   }
   @Override
@@ -133,28 +79,10 @@ public class member {
             "pisal",
             "kun",
             "pisal.kun@example.com",
-            "1234",
-<<<<<<< HEAD
-<<<<<<< HEAD
-            m_role.MEMBER
-        );
-    m.setRole(m_role.OWNER);
-    System.out.println(m.toString());
-  }
-}
-<<<<<<< HEAD
->>>>>>> 200c870f22560b28ffc23cf1a0fad96f5343b59e
-=======
             "member"
-=======
             m_role.MEMBER
->>>>>>> caa7927 (write function)
         );
     m.setRole(m_role.OWNER);
     System.out.println(m.toString());
   }
 }
->>>>>>> 08319c4 (update member.java)
->>>>>>> 283bbd6 (update member.java)
-=======
->>>>>>> f454431 (kae oy run)
