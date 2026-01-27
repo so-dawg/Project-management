@@ -1,4 +1,3 @@
-// package database;
 class pack{
     String us_name;
     String email;

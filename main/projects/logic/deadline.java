@@ -1,4 +1,3 @@
-package logic;
 public class deadline {
 
     //Basic attributes

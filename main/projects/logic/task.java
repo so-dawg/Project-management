@@ -1,6 +1,3 @@
-package logic;
-
-
 enum task_status {
   PENDING, IN_PROGRESS, COMPLETED, CANCELLED
 }
