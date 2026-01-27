@@ -31,13 +31,6 @@ public class deadline {
 
     // Simple setters
     public void setTitle(String title) {
-<<<<<<< HEAD
-        this . title = title;
-    }
-
-    public void setDueDate(String dueDate) {
-        this. duedate  = dueDate;
-=======
         this.title = title;
     }
 
@@ -47,6 +40,5 @@ public class deadline {
     public static void main(String[] args) {
       deadline d = new deadline(12, "muny", "2026-12-14");
       System.out.println(d.getInfo());
->>>>>>> tra
     }
 }
