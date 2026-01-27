@@ -1,5 +1,3 @@
-package logic;
-
 enum m_role {
   OWNER, MEMBER
 }
