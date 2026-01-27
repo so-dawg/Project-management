@@ -25,10 +25,13 @@ enum m_role {
 }
 
 public class member {
+<<<<<<< HEAD
 =======
 
 public class member {
 >>>>>>> 283bbd6 (update member.java)
+=======
+>>>>>>> f454431 (kae oy run)
 
   private int userId;
   private String firstName;
@@ -139,6 +142,7 @@ public class member {
     System.out.println(m.toString());
   }
 }
+<<<<<<< HEAD
 >>>>>>> 200c870f22560b28ffc23cf1a0fad96f5343b59e
 =======
             "member"
@@ -152,3 +156,5 @@ public class member {
 }
 >>>>>>> 08319c4 (update member.java)
 >>>>>>> 283bbd6 (update member.java)
+=======
+>>>>>>> f454431 (kae oy run)
