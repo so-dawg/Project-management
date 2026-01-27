@@ -31,10 +31,14 @@ public class deadline {
 
     // Simple setters
     public void setTitle(String title) {
-        this . title = title;
+        this.title = title;
     }
 
     public void setDueDate(String dueDate) {
-        this. duedate  = dueDate;
+        this.duedate  = dueDate;
+    }
+    public static void main(String[] args) {
+      deadline d = new deadline(12, "muny", "2026-12-14");
+      System.out.println(d.getInfo());
     }
 }
