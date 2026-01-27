@@ -31,7 +31,6 @@ Goals:
 - Clear project structure for source and tests
 - Documentation and a README to describe usage and development workflow
 
-(Adjust this section to list concrete features as your project develops: e.g., user management, task scheduler, persistence, REST API, CLI, etc.)
 
 ## Tech stack
 - Language: Java (100% of the repository)
@@ -134,7 +133,3 @@ Add a LICENSE file to this repository to specify terms. A common choice for stud
 Repository owner: so-dawg  
 If you have questions about the project or want to contribute, open an issue or submit a pull request.
 
----
-
-Notes
-- This README is a starting draft. Update sections like "Key features", build instructions, and run examples to reflect the actual project code and any specific steps required by your implementation.
