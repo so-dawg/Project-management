@@ -1,12 +1,11 @@
 public class Member {
-
-
   int Id;
   boolean isSet = false;
   String firstName;
   String lastName;
   String email;
   String password;
+  String task;
   final String role = "member";
 
 
