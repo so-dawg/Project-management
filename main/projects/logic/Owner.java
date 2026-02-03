@@ -11,15 +11,23 @@ class owner_set{
     }
 }
 public class Owner{ 
-    void ownerinput(owner_set owner){
-        Scanner sc = new Scanner(System.in);
+    private Scanner sc = new Scanner(System.in);
+    void deadlineinput(owner_set owner){
         System.out.print("Enter deadline:");
-        owner.deadline = sc.nextLine(); 
+        owner.deadline = sc.nextLine();
+    }
+    
+    void taskinput(owner_set owner){ 
         System.out.println("Give an title of task:");
         owner.task_title = sc.nextLine();
+    }
+    
+    void idinput(owner_set owner){
         System.out.println("Give an id of member to provide task:");
         owner.id_ow_set = sc.nextInt();
-    }     
+        sc.nextLine(); // Consume the newline character left by nextInt()
+    }
+    void closeScanner() {sc.close();}
     @Override
     public String toString() {
         return "Owner setting completed.";
@@ -27,8 +35,11 @@ public class Owner{
     public static void main(String[] args) {
        owner_set owner1 = new owner_set("",0," ");
        Owner ow = new Owner();
-       ow.ownerinput(owner1);
+       ow.deadlineinput(owner1);
+       ow.taskinput(owner1);
+       ow.idinput(owner1);
        System.out.println(owner1.deadline+"\n"+owner1.id_ow_set+"\n"+owner1.task_title);
        System.out.println(ow.toString());
+       ow.closeScanner();
     }
 }
