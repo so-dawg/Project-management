@@ -10,92 +10,62 @@ public class Member {
   final String role = "member";
 
 
-  public Member(String firstName, String lastName, String email, String password) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    setEmail(email);
-    setPassword(password);
-  }
-
-  public void setMemberId(int Id){
-
+  Member(int Id,String firstName, String lastName, String email, String password) {
     if (!isSet) {
       this.Id = Id;
       isSet = true;
     }
+
+    this.firstName = firstName;
+    this.lastName = lastName;
+
+    if (isValidEmail(email)) {
+      this.email = email;
+    }else {
+      this.email = "invalid";
+    }
+
+    if (isValidPassword(password)) {
+      this.password = password;
+    }else {
+      this.password = "invalid";
+    }
   }
-
-  public void setEmail(String email) {
-
+  boolean isValidEmail(String email) {
     if (email == null) {
-      System.out.println("Email is empty !");
-      return ;
+      return false;
     }
 
     int atIndex = email.indexOf("@");
     int dotIndex = email.lastIndexOf(".");
 
-    if (!email.contains("@") || !email.contains(".")) {
-      System.out.println("Invalid email !");
-      return ;
-    }
-
     if (atIndex <= 0) {
-      System.out.println("Invalid email !");
-      return ;
+      return false
     }
 
-    if (dotIndex <= atIndex + 1) {
-      System.out.println("Invalid email !");
-      return ;
+    if (dotIndex <= atIndex +1) {
+      return false;
     }
 
-    if (dotIndex >= email.length()-1) {
-      System.out.println("Invalid email !");
-      return ;
+    if (dotIndex >= email.length() - 1) {
+      return false ;
     }
-
-    this.email = email;
+    return true;
   }
 
-  public void setPassword (String password) {
-    if (password == null || password.isEmpty()) {
-      System.out.println("Password is empty!");
-      return;
+  boolean isValidPassword (String password) {
+    if (password == null) {
+      return false;
     }
 
-    if (password.length() < 8) {
-      System.out.println("Password must have 8 digits or above !");
-      return ;
+    if (password < 8) {
+      return false;
     }
 
     String pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()]).+$";
 
-    if (!password.matches(pattern)) {
-      System.out.println("Password must have lowercase character uppercase character number and special character !");
-      return ;
-    }
-
-    this.password = password;
+    return password.matches(pattern);
   }
-
-  // getter
-  public String getFirstName() {
-    return firstName;
-  }
-  public String getLastName() {
-    return lastName;
-  }
-  public String getEmail() {
-    return email;
-  }
-  public String getPassword() {
-    return password;
-  }
-  public String getRole() {
-    return role;
-  }
-
   @Override
   public String toString() {
     return "User ID: " + Id + "\n" +
@@ -103,19 +73,5 @@ public class Member {
            "Email: " + email + "\n" +
            "Password: " + password + "\n" +
            "role: " + role;
-  }
-
-  // Test with temporary data 
-  public static void main(String[] args) {
-    Member m = new Member(
-            "pisal",
-            "kun",
-            "pisal.kun@example.com",
-            "Yeager$hhsggsi1"
-        );
-    m.setMemberId(1);
-    m.setEmail("pisal.kjs@sauco.");
-    m.setPassword("141212411");
-    System.out.println(m.toString());
   }
 }
