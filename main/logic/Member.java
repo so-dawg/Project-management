@@ -1,3 +1,4 @@
+package logic;
 public class Member {
   int Id;
   boolean isSet = false;

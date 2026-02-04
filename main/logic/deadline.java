@@ -1,15 +1,16 @@
+package logic;
 public class deadline {
 
     //Basic attributes
     private int id;
     private String title;
-    private String duedate;
+    private String dueDate;
     private boolean completed;
     // Constructor
     public deadline(int id, String title, String dueDate) {
         this.id = id;
         this.title = title;
-        this.duedate = dueDate;
+        this.dueDate = dueDate;
         this.completed = false;
     }
     //Mark as completed
@@ -24,7 +25,7 @@ public class deadline {
     public String getInfo() {
         return "ID: " + id +
                "\nTitle: " + title +
-               "\nDue Date: " + duedate +
+               "\nDue Date: " + dueDate +
                "\nCompleted: " + completed;
     }
 
@@ -34,6 +35,6 @@ public class deadline {
     }
 
     public void setDueDate(String dueDate) {
-        this.duedate  = dueDate;
+        this.dueDate  = dueDate;
     }
   }
