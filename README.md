@@ -7,13 +7,11 @@ Repository description: This is a project about development throughout the secon
 ## Table of contents
 - [About the project](#about-the-project)
 - [Key features](#key-features)
-- [Tech stack](#tech-stack)
 - [Repository structure](#repository-structure)
 - [Getting started](#getting-started)
 - [Building and running](#building-and-running)
 - [Testing](#testing)
 - [Contributing](#contributing)
-- [Roadmap](#roadmap)
 - [License](#license)
 - [Contact](#contact)
 
@@ -31,12 +29,6 @@ Goals:
 - Clear project structure for source and tests
 - Documentation and a README to describe usage and development workflow
 
-
-## Tech stack
-- Language: Java (100% of the repository)
-- Supported JDK: Java 11+ (JDK 17 recommended)
-- Build tools: Maven or Gradle (project may include one; follow the included build files)
-- Testing: JUnit (or another test framework included in the repository)
 
 ## Repository structure
 A typical Java project structure is assumed; adjust to match the repository layout:
@@ -120,11 +112,6 @@ Guidelines:
 - Include unit tests for new logic.
 - Document configuration and run steps for major changes.
 
-## Roadmap
-- Complete core functionality required by the course brief
-- Expand test coverage
-- Add CI (GitHub Actions) to run builds and tests automatically
-- Improve documentation and examples
 
 ## License
 Add a LICENSE file to this repository to specify terms. A common choice for student projects is the MIT License; update as required by your institution.
