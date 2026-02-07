@@ -1,34 +1,65 @@
 package logic;
 public class Member {
-  int Id;
-  boolean isSet = false;
-  String firstName;
-  String lastName;
-  String email;
-  String password;
-  String task;
-  final String role = "member";
+
+  private static int idCounter = 1;
+
+  public static int getTotalMembers() {
+    return idCounter - 1;
+  }
+
+  private int Id;
+  private boolean isSet = false;
+  private String firstName;
+  private String lastName;
+  private String email;
+  private String password;
+  private String task;
+  private final String role = "member";
 
 
-  Member(int Id,String firstName, String lastName, String email, String password) {
-    if (!isSet) {
-      this.Id = Id;
-      isSet = true;
-    }
-
+  public Member(int Id,String firstName, String lastName, String email, String password) {
+    this.Id = idCounter++;
     this.firstName = firstName;
     this.lastName = lastName;
 
+  }
+
+  // Getter 
+  public int getId() {
+    return Id;
+  }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public String getRole() {
+    return role;
+  }
+
+  // Setter 
+
+  public void setEmail(String email) {
     if (isValidEmail(email)) {
       this.email = email;
-    }else {
-      this.email = "invalid";
+    } else {
+      System.out.println("Invalid email!");
     }
+  }
 
+  public void setPassword(String password) {
     if (isValidPassword(password)) {
       this.password = password;
     }else {
-      this.password = "invalid";
+      System.out.println("Invalid password!");
     }
   }
   boolean isValidEmail(String email) {
@@ -58,7 +89,7 @@ public class Member {
       return false;
     }
 
-    if (password < 8) {
+    if (password.length() < 8) {
       return false;
     }
 
