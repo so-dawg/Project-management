@@ -1,4 +1,3 @@
-package logic;
 import java.util.Scanner;
 public class Owner{ 
     String deadline;

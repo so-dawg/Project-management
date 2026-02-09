@@ -1,4 +1,3 @@
-package logic;
 public class Member {
 
   private static int idCounter = 1;

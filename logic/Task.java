@@ -1,4 +1,3 @@
-package logic;
 enum task_status {
   PENDING, IN_PROGRESS, COMPLETED, CANCELLED
 }
@@ -12,11 +11,11 @@ public class Task {
   private String title;
   private String task_description;
   private String deadline;
-  private task_status status.PENDING;
+  private task_status status = task_status.PENDING;
   private Task_Priority priority;
-  
 
-  public addTask(Task_Priority priority, String deadline, String title, int assign_to, String task_description){
+
+  public Task(Task_Priority priority, String deadline, String title, int assign_to, String task_description){
     this.priority = priority;
     this.deadline = deadline;
     this.title = title;
@@ -47,25 +46,55 @@ public class Task {
 
   //setter
   public void setNewPriority(Task_Priority p){
+    if (p == null) {
+      println("Priority cannot be null");
+    }
     this.priority = p;
   }
 
   public void setNewTitle(String t){
-    this.title = t;
+    if (t == null) {
+      println("Title cannot be null");
+    }
+    
+    String sanitizedTitle = t.trim();
+    
+    // Validate length
+    if (sanitizedTitle.length() > 255) {
+      println("Title exceeds maximum length of 255 characters");
+    }
+    
+    // Prevent empty titles
+    if (sanitizedTitle.isEmpty()) {
+      println("Title cannot be empty");
+    }
+    
+    this.title = sanitizedTitle;
   }
 
   public void setNewTaskDescrip(String Descrip){
-    this.task_description = Descrip;
+    if (Descrip == null) {
+      println("Task description cannot be null");
+    }
+    
+    // Sanitize input to prevent XSS and injection attacks
+    String sanitizedDescrip = Descrip.trim();
+    
+    // Validate length (adjust max length as needed)
+    if (sanitizedDescrip.length() > 10000) { 
+      println("Task description exceeds maximum length of 10000 characters");
+    }
+    
+    this.task_description = sanitizedDescrip;
   }
 
   public void changeTaskStatus(task_status s){
+    if (s == null) {
+      println("Status cannot be null");
+    }
     this.status = s;
   }
-
-  private void setAssignTo(int id){
-    this.assign_to = id;
-  }
-
+  
 
   // @Override
   // public String toString() {
