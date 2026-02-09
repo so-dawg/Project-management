@@ -19,7 +19,35 @@ public class Member {
     this.Id = idCounter++;
     this.firstName = firstName;
     this.lastName = lastName;
+    setEmail(email);
+    setPassword(password);
+  }
+  // constructor overloading for register
+  public Member(String firsrName, String lastName) {
+    this.Id = idCounter++;
+    this.firstName = firsrName;
+    this.lastName = lastName;
+  }
 
+  public static Member register(String firstName, String lastName, String email, String password) {
+    Member member = new Member(firstName, lastName);
+
+    if (!member.isValidEmail(email)) {
+      System.out.println("Register fail: Invalid email!");
+      return null;
+    }
+
+    if (!member.isValidPassword(password)) {
+      System.out.println("Register fail : Invalid password!");
+      return null;
+    }
+
+    member.email = email;
+    member.password = password;
+    
+    System.err.println("Register successfull!");
+
+    return member;
   }
 
   // Getter 
