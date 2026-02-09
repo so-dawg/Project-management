@@ -12,7 +12,6 @@ public class Member {
   private String lastName;
   private String email;
   private String password;
-  private int[] task;
 
 
   public Member(int Id,String firstName, String lastName, String email, String password) {
@@ -28,7 +27,7 @@ public class Member {
     this.firstName = firsrName;
     this.lastName = lastName;
   }
-
+  // Register method
   public static Member register(String firstName, String lastName, String email, String password) {
     Member member = new Member(firstName, lastName);
 
