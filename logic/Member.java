@@ -8,13 +8,11 @@ public class Member {
   }
 
   private int Id;
-  private boolean isSet = false;
   private String firstName;
   private String lastName;
   private String email;
   private String password;
-  private String task;
-  private final String role = "member";
+  private int[] task;
 
 
   public Member(int Id,String firstName, String lastName, String email, String password) {
@@ -40,11 +38,7 @@ public class Member {
   public String getEmail() {
     return email;
   }
-
-  public String getRole() {
-    return role;
-  }
-
+  
   // Setter 
 
   public void setEmail(String email) {
@@ -71,7 +65,7 @@ public class Member {
     int dotIndex = email.lastIndexOf(".");
 
     if (atIndex <= 0) {
-      return false
+      return false;
     }
 
     if (dotIndex <= atIndex +1) {
@@ -102,7 +96,6 @@ public class Member {
     return "User ID: " + Id + "\n" +
            "Name: " + firstName + " " + lastName + "\n" +
            "Email: " + email + "\n" +
-           "Password: " + password + "\n" +
-           "role: " + role;
+           "Password: " + password + "\n" ;
   }
 }
