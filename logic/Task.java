@@ -1,19 +1,14 @@
 import java.time.localDate;
 
-enum task_status {
-  PENDING, IN_PROGRESS, COMPLETED, CANCELLED
-}
-
 enum Task_Priority {
   LOW, MEDIUM, HIGH, URGENT
 }
 
 public class Task {
   private int assign_to;
+  private String deadline;
   private String title;
   private String task_description;
-  private String deadline;
-  private task_status status = task_status.PENDING;
   private Task_Priority priority;
   private int day;
   private int month;
@@ -21,9 +16,11 @@ public class Task {
   private boolean completed = false;
 
 
-  public Task(Task_Priority priority, String deadline, String title, int assign_to, String task_description){
+  public Task(String deadline, Task_Priority priority, String title, int assign_to, String task_description, int day, int month, int year){
     this.priority = priority;
-    this.deadline = deadline;
+    this.day = day;
+    this.month = month;
+    this.year = year;
     this.title = title;
     this.task_description = task_description;
     this.assign_to =  assign_to;
@@ -98,18 +95,18 @@ public class Task {
     this.task_description = sanitizedDescrip;
   }
 
-  public void changeTaskStatus(task_status s){
-    if (s == null) {
-      println("Status cannot be null");
-    }
-    this.status = s;
-  }
 
-  public boolean isPastDeadline(){
+  public static boolean isPastDeadline(int year, int month, int day){
     localDate deadlineDate = localDate.of(year, month, day);
     localDate today = localDate.now();
 
     return deadlineDate.isBefore(today);
+  }
+
+  public static String convertIntToString(int[] values){
+    String[] strings = new String[numbers.length];
+     
+    for ()
   }
   
 

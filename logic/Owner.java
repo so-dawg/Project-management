@@ -1,17 +1,18 @@
 import java.util.Scanner;
 import logic.Task;
+import java.time.localDate;
 public class Owner{ 
 
-    private String deadline;
     private int Id;
+    private int day;
+    private int month;
+    private int year;
     private String task;
     private String membername;
     private String email;
-    private final String role = "Owner";
-    private boolean isSet = false;
+    private boolean isowner = true;
     
-    Owner(String deadline, int Id, String task, String membername, String email) {
-        this.deadline = deadline;
+    Owner(int Id, String task, String membername, String email) {
         this.Id = Id;
         this.task = task;;
         this.membername = membername;
@@ -37,15 +38,21 @@ public class Owner{
     }
     //for deadline section 
 
-    private String inputDeadline(){
+    public int set_deadline(String deadline) {
         System.out.print("Enter deadline (Ex: DD-MM-YYYY):");
         String deadline = sc.nextLine();
-        return deadline;
-    }
-    private String set_deadline(String deadline) {
         String pattern = "^\\d{2}-\\d{2}-\\d{4}$";
         if (deadline.matches(pattern)) {
-            return this.deadline = deadline;
+          String[] tokens = deadline.split("-");
+          for (String token : tokens){
+            int[] values = Integer.parseInt(token.trim());
+          }
+          int days = values[0];
+          int months = values[1];
+          int years = values[2];
+          if (!Task.isPastDeadline(years, months, days)){
+            
+          }
         }
         System.out.println("Invalid deadline format! Please use DD-MM-YYYY.");
         return this.deadline;
@@ -92,7 +99,7 @@ public class Owner{
         }
         return true;
     }
-    private void request_join(Owner member){
+    public void request_join(Owner member){
         boolean ver_email =  member.isValidEmail(member.get_email());
         if(ver_email){
             System.out.println("name:" + member.get_name() + "\nID:" + member.get_Id() + "\nEmail:" + member.get_email());
