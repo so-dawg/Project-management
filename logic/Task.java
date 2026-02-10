@@ -1,3 +1,5 @@
+import java.time.localDate;
+
 enum task_status {
   PENDING, IN_PROGRESS, COMPLETED, CANCELLED
 }
@@ -13,6 +15,10 @@ public class Task {
   private String deadline;
   private task_status status = task_status.PENDING;
   private Task_Priority priority;
+  private int day;
+  private int month;
+  private int year;
+  private boolean completed = false;
 
 
   public Task(Task_Priority priority, String deadline, String title, int assign_to, String task_description){
@@ -72,6 +78,10 @@ public class Task {
     this.title = sanitizedTitle;
   }
 
+  public void completedTask(){
+    this.completed = true;
+  }
+
   public void setNewTaskDescrip(String Descrip){
     if (Descrip == null) {
       println("Task description cannot be null");
@@ -93,6 +103,13 @@ public class Task {
       println("Status cannot be null");
     }
     this.status = s;
+  }
+
+  public boolean isPastDeadline(){
+    localDate deadlineDate = localDate.of(year, month, day);
+    localDate today = localDate.now();
+
+    return deadlineDate.isBefore(today);
   }
   
 
