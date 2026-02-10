@@ -13,7 +13,7 @@ public class Member {
   private String password;
 
 
-  public Member(int Id,String firstName, String lastName, String email, String password) {
+  private Member(String firstName, String lastName, String email, String password) {
     this.Id = idCounter++;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -21,7 +21,7 @@ public class Member {
     setPassword(password);
   }
   // constructor overloading for register
-  public Member(String firsrName, String lastName) {
+  private Member(String firsrName, String lastName) {
     this.Id = idCounter++;
     this.firstName = firsrName;
     this.lastName = lastName;
@@ -54,19 +54,29 @@ public class Member {
   }
 
   public String getFirstName() {
+    if (firstName == null || firstName.isEmpty()) {
+      System.out.println("Warning: First name not set!");
+      return "Unknown";
+    }
     return firstName;
   }
 
   public String getLastName() {
+    if (lastName == null || firstName.isEmpty()) {
+      System.out.println("Warning: Last name not set!");
+      return "Unknown";
+    }
     return lastName;
   }
 
   public String getEmail() {
+    if (!isValidEmail(email)) {
+      return "Warning: Email invalid or not set!";
+    }
     return email;
   }
   
   // Setter 
-
   public void setEmail(String email) {
     if (isValidEmail(email)) {
       this.email = email;
