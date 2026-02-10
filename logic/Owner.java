@@ -12,7 +12,7 @@ public class Owner{
     private String email;
     private boolean isowner = true;
     
-    Owner(int Id, String task, String membername, String email) {
+    public Owner(int Id, String task, String membername, String email) {
         this.Id = Id;
         this.task = task;;
         this.membername = membername;
