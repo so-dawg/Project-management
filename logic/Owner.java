@@ -70,17 +70,44 @@ public class Owner{
         
     }
 
-    // request join 
+    // request join section
+    boolean isValidEmail(String email) {
+        if (email == null) {
+            return false;
+        }
+
+        int atIndex = email.indexOf("@");
+        int dotIndex = email.lastIndexOf(".");
+
+        if (atIndex <= 0) {
+            return false;
+        }
+
+        if (dotIndex <= atIndex + 1) {
+            return false;
+        }
+
+        if (dotIndex >= email.length() - 1) {
+            return false;
+        }
+        return true;
+    }
     private void request_join(Owner member){
-        System.out.println("name:" + member.get_name() + "\nID:" + member.get_Id() + "\nEmail:" + member.get_email());
-        System.out.println("this member should approve or not?(yes/no)");
-        String answer = sc.nextLine();
-        if (answer.equalsIgnoreCase("yes")) {
-            System.out.println("Request approved.");
-        } else if (answer.equalsIgnoreCase("no")) {
-            System.out.println("Request denied.");
-        } else {
-            System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+        boolean ver_email =  member.isValidEmail(member.get_email());
+        if(ver_email){
+            System.out.println("name:" + member.get_name() + "\nID:" + member.get_Id() + "\nEmail:" + member.get_email());
+            System.out.println("this member should approve or not?(yes/no)");
+            String answer = sc.nextLine();
+            if (answer.equalsIgnoreCase("yes")) {
+                System.out.println("Request approved.");
+            } else if (answer.equalsIgnoreCase("no")) {
+                System.out.println("Request denied.");
+            } else {
+                System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+            }
+        }
+        else{
+            System.out.println("This invalid email.");
         }
         
     } 
@@ -117,13 +144,13 @@ public class Owner{
 //         sc.nextLine(); // Consume the newline character left by nextInt()
 //     }
 //     void closeScanner() {sc.close();}
-//     @Override
-//     public String toString() {
-//         return "Owner setting completed.";
-//     }
 // tring() {
-//         return "Owner setting completed.";
-//     }
+    //         return "Owner setting completed.";
+    //     }
+    @Override
+    public String toString() {
+        return "Owner setting completed.";
+    }
 
 public static void main(String[] args) {
         Owner o = new Owner("", 0, "add instructions", "heng", "heng@example.com");
