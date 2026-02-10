@@ -6,14 +6,16 @@ public class Owner{
     private int Id;
     private String task;
     private String membername;
+    private String email;
     private final String role = "Owner";
     private boolean isSet = false;
     
-    Owner(String deadline, int Id, String task, String membername) {
+    Owner(String deadline, int Id, String task, String membername, String email) {
         this.deadline = deadline;
         this.Id = Id;
         this.task = task;;
         this.membername = membername;
+        this.email = email;
     }
     private Scanner sc = new Scanner(System.in);
     // this task is for owner giving task to member. it need to give deadline ,id member and we need to get task from Task.java 
@@ -30,7 +32,9 @@ public class Owner{
     public String get_name(){
         return membername;
     }
-    
+    public String get_email(){
+        return email;
+    }
     //for deadline section 
 
     private String inputDeadline(){
@@ -66,11 +70,24 @@ public class Owner{
         
     }
 
-    // // request join 
-    // void request_join(){
+    // request join 
+    private void request_join(Owner member){
+        System.out.println("name:" + member.get_name() + "\nID:" + member.get_Id() + "\nEmail:" + member.get_email());
+        System.out.println("this member should approve or not?(yes/no)");
+        String answer = sc.nextLine();
+        if (answer.equalsIgnoreCase("yes")) {
+            System.out.println("Request approved.");
+        } else if (answer.equalsIgnoreCase("no")) {
+            System.out.println("Request denied.");
+        } else {
+            System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+        }
         
-    // } 
+    } 
 
+    void sc_close() {
+        sc.close();
+    }
     
     // //for task section
     // void taskby_owner(){ 
@@ -109,7 +126,7 @@ public class Owner{
 //     }
 
 public static void main(String[] args) {
-        Owner o = new Owner("", 0, "add instructions", "heng");
+        Owner o = new Owner("", 0, "add instructions", "heng", "heng@example.com");
         String deadline = o.inputDeadline();
         int search_ID = o.input_Id();
         o.set_deadline(deadline);
