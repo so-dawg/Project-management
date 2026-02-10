@@ -8,12 +8,12 @@ enum task_status {
 }
 
 public class Task {
-  private owner_set get_ownerprompt;
+  private Owner get_ownerprompt;
   private task_status status;
   private Task_Priority priority;
   
 
-  public Task(owner_set get_ownerprompt,Task_Priority priority, task_status status){
+  public Task(Owner get_ownerprompt,Task_Priority priority, task_status status){
     this.get_ownerprompt = get_ownerprompt;
     this.status = status;
     this.priority = priority;

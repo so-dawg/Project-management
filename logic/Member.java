@@ -1,4 +1,3 @@
-package logic;
 public class Member {
 
   private static int idCounter = 1;
@@ -44,16 +43,7 @@ public class Member {
   public String getRole() {
     return role;
   }
-
-  // Setter 
-
-  public void setEmail(String email) {
-    if (isValidEmail(email)) {
-      this.email = email;
-    } else {
-      System.out.println("Invalid email!");
-    }
-  }
+  
 
   public void setPassword(String password) {
     if (isValidPassword(password)) {
@@ -71,7 +61,7 @@ public class Member {
     int dotIndex = email.lastIndexOf(".");
 
     if (atIndex <= 0) {
-      return false
+      return false;
     }
 
     if (dotIndex <= atIndex +1) {
