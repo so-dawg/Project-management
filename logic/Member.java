@@ -1,4 +1,3 @@
-package logic;
 public class Member {
 
   private static int idCounter = 1;
@@ -8,20 +7,45 @@ public class Member {
   }
 
   private int Id;
-  private boolean isSet = false;
   private String firstName;
   private String lastName;
   private String email;
   private String password;
-  private String task;
-  private final String role = "member";
 
 
   public Member(int Id,String firstName, String lastName, String email, String password) {
     this.Id = idCounter++;
     this.firstName = firstName;
     this.lastName = lastName;
+    setEmail(email);
+    setPassword(password);
+  }
+  // constructor overloading for register
+  public Member(String firsrName, String lastName) {
+    this.Id = idCounter++;
+    this.firstName = firsrName;
+    this.lastName = lastName;
+  }
+  // Register method
+  public static Member register(String firstName, String lastName, String email, String password) {
+    Member member = new Member(firstName, lastName);
 
+    if (!member.isValidEmail(email)) {
+      System.out.println("Register fail: Invalid email!");
+      return null;
+    }
+
+    if (!member.isValidPassword(password)) {
+      System.out.println("Register fail : Invalid password!");
+      return null;
+    }
+
+    member.email = email;
+    member.password = password;
+    
+    System.err.println("Register successfull!");
+
+    return member;
   }
 
   // Getter 
@@ -40,11 +64,7 @@ public class Member {
   public String getEmail() {
     return email;
   }
-
-  public String getRole() {
-    return role;
-  }
-
+  
   // Setter 
 
   public void setEmail(String email) {
@@ -71,7 +91,7 @@ public class Member {
     int dotIndex = email.lastIndexOf(".");
 
     if (atIndex <= 0) {
-      return false
+      return false;
     }
 
     if (dotIndex <= atIndex +1) {
@@ -102,7 +122,6 @@ public class Member {
     return "User ID: " + Id + "\n" +
            "Name: " + firstName + " " + lastName + "\n" +
            "Email: " + email + "\n" +
-           "Password: " + password + "\n" +
-           "role: " + role;
+           "Password: " + password + "\n" ;
   }
 }
