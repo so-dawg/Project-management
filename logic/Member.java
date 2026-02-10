@@ -92,7 +92,7 @@ public class Member {
       System.out.println("Invalid password!");
     }
   }
-  boolean isValidEmail(String email) {
+  public static boolean isValidEmail(String email) {
     if (email == null) {
       return false;
     }
@@ -114,7 +114,7 @@ public class Member {
     return true;
   }
 
-  boolean isValidPassword (String password) {
+  public static boolean isValidPassword (String password) {
     if (password == null) {
       return false;
     }
@@ -128,7 +128,7 @@ public class Member {
     return password.matches(pattern);
   }
   @Override
-  public String toString() {
+  public  String toString() {
     return "User ID: " + Id + "\n" +
            "Name: " + firstName + " " + lastName + "\n" +
            "Email: " + email + "\n" +
