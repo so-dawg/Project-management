@@ -2,7 +2,7 @@ public class Member {
 
   private static int idCounter = 1;
 
-  public static int getTotalMembers() {
+  public  int getTotalMembers() {
     return idCounter - 1;
   }
 
@@ -30,12 +30,12 @@ public class Member {
   public static Member register(String firstName, String lastName, String email, String password) {
     Member member = new Member(firstName, lastName);
 
-    if (!member.isValidEmail(email)) {
+    if (!isValidEmail(email)) {
       System.out.println("Register fail: Invalid email!");
       return null;
     }
 
-    if (!member.isValidPassword(password)) {
+    if (!isValidPassword(password)) {
       System.out.println("Register fail : Invalid password!");
       return null;
     }
