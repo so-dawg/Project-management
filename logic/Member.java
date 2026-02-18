@@ -1,8 +1,8 @@
-public class Member {
+public class Member implements IUser {
 
   private static int idCounter = 1;
 
-  public  int getTotalMembers() {
+  public int getTotalMembers() {
     return idCounter - 1;
   }
 
@@ -10,47 +10,59 @@ public class Member {
   private String firstName;
   private String lastName;
   private String email;
+  private String username;
   private String password;
 
 
-  private Member(String firstName, String lastName, String email, String password) {
+  private Member(String firstName, String lastName, String email, String username, String password) {
     this.Id = idCounter++;
     this.firstName = firstName;
     this.lastName = lastName;
     setEmail(email);
+    this.username = username;
     setPassword(password);
   }
-  // constructor overloading for register
-  private Member(String firsrName, String lastName) {
-    this.Id = idCounter++;
-    this.firstName = firsrName;
-    this.lastName = lastName;
+  // Getter for Id
+  @Override
+  public String getId() {
+    return String.valueOf(Id);
   }
-  // Register method
-  public static Member register(String firstName, String lastName, String email, String password) {
-    Member member = new Member(firstName, lastName);
-
-    if (!isValidEmail(email)) {
-      System.out.println("Register fail: Invalid email!");
-      return null;
-    }
-
-    if (!isValidPassword(password)) {
-      System.out.println("Register fail : Invalid password!");
-      return null;
-    }
-
-    member.email = email;
-    member.password = password;
-    
-    System.err.println("Register successfull!");
-
-    return member;
+  // Getter for Username
+  @Override
+  public String getUsername() {
+    return this.username != null ? this.username : this.email;
   }
-
-  // Getter 
-  public int getId() {
-    return Id;
+  // getter for Password
+  @Override
+  public String getPassword() {
+    return this.password;
+  }
+  // Getter for Role
+  @Override
+  public String getRole() {
+    return "Member";
+  }
+  // Permission checking - Member can only do limited actions
+  @Override
+  public boolean can(String action) {
+      switch (action) {
+          case "VIEW_TASK":
+              return true;
+          case "UPDATE_OWN_TASK":
+              return true;
+          case "CREATE_TASK":
+              return false;
+          case "DELETE_TASK":
+              return false;
+          case "ASSIGN_TASK":
+              return false;
+          case "CREATE_USER":
+              return false;
+          case "VIEW_REPORT":
+              return false;
+          default:
+              return false;
+      }
   }
 
   public String getFirstName() {

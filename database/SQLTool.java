@@ -200,7 +200,7 @@ public class SQLTool {
             sqlTool.printQueryResults(query);
             
             // Count rows example
-            int rowCount = sqlTool.getRowCount("SELECT * FROM mysql.user;");
+            int rowCount = sqlTool.getRowCount("SHOW DATABASES;");
             System.out.println("Total users in database: " + rowCount);
             
             sqlTool.disconnect();
