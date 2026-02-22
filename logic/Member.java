@@ -14,7 +14,7 @@ public class Member implements IUser {
   private String password;
 
 
-  private Member(String firstName, String lastName, String email, String username, String password) {
+  public Member(String firstName, String lastName, String email, String username, String password) {
     this.Id = idCounter++;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -74,7 +74,7 @@ public class Member implements IUser {
   }
 
   public String getLastName() {
-    if (lastName == null || firstName.isEmpty()) {
+    if (lastName == null || lastName.isEmpty()) {
       System.out.println("Warning: Last name not set!");
       return "Unknown";
     }
@@ -141,9 +141,9 @@ public class Member implements IUser {
   }
   @Override
   public  String toString() {
-    return "User ID: " + Id + "\n" +
-           "Name: " + firstName + " " + lastName + "\n" +
-           "Email: " + email + "\n" +
-           "Password: " + password + "\n" ;
+    return "User ID: " + getId() + "\n" +
+           "Name: " + getFirstName() + " " + getLastName() + "\n" +
+           "Email: " + getEmail() + "\n" +
+           "Password: " + "........" + "\n" ;
   }
 }
