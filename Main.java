@@ -38,6 +38,25 @@ public class Main {
         System.out.println("Member 2 ID: " + member2.getId());
         System.out.println("Total Members: " + member.getTotalMembers());
 
+        // Test 7: UserManager
+        System.out.println("\n--- Test 7: UserManager ---");
+        UserManager manager = new UserManager();
+        Member member3 = new Member("John", "Doe", "john@example.com", "johndoe", "Password3!");
+        manager.addUser(member);
+        manager.addUser(member2);
+        manager.addUser(member3);
+        System.out.println("----Added Users to UserManager----");
+        System.out.println("Total Users: " + manager.getArrayList().size());
+
+        System.out.println("----Searching Users by ID----");
+        IUser_Member user = manager.searchUserById("2");
+        System.out.println("User Found: " + user.getFirstName() + " " + user.getLastName());
+        System.out.println("----Searching Users by Email----");
+        user = manager.searchUserByEmail("john@example.com");
+        System.out.println("User Found: " + user.getFirstName() + " " + user.getLastName());
         System.out.println("\n=== All Tests Completed ===");
+        System.out.println("----Searching Users by Username----");
+        user = manager.searchUserByUsername("johndoe");
+        System.out.println("User Found: " + user.getFirstName() + " " + user.getLastName());
     }
 }

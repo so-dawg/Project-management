@@ -1,4 +1,6 @@
-public class Member implements IUser {
+public class Member implements IUser_Member {
+
+
 
   private static int idCounter = 1;
 
@@ -65,6 +67,7 @@ public class Member implements IUser {
       }
   }
 
+  @Override
   public String getFirstName() {
     if (firstName == null || firstName.isEmpty()) {
       System.out.println("Warning: First name not set!");
@@ -72,7 +75,7 @@ public class Member implements IUser {
     }
     return firstName;
   }
-
+  @Override
   public String getLastName() {
     if (lastName == null || lastName.isEmpty()) {
       System.out.println("Warning: Last name not set!");
@@ -80,7 +83,7 @@ public class Member implements IUser {
     }
     return lastName;
   }
-
+  @Override
   public String getEmail() {
     if (!isValidEmail(email)) {
       return "Warning: Email invalid or not set!";
@@ -100,7 +103,7 @@ public class Member implements IUser {
   public void setPassword(String password) {
     if (isValidPassword(password)) {
       this.password = password;
-    }else {
+    } {
       System.out.println("Invalid password!");
     }
   }
