@@ -1,3 +1,5 @@
+package logic;
+
 public class Member implements IUser_Member {
 
 

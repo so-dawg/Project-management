@@ -1,4 +1,7 @@
+package logic;
+
 public interface IUser_Member {
+
 
     String getId();
     String getFirstName();

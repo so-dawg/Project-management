@@ -1,4 +1,7 @@
+package logic;
 import java.util.ArrayList;
+
+
 public class UserManager {
     private ArrayList<IUser_Member> users = new ArrayList<>();
     // Add user to the list of users
