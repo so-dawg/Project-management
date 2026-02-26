@@ -59,21 +59,9 @@ public class Main {
         user = manager.searchUserByEmail("john@example.com");
         System.out.println("User Found: " + user.getFirstName() + " " + user.getLastName());
         System.out.println("\n=== All Tests Completed ===");
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        System.out.println("----Searching Users by Username----");
-        user = manager.searchUserByUsername("johndoe");
-        System.out.println("User Found: " + user.getFirstName() + " " + user.getLastName());
-=======
-=======
->>>>>>> Stashed changes
         */
       int[] nums = {23, 2, 2026};
       String result = Task.convertIntToString(nums);
       System.out.println(result);
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     }
 }
