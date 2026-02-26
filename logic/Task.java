@@ -1,4 +1,7 @@
-import java.time.localDate;
+package logic;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 enum Task_Priority {
   LOW, MEDIUM, HIGH, URGENT
@@ -32,9 +35,8 @@ public class Task {
   }
   
   public String getAssignTo(){
-    String name;
     //need to check database all member in project to get name
-    return name;
+    return String.valueOf(this.assign_to);
   }
 
   public String getDeadline(){
@@ -50,28 +52,28 @@ public class Task {
   //setter
   public void setNewPriority(Task_Priority p){
     if (p == null) {
-      println("Priority cannot be null");
+      System.out.println("Priority cannot be null");
     }
     this.priority = p;
   }
 
   public void setNewTitle(String t){
     if (t == null) {
-      println("Title cannot be null");
+      System.out.println("Title cannot be null");
     }
-    
+
     String sanitizedTitle = t.trim();
-    
+
     // Validate length
     if (sanitizedTitle.length() > 255) {
-      println("Title exceeds maximum length of 255 characters");
+      System.out.println("Title exceeds maximum length of 255 characters");
     }
-    
+
     // Prevent empty titles
     if (sanitizedTitle.isEmpty()) {
-      println("Title cannot be empty");
+      System.out.println("Title cannot be empty");
     }
-    
+
     this.title = sanitizedTitle;
   }
 
@@ -81,34 +83,34 @@ public class Task {
 
   public void setNewTaskDescrip(String Descrip){
     if (Descrip == null) {
-      println("Task description cannot be null");
+      System.out.println("Task description cannot be null");
     }
-    
+
     // Sanitize input to prevent XSS and injection attacks
     String sanitizedDescrip = Descrip.trim();
-    
+
     // Validate length (adjust max length as needed)
-    if (sanitizedDescrip.length() > 10000) { 
-      println("Task description exceeds maximum length of 10000 characters");
+    if (sanitizedDescrip.length() > 10000) {
+      System.out.println("Task description exceeds maximum length of 10000 characters");
     }
-    
+
     this.task_description = sanitizedDescrip;
   }
 
 
   public static boolean isPastDeadline(int year, int month, int day){
-    localDate deadlineDate = localDate.of(year, month, day);
-    localDate today = localDate.now();
+    LocalDate deadlineDate = LocalDate.of(year, month, day);
+    LocalDate today = LocalDate.now();
 
     return deadlineDate.isBefore(today);
   }
 
   public static String convertIntToString(int[] values){
-    String[] strings = new String[numbers.length];
-     
-    for ()
+    return Arrays.stream(values)
+        .mapToObj(String::valueOf)
+        .collect(Collectors.joining("-"));
   }
-  
+
 
   // @Override
   // public String toString() {

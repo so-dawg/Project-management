@@ -1,6 +1,10 @@
+import java.util.Arrays;
+import logic.Task;
+import java.util.stream.Collectors;
+
 public class Main {
     public static void main(String[] args) {
-       Member member = new Member("KUN", "PISAL", "examplekunpisal@gmial.com", "lazysal", "Password123@#");
+      /* Member member = new Member("KUN", "PISAL", "examplekunpisal@gmial.com", "lazysal", "Password123@#");
 
        System.out.println("=== Testing Member.java ===\n");
         // Test 1: Getters
@@ -55,8 +59,15 @@ public class Main {
         user = manager.searchUserByEmail("john@example.com");
         System.out.println("User Found: " + user.getFirstName() + " " + user.getLastName());
         System.out.println("\n=== All Tests Completed ===");
+<<<<<<< Updated upstream
         System.out.println("----Searching Users by Username----");
         user = manager.searchUserByUsername("johndoe");
         System.out.println("User Found: " + user.getFirstName() + " " + user.getLastName());
+=======
+        */
+      int[] nums = {23, 2, 2026};
+      String result = Task.convertIntToString(nums);
+      System.out.println(result);
+>>>>>>> Stashed changes
     }
 }
