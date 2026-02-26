@@ -62,11 +62,7 @@ public class Main {
         user = manager.searchUserByEmail("john@example.com");
         System.out.println("User Found: " + user.getFirstName() + " " + user.getLastName());
         System.out.println("\n=== All Tests Completed ===");
-<<<<<<< Updated upstream
-        
-=======
 
->>>>>>> Stashed changes
       int[] nums = {23, 2, 2026};
       String result = Task.convertIntToString(nums);
       System.out.println(result);
