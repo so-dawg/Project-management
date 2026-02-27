@@ -1,128 +1,180 @@
 package logic;
+
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.time.format.DateTimeFormatter;
 
-enum Task_Priority {
-  LOW, MEDIUM, HIGH, URGENT
-}
-
+/**
+ * Task - Represents a task in the project management system
+ */
 public class Task {
-  private int assign_to;
-  private String deadline;
-  private String title;
-  private String task_description;
-  private Task_Priority priority;
-  private int day;
-  private int month;
-  private int year;
-  private boolean completed = false;
 
-
-  public Task(String deadline, Task_Priority priority, String title, int assign_to, String task_description, int day, int month, int year){
-    this.priority = priority;
-    this.day = day;
-    this.month = month;
-    this.year = year;
-    this.title = title;
-    this.task_description = task_description;
-    this.assign_to =  assign_to;
-  }
-
-  //getter
-  public String getTitle(){
-    return this.title;
-  }
-  
-  public String getAssignTo(){
-    //need to check database all member in project to get name
-    return String.valueOf(this.assign_to);
-  }
-
-  public String getDeadline(){
-    return this.deadline;
-  }
-
-  public String getTaskDescription(){
-    return this.task_description;
-  }
-
-
-
-  //setter
-  public void setNewPriority(Task_Priority p){
-    if (p == null) {
-      System.out.println("Priority cannot be null");
-    }
-    this.priority = p;
-  }
-
-  public void setNewTitle(String t){
-    if (t == null) {
-      System.out.println("Title cannot be null");
+    /**
+     * TaskPriority - Enum representing the priority levels of a task
+     */
+    public enum TaskPriority {
+        LOW,
+        MEDIUM,
+        HIGH,
+        URGENT
     }
 
-    String sanitizedTitle = t.trim();
+    private int assignTo;  // Member ID (from database)
+    private LocalDate deadline;
+    private String title;
+    private String taskDescription;
+    private TaskPriority priority;
+    private boolean completed;
 
-    // Validate length
-    if (sanitizedTitle.length() > 255) {
-      System.out.println("Title exceeds maximum length of 255 characters");
+    /**
+     * Constructor for Task
+     */
+    public Task(String title, TaskPriority priority, LocalDate deadline, int assignTo, String taskDescription) {
+        this.assignTo = assignTo;
+        this.deadline = deadline;
+        setNewTitle(title);
+        setNewPriority(priority);
+        setNewTaskDescription(taskDescription);
+        this.completed = false;
     }
 
-    // Prevent empty titles
-    if (sanitizedTitle.isEmpty()) {
-      System.out.println("Title cannot be empty");
+    /**
+     * Constructor for Task without assignee
+     */
+    public Task(String title, TaskPriority priority, LocalDate deadline, String taskDescription) {
+        this(title, priority, deadline, 0, taskDescription);
     }
 
-    this.title = sanitizedTitle;
-  }
-
-  public void completedTask(){
-    this.completed = true;
-  }
-
-  public void setNewTaskDescrip(String Descrip){
-    if (Descrip == null) {
-      System.out.println("Task description cannot be null");
+    /**
+     * Set deadline for the task
+     */
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
     }
 
-    // Sanitize input to prevent XSS and injection attacks
-    String sanitizedDescrip = Descrip.trim();
+    // ==================== Getters ====================
 
-    // Validate length (adjust max length as needed)
-    if (sanitizedDescrip.length() > 10000) {
-      System.out.println("Task description exceeds maximum length of 10000 characters");
+    public int getAssignTo() {
+        return this.assignTo;
     }
 
-    this.task_description = sanitizedDescrip;
-  }
+    public LocalDate getDeadline() {
+        return this.deadline;
+    }
 
+    public String getDeadlineString() {
+        if (this.deadline == null) {
+            return "Not set";
+        }
+        return this.deadline.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+    }
 
-  public static boolean isPastDeadline(int year, int month, int day){
-    LocalDate deadlineDate = LocalDate.of(year, month, day);
-    LocalDate today = LocalDate.now();
+    public String getTitle() {
+        return this.title;
+    }
 
-    return deadlineDate.isBefore(today);
-  }
+    public String getTaskDescription() {
+        return this.taskDescription;
+    }
 
-  public static String convertIntToString(int[] values){
-    return Arrays.stream(values)
-        .mapToObj(String::valueOf)
-        .collect(Collectors.joining("-"));
-  }
+    public TaskPriority getPriority() {
+        return this.priority;
+    }
 
+    public boolean isCompleted() {
+        return this.completed;
+    }
 
-  // @Override
-  // public String toString() {
-  //   return "Status: " + status + "\n" +
-  //          "Priority: " + priority + "\n" ;
-           
-  // }
+    // ==================== Setters ====================
 
-  // public static void main(String[] args) {
-  //   Task t = new Task("coding", "tra", Task_Priority.HIGH, task_status.PENDING, "2026-12-14");
+    public void setNewPriority(TaskPriority p) {
+        if (p == null) {
+            System.out.println("Priority cannot be null");
+            return;
+        }
+        this.priority = p;
+    }
 
-  //   t.set_priority(Task_Priority.LOW);
-  //   System.out.println(t.toString());
-  // }
+    public void setNewTitle(String t) {
+        if (t == null) {
+            System.out.println("Title cannot be null");
+            return;
+        }
+
+        String sanitizedTitle = t.trim();
+
+        if (sanitizedTitle.length() > 255) {
+            System.out.println("Title exceeds maximum length of 255 characters");
+            return;
+        }
+
+        if (sanitizedTitle.isEmpty()) {
+            System.out.println("Title cannot be empty");
+            return;
+        }
+
+        this.title = sanitizedTitle;
+    }
+
+    public void setNewTaskDescription(String description) {
+        if (description == null) {
+            System.out.println("Task description cannot be null");
+            return;
+        }
+
+        String sanitizedDescrip = description.trim();
+
+        if (sanitizedDescrip.length() > 10000) {
+            System.out.println("Task description exceeds maximum length of 10000 characters");
+            return;
+        }
+
+        this.taskDescription = sanitizedDescrip;
+    }
+
+    public void setAssignTo(int memberId) {
+        this.assignTo = memberId;
+    }
+
+    public void markCompleted() {
+        this.completed = true;
+    }
+
+    public void markIncomplete() {
+        this.completed = false;
+    }
+
+    // ==================== Utility Methods ====================
+
+    /**
+     * Check if the task is past its deadline
+     */
+    public boolean isPastDeadline() {
+        if (this.deadline == null) {
+            return false;
+        }
+        return this.deadline.isBefore(LocalDate.now());
+    }
+
+    /**
+     * Get days remaining until deadline
+     * @return positive if not past deadline, negative if past
+     */
+    public long getDaysUntilDeadline() {
+        if (this.deadline == null) {
+            return -1;
+        }
+        return java.time.temporal.ChronoUnit.DAYS.between(LocalDate.now(), this.deadline);
+    }
+
+    // ==================== Override ====================
+
+    @Override
+    public String toString() {
+        return "Title: " + title + "\n" +
+               "Priority: " + priority + "\n" +
+               "Deadline: " + getDeadlineString() + "\n" +
+               "Assigned To: " + (assignTo > 0 ? String.valueOf(assignTo) : "Unassigned") + "\n" +
+               "Status: " + (completed ? "Completed" : "Pending") + "\n" +
+               "Description: " + taskDescription;
+    }
 }

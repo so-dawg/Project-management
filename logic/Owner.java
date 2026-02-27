@@ -1,93 +1,162 @@
+package logic;
 
-import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-public class Owner{ 
-    private int Id;
-    private LocalDate date;
-    private LocalTime date_time;
-    private String task;
-    private String membername;
-    private boolean isowner = true;
-    
-    
-    public Owner(int Id, String task, String membername, String email, LocalDate date, LocalTime time) {
-        this.Id = Id;
-        this.task = task;
-        this.membername = membername;  
-        this.date = date;
-        this.date_time = time;
-        isowner = true;
-    }
-    private Scanner sc = new Scanner(System.in);
-    // this task is for owner giving task to member. it need to give deadline ,id member and we need to get task from Task.java 
-    // getter section
-    public LocalDate get_Date() {
-        return date;
-    }
-    public LocalTime get_Time() {
-        return date_time;
-    }
-    public int get_Id(){
-        return Id;
-    }
-    public String get_task(){
-        return task;
-    }
-    public String get_name(){
-        return membername;
-    }
-    //for deadline section 
 
-    public void set_deadline() {
-        while (true) {
-            // in put deadline and time
-            System.out.print("Enter deadline (Ex: DD-MM-YYYY):");
-            String deadline = sc.nextLine();
-            System.out.println("Enter time (Ex: HH:MM):");
-            String time = sc.nextLine();
+/**
+ * Owner - A user with full permissions to manage projects, tasks, and members
+ */
+public class Owner implements IUser_Member {
 
-            //parttern for deadline and time
-            String pattern_dedline = "^\\d{2}-\\d{2}-\\d{4}$";
-            String pattern_time = "^\\d{2}:\\d{2}$";
+    public static final boolean IS_OWNER = true;
 
-            if(deadline.isEmpty() || time.isEmpty()) {
-                System.err.println("Deadline and time cannot be empty!");
-                continue;
-            }
-            try {
-                this.date = LocalDate.parse(deadline,DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-                this.date_time = LocalTime.parse(time);
-                return;
-            } 
-            catch (Exception e) {
-                System.err.println("Invalid date or time format!");
-            }
+    private int id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String username;
+    private String password;
+
+    /**
+     * Constructor for Owner
+     */
+    public Owner(String firstName, String lastName, String email, String username, String password) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        setEmail(email);
+        this.username = username;
+        setPassword(password);
+    }
+
+    // ==================== IUser_Member Implementation ====================
+
+    @Override
+    public String getId() {
+        return String.valueOf(id);
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username != null ? this.username : this.email;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getRole() {
+        return "Owner";
+    }
+
+    @Override
+    public boolean can(String action) {
+        // Owner has full permissions for all actions
+        return true;
+    }
+
+    @Override
+    public String getFirstName() {
+        if (firstName == null || firstName.isEmpty()) {
+            return "Unknown";
+        }
+        return firstName;
+    }
+
+    @Override
+    public String getLastName() {
+        if (lastName == null || lastName.isEmpty()) {
+            return "Unknown";
+        }
+        return lastName;
+    }
+
+    @Override
+    public String getEmail() {
+        if (!isValidEmail(email)) {
+            return "Invalid Email";
+        }
+        return email;
+    }
+
+    // ==================== Setters ====================
+
+    public void setEmail(String email) {
+        if (isValidEmail(email)) {
+            this.email = email;
+        } else {
+            System.out.println("Invalid email!");
+        }
+    }
+
+    public void setPassword(String password) {
+        if (isValidPassword(password)) {
+            this.password = password;
+        } else {
+            System.out.println("Invalid password!");
+        }
+    }
+
+    // ==================== Task Assignment Methods ====================
+
+    /**
+     * Assign a task to a member with a deadline
+     * @param task The task to assign
+     * @param memberId The ID of the member to assign to
+     * @param deadline The deadline date
+     * @param time The deadline time
+     */
+    public void assignTask(Task task, int memberId, LocalDate deadline, LocalTime time) {
+        if (task == null) {
+            System.out.println("Task cannot be null");
+            return;
         }
         
-    }
-
-    
-    //for search id section
-    private int input_Id(){
-        System.out.print("Enter member ID:");
-        int id = sc.nextInt();
-        sc.nextLine(); // Consume the newline character left by nextInt()
-        return id;
-    }
-    private void Find_member(Owner mem1 , int Id){ 
-        if(mem1.get_Id() == Id){
-            System.out.println("name" + mem1.get_name() + "\nID:" + mem1.get_Id() + "\nTask:" + mem1.get_task() + "\nRole" + mem1.role);
-        }
-        else{
-            System.out.println("Invalid member");
+        if (deadline == null) {
+            System.out.println("Deadline cannot be null");
+            return;
         }
         
+        // Check if deadline is in the past
+        if (deadline.isBefore(LocalDate.now())) {
+            System.out.println("Cannot assign task: deadline is in the past");
+            return;
+        }
+        
+        task.setDeadline(deadline);
+        task.setAssignTo(memberId);
     }
 
-    // request join section
-    boolean isValidEmail(String email) {
+    /**
+     * Assign a task to a member without deadline
+     * @param task The task to assign
+     * @param memberId The ID of the member to assign to
+     */
+    public void assignTask(Task task, int memberId) {
+        if (task == null) {
+            System.out.println("Task cannot be null");
+            return;
+        }
+        task.setAssignTo(memberId);
+    }
+
+    /**
+     * Remove a task from a member
+     * @param task The task to unassign
+     */
+    public void unassignTask(Task task) {
+        if (task == null) {
+            System.out.println("Task cannot be null");
+            return;
+        }
+        task.setAssignTo(0);
+    }
+
+    // ==================== Utility Methods ====================
+
+    public static boolean isValidEmail(String email) {
         if (email == null) {
             return false;
         }
@@ -108,63 +177,25 @@ public class Owner{
         }
         return true;
     }
-    // public void request_join(Owner member){
-    //     boolean ver_email =  member.isValidEmail(member.get_email());
-    //     if(ver_email){
-    //         System.out.println("name:" + member.get_name() + "\nID:" + member.get_Id() + "\nEmail:" + member.get_email());
-    //         System.out.println("this member should approve or not?(yes/no)");
-    //         String answer = sc.nextLine();
-    //         if (answer.equalsIgnoreCase("yes")) {
-    //             System.out.println("Request approved.");
-    //         } else if (answer.equalsIgnoreCase("no")) {
-    //             System.out.println("Request denied.");
-    //         } else {
-    //             System.out.println("Invalid input. Please enter 'yes' or 'no'.");
-    //         }
-    //     }
-    //     else{
-    //         System.out.println("This invalid email.");
-    //     }
-        
-    // } 
 
-    // void sc_close() {
-    //     sc.close();
-    // }
-    
-    // //for task section
-    // void taskby_owner(){ 
+    public static boolean isValidPassword(String password) {
+        if (password == null) {
+            return false;
+        }
 
-    // }
-//     void idinput(Owner owner){
-//         System.out.println("Give an id of member to provide task:");
-//         owner.id_ow_set = sc.nextInt();
-//         sc.nextLine(); // Consume the newline character left by nextInt()
-//     }
-//     void closeScanner() {sc.close();}
-//     @Override
-//     public String toSprivate Scanner sc = new Scanner(System.in);
-//     void deadlineinput(){
-//         System.out.print("Enter deadline in DD:");
-//         this.deadline = sc.nextLine();
-//     }
-    
-//     void taskinput(Owner owner){ 
-//         System.out.println("Give an title of task:");
-//         owner.memfor_owner.task_title = sc.nextLine();
-//     }
-    
-//     void idinput(Owner owner){
-//         System.out.println("Give an id of member to provide task:");
-//         owner.id_ow_set = sc.nextInt();
-//         sc.nextLine(); // Consume the newline character left by nextInt()
-//     }
-//     void closeScanner() {sc.close();}
-// tring() {
-    //         return "Owner setting completed.";
-    //     }
+        if (password.length() < 8) {
+            return false;
+        }
 
-    // @Override
-    // public String toString() {
-    //     return "Owner setting completed.";
-    // }
+        String pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()]).+$";
+        return password.matches(pattern);
+    }
+
+    @Override
+    public String toString() {
+        return "Owner ID: " + getId() + "\n" +
+               "Name: " + getFirstName() + " " + getLastName() + "\n" +
+               "Email: " + getEmail() + "\n" +
+               "Role: " + getRole();
+    }
+}

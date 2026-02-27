@@ -93,7 +93,7 @@ public class Member implements IUser_Member {
     return email;
   }
   
-  // Setter 
+  // Setter
   public void setEmail(String email) {
     if (isValidEmail(email)) {
       this.email = email;
@@ -105,7 +105,7 @@ public class Member implements IUser_Member {
   public void setPassword(String password) {
     if (isValidPassword(password)) {
       this.password = password;
-    } {
+    } else {
       System.out.println("Invalid password!");
     }
   }
