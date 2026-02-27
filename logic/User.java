@@ -1,4 +1,5 @@
 package logic;
+import java.util.List;
 import java.util.ArrayList;
 
 
@@ -38,4 +39,17 @@ public class UserManager {
     public ArrayList<IUser_Member> getArrayList(){
         return users;
     }
+    //Auth login user
+    public IUser_Member login(String emailOrUsername, String password, List<IUser_Member> users){
+    
+        for (IUser_Member user : users){
+            if (user.getEmail().equals(emailOrUsername) || user.getUsername().equals(emailOrUsername)){
+                if (user.getPassword().equals(password)){
+                    return user;
+                }
+            }
+        }
+        return null;
+    }
+
 }
