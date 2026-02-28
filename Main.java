@@ -64,15 +64,7 @@ public class Main {
         user = manager.searchUserByEmail("john@example.com");
         System.out.println("User Found: " + user.getFirstName() + " " + user.getLastName());
         
-        // Test 7: Task
-        System.out.println("\n--- Test 7: Task ---");
-        Task task1 = new Task("Complete assignment", TaskPriority.HIGH, LocalDate.of(2026, 2, 20), member.getId().hashCode(), "Finish the project management assignment");
-        System.out.println("Task: " + task1.getTitle());
-        System.out.println("Priority: " + task1.getPriority());
-        System.out.println("Deadline: " + task1.getDeadlineString());
-        System.out.println("Days until deadline: " + task1.getDaysUntilDeadline());
-        System.out.println("Is past deadline: " + task1.isPastDeadline());
-        
+          
         // Test 8: Owner assigning task
         System.out.println("\n--- Test 8: Owner Assigning Task ---");
         Owner owner = new Owner("Admin", "Owner", "admin@example.com", "admin", "Password123@#");
@@ -80,7 +72,7 @@ public class Main {
         System.out.println("Owner Role: " + owner.getRole());
         System.out.println("Owner can DELETE_TASK: " + owner.can("DELETE_TASK"));
         
-        Task task2 = new Task("Review code", TaskPriority.MEDIUM, LocalDate.of(2026, 3, 15), "Review the submitted code");
+        Task task2 = new Task("Review code", TaskPriority.MEDIUM, LocalDate.of(2026, 3, 15), 0,"Review the submitted code");
         owner.assignTask(task2, Integer.parseInt(member.getId()), LocalDate.of(2026, 3, 15), LocalTime.of(23, 59));
         System.out.println("Task assigned to Member ID: " + task2.getAssignTo());
         System.out.println("Task deadline: " + task2.getDeadlineString());

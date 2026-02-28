@@ -4,7 +4,11 @@ import java.util.ArrayList;
 
 
 public class User {
-    private ArrayList<IUser_Member> users = new ArrayList<>();
+  private ArrayList<IUser_Member> users;
+
+    public User() {
+      this.users = new ArrayList<>();
+    }
     // Add user to the list of users
     public void addUser(IUser_Member user){
         users.add(user);

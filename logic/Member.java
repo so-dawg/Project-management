@@ -2,14 +2,7 @@ package logic;
 
 public class Member implements IUser_Member {
 
-
-
-  private static int idCounter = 1;
-
-  public int getTotalMembers() {
-    return idCounter - 1;
-  }
-
+  private static int totalMembers = 0;
   private int Id;
   private String firstName;
   private String lastName;
@@ -19,12 +12,17 @@ public class Member implements IUser_Member {
 
 
   public Member(String firstName, String lastName, String email, String username, String password) {
-    this.Id = idCounter++;
+    this.Id = ++totalMembers;
     this.firstName = firstName;
     this.lastName = lastName;
     setEmail(email);
     this.username = username;
     setPassword(password);
+  }
+
+  // Get total number of members
+  public static int getTotalMembers() {
+    return totalMembers;
   }
   // Getter for Id
   @Override

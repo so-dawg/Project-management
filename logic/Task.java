@@ -29,20 +29,14 @@ public class Task {
      * Constructor for Task
      */
     public Task(String title, TaskPriority priority, LocalDate deadline, int assignTo, String taskDescription) {
-        this.assignTo = assignTo;
-        this.deadline = deadline;
         setNewTitle(title);
         setNewPriority(priority);
+        setDeadline(deadline);
+        setAssignTo(assignTo);
         setNewTaskDescription(taskDescription);
         this.completed = false;
     }
 
-    /**
-     * Constructor for Task without assignee
-     */
-    public Task(String title, TaskPriority priority, LocalDate deadline, String taskDescription) {
-        this(title, priority, deadline, 0, taskDescription);
-    }
 
     /**
      * Set deadline for the task
@@ -65,7 +59,7 @@ public class Task {
         if (this.deadline == null) {
             return "Not set";
         }
-        return this.deadline.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        return this.deadline.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
     public String getTitle() {
@@ -155,16 +149,6 @@ public class Task {
         return this.deadline.isBefore(LocalDate.now());
     }
 
-    /**
-     * Get days remaining until deadline
-     * @return positive if not past deadline, negative if past
-     */
-    public long getDaysUntilDeadline() {
-        if (this.deadline == null) {
-            return -1;
-        }
-        return java.time.temporal.ChronoUnit.DAYS.between(LocalDate.now(), this.deadline);
-    }
 
     // ==================== Override ====================
 
