@@ -2,12 +2,10 @@ package logic;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-/**
- * Owner - A user with full permissions to manage projects, tasks, and members
- */
 public class Owner implements IUser_Member {
 
     public static final boolean IS_OWNER = true;
+    private static int totalOwners = 0;
 
     private int id;
     private String firstName;
@@ -16,10 +14,17 @@ public class Owner implements IUser_Member {
     private String username;
     private String password;
 
-    /**
-     * Constructor for Owner
-     */
     public Owner(String firstName, String lastName, String email, String username, String password) {
+        this.id = ++totalOwners;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        setEmail(email);
+        this.username = username;
+        setPassword(password);
+    }
+
+    // Constructor for database users (with existing ID)
+    public Owner(int id, String firstName, String lastName, String email, String username, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -28,7 +33,10 @@ public class Owner implements IUser_Member {
         setPassword(password);
     }
 
-    // ==================== IUser_Member Implementation ====================
+    public static int getTotalOwners() {
+        return totalOwners;
+    }
+
 
     @Override
     public String getId() {
@@ -47,13 +55,21 @@ public class Owner implements IUser_Member {
 
     @Override
     public String getRole() {
-        return "Owner";
+        return "User";  // All users are equal now
     }
 
     @Override
     public boolean can(String action) {
-        // Owner has full permissions for all actions
-        return true;
+        // All users have the same permissions
+        switch (action) {
+            case "VIEW_TASK":
+            case "UPDATE_OWN_TASK":
+            case "CREATE_TASK":
+            case "CREATE_PROJECT":
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override
@@ -80,7 +96,6 @@ public class Owner implements IUser_Member {
         return email;
     }
 
-    // ==================== Setters ====================
 
     public void setEmail(String email) {
         if (isValidEmail(email)) {
@@ -98,15 +113,7 @@ public class Owner implements IUser_Member {
         }
     }
 
-    // ==================== Task Assignment Methods ====================
 
-    /**
-     * Assign a task to a member with a deadline
-     * @param task The task to assign
-     * @param memberId The ID of the member to assign to
-     * @param deadline The deadline date
-     * @param time The deadline time
-     */
     public void assignTask(Task task, int memberId, LocalDate deadline, LocalTime time) {
         if (task == null) {
             System.out.println("Task cannot be null");
@@ -128,11 +135,6 @@ public class Owner implements IUser_Member {
         task.setAssignTo(memberId);
     }
 
-    /**
-     * Assign a task to a member without deadline
-     * @param task The task to assign
-     * @param memberId The ID of the member to assign to
-     */
     public void assignTask(Task task, int memberId) {
         if (task == null) {
             System.out.println("Task cannot be null");
@@ -141,10 +143,6 @@ public class Owner implements IUser_Member {
         task.setAssignTo(memberId);
     }
 
-    /**
-     * Remove a task from a member
-     * @param task The task to unassign
-     */
     public void unassignTask(Task task) {
         if (task == null) {
             System.out.println("Task cannot be null");
@@ -153,7 +151,6 @@ public class Owner implements IUser_Member {
         task.setAssignTo(0);
     }
 
-    // ==================== Utility Methods ====================
 
     public static boolean isValidEmail(String email) {
         if (email == null) {

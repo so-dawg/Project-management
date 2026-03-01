@@ -1,6 +1,9 @@
 package logic;
 import logic.Task;
 import logic.User;
+import logic.IUser_Member;
+import logic.Member;
+import logic.Owner;
 import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDate;
@@ -9,17 +12,90 @@ import java.time.format.DateTimeFormatter;
 
 public class Project {
 
+  private static int nextProjectID = 1;
   private ArrayList<Task> tasks = new ArrayList<>();
-  private User users = new User();
+  private ArrayList<Member> members = new ArrayList<>();
+  private Owner owner;
   private String title;
   private String projectDescription;
   private int projectID;
   private int numMember;
+  private int numTask;
 
-  public Project(String title, String projectDescription) {
+  public Project(String title, String projectDescription, Owner owner) {
+    this.projectID = nextProjectID++;
+    this.owner = owner;
     this.numMember = 1;
     this.title = title;
     this.projectDescription = projectDescription;
+  }
+
+  public boolean addMemberById(String userId, User userRegistry) {
+    IUser_Member user = userRegistry.searchUserById(userId);
+    if (user != null) {
+      members.add((Member) user);
+      numMember++;
+      return true;
+    }
+    System.out.println("User with ID '" + userId + "' not found");
+    return false;
+  }
+
+  public boolean addMemberByName(String username, User userRegistry) {
+    IUser_Member user = userRegistry.searchUserByUsername(username);
+    if (user != null) {
+      members.add((Member) user);
+      numMember++;
+      return true;
+    }
+    System.out.println("User with username '" + username + "' not found");
+    return false;
+  }
+
+  public boolean removeMemberById(String memberId) {
+    Member member = searchMemberById(memberId);
+    if (member != null) {
+      members.remove(member);
+      numMember--;
+      return true;
+    }
+    return false;
+  }
+
+  public boolean removeMemberByName(String username) {
+    Member member = searchMemberByName(username);
+    if (member != null) {
+      members.remove(member);
+      numMember--;
+      return true;
+    }
+    return false;
+  }
+
+  public Member searchMemberById(String memberId) {
+    for (Member member : members) {
+      if (member.getId().equals(memberId)) {
+        return member;
+      }
+    }
+    return null;
+  }
+
+  public Member searchMemberByName(String username) {
+    for (Member member : members) {
+      if (member.getUsername().equals(username)) {
+        return member;
+      }
+    }
+    return null;
+  }
+
+  public ArrayList<Member> getMembers() {
+    return members;
+  }
+
+  public Owner getOwner() {
+    return owner;
   }
 
   public void addTask(String title, Task.TaskPriority priority, String deadline, String taskDescription, int assignTo){
@@ -30,7 +106,49 @@ public class Project {
     }
     Task task = new Task(title, priority, date, assignTo, taskDescription);
     this.tasks.add(task);
+    numTask++;
   }
 
-  
+  public boolean removeTask(int index) {
+    if (index >= 0 && index < tasks.size()) {
+      tasks.remove(index);
+      numTask--;
+      return true;
+    }
+    return false;
+  }
+
+  public Task getTask(int index) {
+    if (index >= 0 && index < tasks.size()) {
+      return tasks.get(index);
+    }
+    return null;
+  }
+
+  public ArrayList<Task> getTasks() {
+    return tasks;
+  }
+
+  //getter
+  public String getTitle() {
+    return title;
+  }
+
+  public String getProjectDescription() {
+    return projectDescription;
+  }
+
+  public int getNumMember() {
+    return numMember;
+  }
+
+  public int getProjectID() {
+    return projectID;
+  }
+
+  public int getTaskCount() {
+    return numTask;
+  }
+
+
 }

@@ -18,6 +18,7 @@ public class Task {
         URGENT
     }
 
+    private int taskID;
     private int assignTo;  // Member ID (from database)
     private LocalDate deadline;
     private String title;
@@ -46,6 +47,14 @@ public class Task {
     }
 
     // ==================== Getters ====================
+
+    public int getTaskId() {
+      return this.taskID;
+    }
+
+    public void setTaskId(int taskId) {
+      this.taskID = taskId;
+    }
 
     public int getAssignTo() {
         return this.assignTo;

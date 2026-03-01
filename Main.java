@@ -1,82 +1,172 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import logic.Task;
 import logic.Task.TaskPriority;
 import logic.Member;
 import logic.IUser_Member;
 import logic.User;
 import logic.Owner;
+import logic.Project;
+import logic.ProjectManager;
+import logic.DatabaseManager;
 
 public class Main {
     public static void main(String[] args) {
-       Member member = new Member("KUN", "PISAL", "examplekunpisal@gmial.com", "lazysal", "Password123@#");
+        System.out.println("========================================");
+        System.out.println("   PROJECT MANAGEMENT SYSTEM           ");
+        System.out.println("========================================\n");
 
-       System.out.println("=== Testing Member.java ===\n");
-        // Test 1: Getters
-        System.out.println("--- Test 1: Getters ---");
-        System.out.println("ID: " + member.getId());
-        System.out.println("Username: " + member.getUsername());
-        System.out.println("Password: " + member.getPassword());
-        System.out.println("Role: " + member.getRole());
-        System.out.println("First Name: " + member.getFirstName());
-        System.out.println("Last Name: " + member.getLastName());
-        System.out.println("Email: " + member.getEmail());
-        // Test 2: Permissions
-        System.out.println("\n--- Test 2: Permissions ---");
-        System.out.println("can(VIEW_TASK): " + member.can("VIEW_TASK"));
-        System.out.println("can(UPDATE_OWN_TASK): " + member.can("UPDATE_OWN_TASK"));
-        System.out.println("can(CREATE_TASK): " + member.can("CREATE_TASK"));
-        System.out.println("can(DELETE_TASK): " + member.can("DELETE_TASK"));
-        System.out.println("can(ASSIGN_TASK): " + member.can("ASSIGN_TASK"));
-        System.out.println("can(CREATE_USER): " + member.can("CREATE_USER"));
-        System.out.println("can(VIEW_REPORT): " + member.can("VIEW_REPORT"));
+        // Initialize database connection
+        DatabaseManager db = new DatabaseManager();
+        db.connect();
 
-        // Test 3: Email Validation
-        System.out.println("\n--- Test 3: Email Validation ---");
-        System.out.println("valid@email.com: " + Member.isValidEmail("valid@email.com"));
-        System.out.println("invalid: " + Member.isValidEmail("invalid"));
-        System.out.println("null: " + Member.isValidEmail(null));
+        // Check if connection succeeded
+        if (db.getConnection() == null) {
+            System.out.println("\n=== Running in OFFLINE mode (no database) ===\n");
+            testOfflineMode();
+            return;
+        }
 
-        // Test 4: toString()
-        System.out.println("\n--- Test 4: toString() ---");
-        System.out.println(member.toString());
+        // Load users from database into User registry
+        User userRegistry = new User();
+        db.loadUsersToRegistry(userRegistry);
 
-        System.out.println("\n--- Test 5: ID Counter ---");
-        Member member2 = new Member("Jane", "Smith", "jane@example.com", "janesmith", "Password2!");
-        System.out.println("Member 1 ID: " + member.getId());
-        System.out.println("Member 2 ID: " + member2.getId());
-        System.out.println("Total Members: " + member.getTotalMembers());
+        // ==================== LOGIN EXAMPLES ====================
+        System.out.println("=== Login Examples ===\n");
 
-        // Test 6: User
-        System.out.println("\n--- Test 6: User ---");
-        User manager = new User();
-        Member member3 = new Member("John", "Doe", "john@example.com", "johndoe", "Password3!");
-        manager.addUser(member);
-        manager.addUser(member2);
-        manager.addUser(member3);
-        System.out.println("----Added Users to User----");
-        System.out.println("Total Users: " + manager.getArrayList().size());
+        // Method 1: Login using User registry (faster, uses in-memory list)
+        System.out.println("--- Method 1: Login with User Registry ---");
+        IUser_Member user1 = userRegistry.login("sarah.johnson@company.com", "Owner123@", userRegistry.getArrayList());
+        if (user1 != null) {
+            System.out.println("Login successful!");
+            System.out.println("Username: " + user1.getUsername());
+            System.out.println("User ID: " + user1.getId());
+        } else {
+            System.out.println("Login failed - user not found");
+        }
 
-        System.out.println("----Searching Users by ID----");
-        IUser_Member user = manager.searchUserById("2");
-        System.out.println("User Found: " + user.getFirstName() + " " + user.getLastName());
-        System.out.println("----Searching Users by Email----");
-        user = manager.searchUserByEmail("john@example.com");
-        System.out.println("User Found: " + user.getFirstName() + " " + user.getLastName());
+        // Method 2: Login directly from database (always fresh data)
+        System.out.println("\n--- Method 2: Login with Database ---");
+        Member user2 = db.login("sarah.johnson@company.com", "Owner123@");
+        if (user2 != null) {
+            System.out.println("Login successful!");
+            System.out.println("Username: " + user2.getUsername());
+            System.out.println("User ID: " + user2.getId());
+        } else {
+            System.out.println("Login failed - user not found");
+        }
+
+        // ==================== PROJECT OWNERSHIP ====================
+        System.out.println("\n=== Project Ownership ===\n");
+
+        if (user2 != null) {
+            int userId = Integer.parseInt(user2.getId());
+            
+            // Get projects owned by this user
+            ArrayList<Project> ownedProjects = db.getProjectsByOwnerId(userId);
+            System.out.println("Projects owned by " + user2.getFirstName() + ":");
+            if (ownedProjects.isEmpty()) {
+                System.out.println("  (No projects owned yet)");
+            } else {
+                for (Project p : ownedProjects) {
+                    System.out.println("  - " + p.getTitle() + " (ID: " + p.getProjectID() + ")");
+                }
+            }
+
+            // Get project count
+            int projectCount = db.getProjectCountByOwnerId(userId);
+            System.out.println("\nTotal projects owned: " + projectCount);
+
+            // Create a new project (any user can be an owner!)
+            System.out.println("\n--- Creating New Project ---");
+            Owner owner = new Owner(
+                user2.getFirstName(),
+                user2.getLastName(),
+                user2.getEmail(),
+                user2.getUsername(),
+                user2.getPassword()
+            );
+            
+            ProjectManager pm = new ProjectManager();
+            Project newProject = pm.createProject("Test Project", "A test project", owner);
+            System.out.println("Created: " + newProject.getTitle());
+            System.out.println("Project ID: " + newProject.getProjectID());
+
+            // Add members to the project
+            System.out.println("\n--- Adding Members to Project ---");
+            newProject.addMemberById("3", userRegistry);  // John Doe
+            newProject.addMemberById("4", userRegistry);  // Emily Smith
+            
+            System.out.println("Project members:");
+            for (Member m : newProject.getMembers()) {
+                System.out.println("  - " + m.getFirstName() + " " + m.getLastName());
+            }
+
+            // Add a task to the project
+            System.out.println("\n--- Adding Task to Project ---");
+            newProject.addTask("Design mockup", TaskPriority.HIGH, "2026-04-01", "Create initial design", 3);
+            System.out.println("Task added: Design mockup");
+            System.out.println("Total tasks: " + newProject.getTaskCount());
+
+            // Test: Remove member
+            System.out.println("\n--- Test: Remove Member ---");
+            System.out.println("Removing member by ID...");
+            boolean removed = newProject.removeMemberById("4");
+            System.out.println("Member removed: " + removed);
+            System.out.println("Remaining members: " + newProject.getNumMember());
+
+            // Test: Remove task by index
+            System.out.println("\n--- Test: Remove Task by Index ---");
+            System.out.println("Removing task at index 0...");
+            boolean taskRemoved = newProject.removeTask(0);
+            System.out.println("Task removed: " + taskRemoved);
+            System.out.println("Remaining tasks: " + newProject.getTaskCount());
+        }
+
+        // ==================== ALL USERS ====================
+        System.out.println("\n=== All Users in Registry ===");
+        for (IUser_Member u : userRegistry.getArrayList()) {
+            System.out.println("ID: " + u.getId() + " | " + u.getFirstName() + " " + u.getLastName() + " | " + u.getEmail());
+        }
+
+        // ==================== ALL PROJECTS ====================
+        System.out.println("\n=== All Projects ===");
+        ProjectManager pm = new ProjectManager();
+        for (Project p : pm.getAllProjects()) {
+            System.out.println("ID: " + p.getProjectID() + " | " + p.getTitle() + " | Owner: " + p.getOwner().getFirstName() + " " + p.getOwner().getLastName());
+        }
+
+        // Disconnect from database
+        db.disconnect();
+
+        System.out.println("\n========================================");
+        System.out.println("       TEST COMPLETED                  ");
+        System.out.println("========================================");
+    }
+
+    /**
+     * Test with in-memory registry (offline mode)
+     */
+    public static void testOfflineMode() {
+        User userRegistry = new User();
+        Owner owner = new Owner("Admin", "User", "admin@example.com", "admin", "Password123@");
+        Member member1 = new Member("John", "Doe", "john@example.com", "johndoe", "Password1!");
         
-          
-        // Test 8: Owner assigning task
-        System.out.println("\n--- Test 8: Owner Assigning Task ---");
-        Owner owner = new Owner("Admin", "Owner", "admin@example.com", "admin", "Password123@#");
-        System.out.println("Owner: " + owner.getFirstName() + " " + owner.getLastName());
-        System.out.println("Owner Role: " + owner.getRole());
-        System.out.println("Owner can DELETE_TASK: " + owner.can("DELETE_TASK"));
-        
-        Task task2 = new Task("Review code", TaskPriority.MEDIUM, LocalDate.of(2026, 3, 15), 0,"Review the submitted code");
-        owner.assignTask(task2, Integer.parseInt(member.getId()), LocalDate.of(2026, 3, 15), LocalTime.of(23, 59));
-        System.out.println("Task assigned to Member ID: " + task2.getAssignTo());
-        System.out.println("Task deadline: " + task2.getDeadlineString());
-        
-        System.out.println("\n=== All Tests Completed ===");
+        userRegistry.addUser(owner);
+        userRegistry.addUser(member1);
+
+        System.out.println("Owner: " + owner.getUsername());
+        System.out.println("Total users: " + userRegistry.getArrayList().size());
+
+        // Create project
+        ProjectManager pm = new ProjectManager();
+        Project project = pm.createProject("Offline Project", "Test without database", owner);
+        System.out.println("Created project: " + project.getTitle());
+
+        // Add member
+        project.addMemberById(member1.getId(), userRegistry);
+        System.out.println("Added member to project");
+        System.out.println("Project members: " + project.getNumMember());
     }
 }

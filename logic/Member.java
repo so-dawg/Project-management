@@ -20,40 +20,47 @@ public class Member implements IUser_Member {
     setPassword(password);
   }
 
-  // Get total number of members
+  // Constructor for database users (with existing ID)
+  public Member(int id, String firstName, String lastName, String email, String username, String password) {
+    this.Id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    setEmail(email);
+    this.username = username;
+    setPassword(password);
+  }
+
   public static int getTotalMembers() {
     return totalMembers;
   }
-  // Getter for Id
   @Override
   public String getId() {
     return String.valueOf(Id);
   }
-  // Getter for Username
   @Override
   public String getUsername() {
     return this.username != null ? this.username : this.email;
   }
-  // getter for Password
   @Override
   public String getPassword() {
     return this.password;
   }
-  // Getter for Role
   @Override
   public String getRole() {
-    return "Member";
+    return "User";  // All users are equal now - anyone can own projects
   }
-  // Permission checking - Member can only do limited actions
   @Override
   public boolean can(String action) {
+      // All users have the same permissions now
       switch (action) {
           case "VIEW_TASK":
               return true;
           case "UPDATE_OWN_TASK":
               return true;
           case "CREATE_TASK":
-              return false;
+              return true;  // All users can create tasks
+          case "CREATE_PROJECT":
+              return true;  // All users can create projects
           case "DELETE_TASK":
               return false;
           case "ASSIGN_TASK":
