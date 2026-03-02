@@ -1,6 +1,6 @@
 package logic;
 
-public class Member implements IUser_Member {
+public class Member implements IUser {
 
   private static int totalMembers = 0;
   private int Id;
@@ -9,7 +9,6 @@ public class Member implements IUser_Member {
   private String email;
   private String username;
   private String password;
-
 
   public Member(String firstName, String lastName, String email, String username, String password) {
     this.Id = ++totalMembers;
@@ -33,45 +32,50 @@ public class Member implements IUser_Member {
   public static int getTotalMembers() {
     return totalMembers;
   }
+
   @Override
   public String getId() {
     return String.valueOf(Id);
   }
+
   @Override
   public String getUsername() {
     return this.username != null ? this.username : this.email;
   }
+
   @Override
   public String getPassword() {
     return this.password;
   }
+
   @Override
   public String getRole() {
-    return "User";  // All users are equal now - anyone can own projects
+    return "User"; // All users are equal now - anyone can own projects
   }
+
   @Override
   public boolean can(String action) {
-      // All users have the same permissions now
-      switch (action) {
-          case "VIEW_TASK":
-              return true;
-          case "UPDATE_OWN_TASK":
-              return true;
-          case "CREATE_TASK":
-              return true;  // All users can create tasks
-          case "CREATE_PROJECT":
-              return true;  // All users can create projects
-          case "DELETE_TASK":
-              return false;
-          case "ASSIGN_TASK":
-              return false;
-          case "CREATE_USER":
-              return false;
-          case "VIEW_REPORT":
-              return false;
-          default:
-              return false;
-      }
+    // All users have the same permissions now
+    switch (action) {
+      case "VIEW_TASK":
+        return true;
+      case "UPDATE_OWN_TASK":
+        return true;
+      case "CREATE_TASK":
+        return true; // All users can create tasks
+      case "CREATE_PROJECT":
+        return true; // All users can create projects
+      case "DELETE_TASK":
+        return false;
+      case "ASSIGN_TASK":
+        return false;
+      case "CREATE_USER":
+        return false;
+      case "VIEW_REPORT":
+        return false;
+      default:
+        return false;
+    }
   }
 
   @Override
@@ -82,6 +86,7 @@ public class Member implements IUser_Member {
     }
     return firstName;
   }
+
   @Override
   public String getLastName() {
     if (lastName == null || lastName.isEmpty()) {
@@ -90,6 +95,7 @@ public class Member implements IUser_Member {
     }
     return lastName;
   }
+
   @Override
   public String getEmail() {
     if (!isValidEmail(email)) {
@@ -97,7 +103,7 @@ public class Member implements IUser_Member {
     }
     return email;
   }
-  
+
   // Setter
   public void setEmail(String email) {
     if (isValidEmail(email)) {
@@ -114,6 +120,7 @@ public class Member implements IUser_Member {
       System.out.println("Invalid password!");
     }
   }
+
   public static boolean isValidEmail(String email) {
     if (email == null) {
       return false;
@@ -126,17 +133,17 @@ public class Member implements IUser_Member {
       return false;
     }
 
-    if (dotIndex <= atIndex +1) {
+    if (dotIndex <= atIndex + 1) {
       return false;
     }
 
     if (dotIndex >= email.length() - 1) {
-      return false ;
+      return false;
     }
     return true;
   }
 
-  public static boolean isValidPassword (String password) {
+  public static boolean isValidPassword(String password) {
     if (password == null) {
       return false;
     }
@@ -149,11 +156,12 @@ public class Member implements IUser_Member {
 
     return password.matches(pattern);
   }
+
   @Override
-  public  String toString() {
+  public String toString() {
     return "User ID: " + getId() + "\n" +
-           "Name: " + getFirstName() + " " + getLastName() + "\n" +
-           "Email: " + getEmail() + "\n" +
-           "Password: " + "........" + "\n" ;
+        "Name: " + getFirstName() + " " + getLastName() + "\n" +
+        "Email: " + getEmail() + "\n" +
+        "Password: " + "........" + "\n";
   }
 }

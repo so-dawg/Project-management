@@ -1,14 +1,14 @@
 package logic;
+
 import logic.Task;
 import logic.User;
-import logic.IUser_Member;
+import logic.IUser;
 import logic.Member;
 import logic.Owner;
 import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 
 public class Project {
 
@@ -31,7 +31,7 @@ public class Project {
   }
 
   public boolean addMemberById(String userId, User userRegistry) {
-    IUser_Member user = userRegistry.searchUserById(userId);
+    IUser user = userRegistry.searchUserById(userId);
     if (user != null) {
       members.add((Member) user);
       numMember++;
@@ -42,7 +42,7 @@ public class Project {
   }
 
   public boolean addMemberByName(String username, User userRegistry) {
-    IUser_Member user = userRegistry.searchUserByUsername(username);
+    IUser user = userRegistry.searchUserByUsername(username);
     if (user != null) {
       members.add((Member) user);
       numMember++;
@@ -98,11 +98,11 @@ public class Project {
     return owner;
   }
 
-  public void addTask(String title, Task.TaskPriority priority, String deadline, String taskDescription, int assignTo){
+  public void addTask(String title, Task.TaskPriority priority, String deadline, String taskDescription, int assignTo) {
     LocalDate date = null;
     if (deadline != null) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        date = LocalDate.parse(deadline, formatter);
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+      date = LocalDate.parse(deadline, formatter);
     }
     Task task = new Task(title, priority, date, assignTo, taskDescription);
     this.tasks.add(task);
@@ -129,7 +129,7 @@ public class Project {
     return tasks;
   }
 
-  //getter
+  // getter
   public String getTitle() {
     return title;
   }
@@ -149,6 +149,5 @@ public class Project {
   public int getTaskCount() {
     return numTask;
   }
-
 
 }

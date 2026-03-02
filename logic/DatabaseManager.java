@@ -109,7 +109,7 @@ public class DatabaseManager {
    * @param userRegistry The User registry to search in
    * @return IUser_Member if found, null otherwise
    */
-  public IUser_Member loginWithRegistry(String email, String password, User userRegistry) {
+  public IUser loginWithRegistry(String email, String password, User userRegistry) {
     return userRegistry.login(email, password, userRegistry.getArrayList());
   }
 
@@ -418,7 +418,7 @@ public class DatabaseManager {
   /**
    * Update user in database
    */
-  public boolean updateUser(IUser_Member user) {
+  public boolean updateUser(IUser user) {
     String sql = "UPDATE users SET first_name = ?, last_name = ?, email = ?, password = ? WHERE user_id = ?";
     try {
       PreparedStatement stmt = conn.prepareStatement(sql);
