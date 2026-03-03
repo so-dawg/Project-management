@@ -5,14 +5,13 @@ import java.time.LocalTime;
 
 public class Owner extends Member implements IUser {
 
-  public static final boolean IS_OWNER = true;
   private static int totalOwners = 0;
 
-  private int id;
+
 
   public Owner(Member m) {
     super(m.getFirstName(), m.getLastName(), m.getEmail(), m.getUsername(), m.getPassword());
-    this.id = ++totalOwners;
+    ++totalOwners;
   }
 
   // Constructor for database users (with existing ID)
@@ -26,46 +25,11 @@ public class Owner extends Member implements IUser {
   }
 
   @Override
-  public String getId() {
-    return String.valueOf(id);
-  }
-
-  @Override
-  public String getRole() {
-    return "User"; // All users are equal now
-  }
-
-  @Override
   public boolean can(String action) {
     // All users have the same permissions
-    switch (action) {
-      case "VIEW_TASK":
-      case "UPDATE_OWN_TASK":
-      case "CREATE_TASK":
-      case "CREATE_PROJECT":
-        return true;
-      default:
-        return false;
+    return true;
     }
-  }
-
   
-
-  public void setEmail(String email) {
-    if (isValidEmail(email)) {
-      this.email = email;
-    } else {
-      System.out.println("Invalid email!");
-    }
-  }
-
-  public void setPassword(String password) {
-    if (isValidPassword(password)) {
-      this.password = password;
-    } else {
-      System.out.println("Invalid password!");
-    }
-  }
 
   public void assignTask(Task task, int memberId, LocalDate deadline, LocalTime time) {
     if (task == null) {
@@ -141,9 +105,6 @@ public class Owner extends Member implements IUser {
 
   @Override
   public String toString() {
-    return "Owner ID: " + getId() + "\n" +
-        "Name: " + getFirstName() + " " + getLastName() + "\n" +
-        "Email: " + getEmail() + "\n" +
-        "Role: " + getRole();
+    return super.toString()+"Owner";
   }
 }

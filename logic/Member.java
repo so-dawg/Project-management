@@ -12,10 +12,10 @@ public class Member implements IUser {
 
   public Member(String firstName, String lastName, String email, String username, String password) {
     this.Id = ++totalMembers;
-    this.firstName = firstName;
-    this.lastName = lastName;
+    setFirstname(firstName);
+    setLastname(lastName);
     setEmail(email);
-    this.username = username;
+    setUsername(username);
     setPassword(password);
   }
 
@@ -118,6 +118,42 @@ public class Member implements IUser {
       this.password = password;
     } else {
       System.out.println("Invalid password!");
+    }
+  }
+
+  public void setUsername(String username)  {
+    if (username != null) {
+      if (username.length() <= 510) {
+        this.username = username;
+      }else {
+        System.out.println("Error, invalid input!");
+      }
+    }else {
+      System.out.println("Error, invalid input!");
+    }
+  }
+
+  public void setFirstname(String firstName) {
+    if (firstName != null) {
+      if (firstName.length() <= 255) {
+        this.firstName = firstName;
+      }else {
+        System.out.println("Error, invalid input!");
+      }
+    }else {
+      System.out.println("Error, invalid input!");
+    }
+  }
+
+  public void setLastname(String lastName) {
+    if (lastName != null) {
+      if (lastName.length() <= 255) {
+        this.lastName = lastName;
+      }else {
+        System.out.println("Error, invalid input!");
+      }
+    }else {
+      System.out.println("Error, invalid input!");
     }
   }
 
