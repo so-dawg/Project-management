@@ -109,11 +109,22 @@ public class Project {
     numTask++;
   }
 
-  public boolean removeTask(int index) {
+  public boolean removeTaskByIndex(int index) {
     if (index >= 0 && index < tasks.size()) {
       tasks.remove(index);
       numTask--;
       return true;
+    }
+    return false;
+  }
+  
+  public boolean removeTaskByID(int id) {
+    for (Task task : tasks) {
+      if (task.getTaskId().equals(id)) {
+        tasks.remove(task);
+        numTask--;
+        return true;
+      }
     }
     return false;
   }
