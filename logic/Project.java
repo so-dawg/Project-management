@@ -1,14 +1,8 @@
 package logic;
 
-import logic.Task;
-import logic.User;
-import logic.IUser;
-import logic.Member;
-import logic.Owner;
-import java.util.List;
-import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class Project {
 
@@ -120,7 +114,7 @@ public class Project {
   
   public boolean removeTaskByID(int id) {
     for (Task task : tasks) {
-      if (task.getTaskId().equals(id)) {
+      if (task.getTaskId() == id) {
         tasks.remove(task);
         numTask--;
         return true;
