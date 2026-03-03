@@ -20,14 +20,14 @@ public class Member implements IUser {
   }
 
   // Constructor for database users (with existing ID)
-  public Member(int id, String firstName, String lastName, String email, String username, String password) {
-    this.Id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    setEmail(email);
-    this.username = username;
-    setPassword(password);
-  }
+  // public Member(int id, String firstName, String lastName, String email, String username, String password) {
+  //   this.Id = id;
+  //   this.firstName = firstName;
+  //   this.lastName = lastName;
+  //   setEmail(email);
+  //   this.username = username;
+  //   setPassword(password);
+  // }
 
   public static int getTotalMembers() {
     return totalMembers;

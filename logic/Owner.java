@@ -3,7 +3,7 @@ package logic;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Owner implements IUser {
+public class Owner extends Member implements IUser {
 
   public static final boolean IS_OWNER = true;
   private static int totalOwners = 0;
@@ -15,24 +15,16 @@ public class Owner implements IUser {
   private String username;
   private String password;
 
-  public Owner(String firstName, String lastName, String email, String username, String password) {
+  public Owner(Member m) {
+    super(m.getFirstName(), m.getLastName(), m.getEmail(), m.getUsername(), m.getPassword());
     this.id = ++totalOwners;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    setEmail(email);
-    this.username = username;
-    setPassword(password);
   }
 
   // Constructor for database users (with existing ID)
-  public Owner(int id, String firstName, String lastName, String email, String username, String password) {
-    this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    setEmail(email);
-    this.username = username;
-    setPassword(password);
-  }
+//   public Owner(int id, Member m) {
+//     this.id = id;
+//     super(m.getFirstName(), m.getLastName(), m.getEmail(), m.getUsername(), m.getPassword());
+//   }
 
   public static int getTotalOwners() {
     return totalOwners;

@@ -9,7 +9,7 @@ import logic.User;
 import logic.Owner;
 import logic.Project;
 import logic.ProjectManager;
-import logic.DatabaseManager;
+// import logic.DatabaseManager;
 
 public class Main {
   public static void main(String[] args) {
@@ -80,12 +80,8 @@ public class Main {
 
       // Create a new project (any user can be an owner!)
       System.out.println("\n--- Creating New Project ---");
-      Owner owner = new Owner(
-          user2.getFirstName(),
-          user2.getLastName(),
-          user2.getEmail(),
-          user2.getUsername(),
-          user2.getPassword());
+      Member m0 = new Member(null, null, null, null, null);
+      Owner owner = new Owner(m0);
 
       ProjectManager pm = new ProjectManager();
       Project newProject = pm.createProject("Test Project", "A test project", owner);
@@ -150,7 +146,8 @@ public class Main {
    */
   public static void testOfflineMode() {
     User userRegistry = new User();
-    Owner owner = new Owner("Admin", "User", "admin@example.com", "admin", "Password123@");
+    
+    Owner owner = new Owner(new Member("Admin", "User", "admin@example.com", "admin", "Password123@"));
     Member member1 = new Member("John", "Doe", "john@example.com", "johndoe", "Password1!");
 
     userRegistry.addUser(owner);

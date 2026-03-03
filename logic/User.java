@@ -1,14 +1,14 @@
 package logic;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class User {
   private ArrayList<IUser> users;
 
-  public User() {
-    this.users = new ArrayList<>();
-  }
+  // public User() {
+  //   this.users = new ArrayList<>();
+  // }
 
   // Add user to the list of users
   public void addUser(IUser user) {
