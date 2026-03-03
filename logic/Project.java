@@ -155,4 +155,21 @@ public class Project {
     return numTask;
   }
 
+  public void setTitle (String title){
+    if(tasks != null && title.length() <= 255){
+      this.title = title;
+    }
+    else{
+      System.out.println("Error, invalid input!");
+    }
+  }
+  
+  public void setDescript (String des){
+    if(tasks != null && des.length() <= 500){
+      this.projectDescription = des;
+    }
+    else{
+      System.out.println("Error, invalid input!");
+    }
+  }
 }
