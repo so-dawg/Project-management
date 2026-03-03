@@ -9,11 +9,6 @@ public class Owner extends Member implements IUser {
   private static int totalOwners = 0;
 
   private int id;
-  private String firstName;
-  private String lastName;
-  private String email;
-  private String username;
-  private String password;
 
   public Owner(Member m) {
     super(m.getFirstName(), m.getLastName(), m.getEmail(), m.getUsername(), m.getPassword());
@@ -36,16 +31,6 @@ public class Owner extends Member implements IUser {
   }
 
   @Override
-  public String getUsername() {
-    return this.username != null ? this.username : this.email;
-  }
-
-  @Override
-  public String getPassword() {
-    return this.password;
-  }
-
-  @Override
   public String getRole() {
     return "User"; // All users are equal now
   }
@@ -64,29 +49,7 @@ public class Owner extends Member implements IUser {
     }
   }
 
-  @Override
-  public String getFirstName() {
-    if (firstName == null || firstName.isEmpty()) {
-      return "Unknown";
-    }
-    return firstName;
-  }
-
-  @Override
-  public String getLastName() {
-    if (lastName == null || lastName.isEmpty()) {
-      return "Unknown";
-    }
-    return lastName;
-  }
-
-  @Override
-  public String getEmail() {
-    if (!isValidEmail(email)) {
-      return "Invalid Email";
-    }
-    return email;
-  }
+  
 
   public void setEmail(String email) {
     if (isValidEmail(email)) {
