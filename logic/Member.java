@@ -13,7 +13,6 @@ public class Member implements IUser {
   public Member(String firstName, String lastName, String email, String username, String password) {
     this.Id = ++totalMembers;
     setFirstname(firstName);
-    setLastname(lastName);
     setEmail(email);
     setUsername(username);
     setPassword(password);
@@ -195,9 +194,10 @@ public class Member implements IUser {
 
   @Override
   public String toString() {
-    return "User ID: " + getId() + "\n" +
-        "Name: " + getFirstName() + " " + getLastName() + "\n" +
-        "Email: " + getEmail() + "\n" +
+    return "User ID: " + Id + "\n" +
+        "Name: " + firstName + " " + lastName + "\n" +
+        "Email: " + email + "\n" +
         "Password: " + "........" + "\n";
   }
+
 }

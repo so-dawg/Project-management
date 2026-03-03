@@ -13,13 +13,10 @@ public class Project {
   private String title;
   private String projectDescription;
   private int projectID;
-  private int numMember;
-  private int numTask;
 
   public Project(String title, String projectDescription, Owner owner) {
     this.projectID = nextProjectID++;
     this.owner = owner;
-    this.numMember = 1;
     this.title = title;
     this.projectDescription = projectDescription;
   }
@@ -28,7 +25,6 @@ public class Project {
     IUser user = userRegistry.searchUserById(userId);
     if (user != null) {
       members.add((Member) user);
-      numMember++;
       return true;
     }
     System.out.println("User with ID '" + userId + "' not found");
@@ -39,7 +35,6 @@ public class Project {
     IUser user = userRegistry.searchUserByUsername(username);
     if (user != null) {
       members.add((Member) user);
-      numMember++;
       return true;
     }
     System.out.println("User with username '" + username + "' not found");
@@ -50,7 +45,6 @@ public class Project {
     Member member = searchMemberById(memberId);
     if (member != null) {
       members.remove(member);
-      numMember--;
       return true;
     }
     return false;
@@ -60,7 +54,6 @@ public class Project {
     Member member = searchMemberByName(username);
     if (member != null) {
       members.remove(member);
-      numMember--;
       return true;
     }
     return false;
@@ -100,13 +93,11 @@ public class Project {
     }
     Task task = new Task(title, priority, date, assignTo, taskDescription);
     this.tasks.add(task);
-    numTask++;
   }
 
   public boolean removeTaskByIndex(int index) {
     if (index >= 0 && index < tasks.size()) {
       tasks.remove(index);
-      numTask--;
       return true;
     }
     return false;
@@ -116,7 +107,6 @@ public class Project {
     for (Task task : tasks) {
       if (task.getTaskId() == id) {
         tasks.remove(task);
-        numTask--;
         return true;
       }
     }
@@ -144,7 +134,7 @@ public class Project {
   }
 
   public int getNumMember() {
-    return numMember;
+    return members.size();
   }
 
   public int getProjectID() {
@@ -152,7 +142,7 @@ public class Project {
   }
 
   public int getTaskCount() {
-    return numTask;
+    return tasks.size();
   }
 
   public void setTitle (String title){
