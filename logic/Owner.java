@@ -67,16 +67,14 @@ public class Owner extends Member {
 
   @Override
   public String toString() {
-    return super.toString()+"Owner";
+    return super.toString() + " [Owner]";
   }
 
   @Override
   public boolean equals(Object obj) {
-    Owner other = (Owner) obj;
-    
-    if (!super.equals(obj)) {
-      return false;
+    if (obj instanceof Owner) {
+      return super.equals(obj);
     }
-    return true;
+    return false;
   }
 }

@@ -85,9 +85,9 @@ public class Project {
     return owner;
   }
 
-  public void addTask(String title, Task.TaskPriority priority, String deadline, String taskDescription, int assignTo) {
+  public void addTask(IUser user, String title, Task.TaskPriority priority, String deadline, String taskDescription, int assignTo) {
     LocalDate date = null;
-    if (deadline != null) {
+    if (deadline != null && user.can("ASSIGN_TASK")) {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
       date = LocalDate.parse(deadline, formatter);
     }
@@ -95,8 +95,8 @@ public class Project {
     this.tasks.add(task);
   }
 
-  public boolean removeTaskByIndex(int index) {
-    if (index >= 0 && index < tasks.size()) {
+  public boolean removeTaskByIndex(IUser user, int index) {
+    if (index >= 0 && index < tasks.size() && !user.can("DELETE_TASK")) {
       tasks.remove(index);
       return true;
     }
@@ -105,7 +105,7 @@ public class Project {
   
   public boolean removeTaskByID(int id) {
     for (Task task : tasks) {
-      if (task.getTaskId() == id) {
+      if (task.getTaskId() == id && user.can("DELETE_TASK")) {
         tasks.remove(task);
         return true;
       }
@@ -114,7 +114,7 @@ public class Project {
   }
 
   public Task getTask(int index) {
-    if (index >= 0 && index < tasks.size()) {
+    if (index >= 0 && index < tasks.size() && user.can("VIEW_TASK")) {
       return tasks.get(index);
     }
     return null;
@@ -146,7 +146,7 @@ public class Project {
   }
 
   public void setTitle (String title){
-    if(tasks != null && title.length() <= 255){
+    if(tasks != null && title.length() <= 255 && user.can("CREATE_PROJECT")){
       this.title = title;
     }
     else{
@@ -155,7 +155,7 @@ public class Project {
   }
   
   public void setDescript (String des){
-    if(tasks != null && des.length() <= 500){
+    if(tasks != null && des.length() <= 500 && user.can("CREATE_TASK")){
       this.projectDescription = des;
     }
     else{

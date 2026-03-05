@@ -61,7 +61,7 @@ public class Member implements IUser {
       case "UPDATE_OWN_TASK":
         return true;
       case "CREATE_TASK":
-        return true; // All users can create tasks
+        return false; // All users can create tasks
       case "CREATE_PROJECT":
         return true; // All users can create projects
       case "DELETE_TASK":
@@ -107,7 +107,7 @@ public class Member implements IUser {
   public void setEmail(String email) {
     if (isValidEmail(email)) {
       this.email = email;
-    } else {
+    } else {firstName
       System.out.println("Invalid email!");
     }
   }

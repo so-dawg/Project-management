@@ -135,14 +135,17 @@ public class Task {
     }
 
     public void setAssignTo(int memberId) {
+      if (user.can("ASSIGN_TASK"))
         this.assignTo = memberId;
     }
 
-    public void markCompleted() {
+    public void markCompleted(IUser user) {
+      if (user.can("UPDATE_OWN_TASK"))
         this.completed = true;
     }
 
-    public void markIncomplete() {
+    public void markIncomplete(IUser user) {
+      if (user.can("UPDATE_OWN_TASK"))
         this.completed = false;
     }
 
