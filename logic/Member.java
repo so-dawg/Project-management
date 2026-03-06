@@ -19,13 +19,14 @@ public class Member implements IUser {
   }
 
   // Constructor for database users (with existing ID)
-  // public Member(int id, String firstName, String lastName, String email, String username, String password) {
-  //   this.Id = id;
-  //   this.firstName = firstName;
-  //   this.lastName = lastName;
-  //   setEmail(email);
-  //   this.username = username;
-  //   setPassword(password);
+  // public Member(int id, String firstName, String lastName, String email, String
+  // username, String password) {
+  // this.Id = id;
+  // this.firstName = firstName;
+  // this.lastName = lastName;
+  // setEmail(email);
+  // this.username = username;
+  // setPassword(password);
   // }
 
   public static int getTotalMembers() {
@@ -107,7 +108,7 @@ public class Member implements IUser {
   public void setEmail(String email) {
     if (isValidEmail(email)) {
       this.email = email;
-    } else {firstName
+    } else {
       System.out.println("Invalid email!");
     }
   }
@@ -120,14 +121,14 @@ public class Member implements IUser {
     }
   }
 
-  public void setUsername(String username)  {
+  public void setUsername(String username) {
     if (username != null) {
       if (username.length() <= 510) {
         this.username = username;
-      }else {
+      } else {
         System.out.println("Error, invalid input!");
       }
-    }else {
+    } else {
       System.out.println("Error, invalid input!");
     }
   }
@@ -136,10 +137,10 @@ public class Member implements IUser {
     if (firstName != null) {
       if (firstName.length() <= 255) {
         this.firstName = firstName;
-      }else {
+      } else {
         System.out.println("Error, invalid input!");
       }
-    }else {
+    } else {
       System.out.println("Error, invalid input!");
     }
   }
@@ -148,10 +149,10 @@ public class Member implements IUser {
     if (lastName != null) {
       if (lastName.length() <= 255) {
         this.lastName = lastName;
-      }else {
+      } else {
         System.out.println("Error, invalid input!");
       }
-    }else {
+    } else {
       System.out.println("Error, invalid input!");
     }
   }
