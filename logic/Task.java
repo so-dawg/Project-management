@@ -80,6 +80,7 @@ public class Task {
     }
 
     public TaskPriority getPriority() {
+      if ()
         return this.priority;
     }
 

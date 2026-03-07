@@ -13,10 +13,11 @@ public class Owner extends Member {
   }
 
   // Constructor for database users (with existing ID)
-//   public Owner(int id, Member m) {
-//     this.id = id;
-//     super(m.getFirstName(), m.getLastName(), m.getEmail(), m.getUsername(), m.getPassword());
-//   }
+  // public Owner(int id, Member m) {
+  // this.id = id;
+  // super(m.getFirstName(), m.getLastName(), m.getEmail(), m.getUsername(),
+  // m.getPassword());
+  // }
 
   public static int getTotalOwners() {
     return totalOwners;
@@ -24,10 +25,29 @@ public class Owner extends Member {
 
   @Override
   public boolean can(String action) {
-    // All users have the same permissions
-    return true;
+    switch (action) {
+      case "VIEW_TASK":
+        return true;
+      case "UPDATE_OWN_TASK":
+        return true;
+      case "CREATE_TASK":
+        return true; // All users can create tasks
+      case "CREATE_PROJECT":
+        return true; // All users can create projects
+      case "DELETE_TASK":
+        return true;
+      case "ASSIGN_TASK":
+        return true;
+      case "CREATE_USER":
+        return true;
+      case "VIEW_REPORT":
+        return true;
+      default:
+        return true;
+    }
+
   }
-  
+
   public void assignTask(Task task, int memberId, LocalDate deadline, LocalTime time) {
     if (task == null) {
       System.out.println("Task cannot be null");
