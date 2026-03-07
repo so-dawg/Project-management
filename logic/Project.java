@@ -85,7 +85,8 @@ public class Project {
     return owner;
   }
 
-  public void addTask(IUser user, String title, Task.TaskPriority priority, String deadline, String taskDescription, int assignTo) {
+  public void addTask(IUser user, String title, Task.TaskPriority priority, String deadline, String taskDescription,
+      int assignTo) {
     LocalDate date = null;
     if (deadline != null && user.can("ASSIGN_TASK")) {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -102,7 +103,7 @@ public class Project {
     }
     return false;
   }
-  
+
   public boolean removeTaskByID(int id) {
     for (Task task : tasks) {
       if (task.getTaskId() == id && user.can("DELETE_TASK")) {
@@ -145,20 +146,18 @@ public class Project {
     return tasks.size();
   }
 
-  public void setTitle (String title){
-    if(tasks != null && title.length() <= 255 && user.can("CREATE_PROJECT")){
+  public void setTitle(String title) {
+    if (tasks != null && title.length() <= 255 && user.can("CREATE_PROJECT")) {
       this.title = title;
-    }
-    else{
+    } else {
       System.out.println("Error, invalid input!");
     }
   }
-  
-  public void setDescript (String des){
-    if(tasks != null && des.length() <= 500 && user.can("CREATE_TASK")){
+
+  public void setDescript(String des) {
+    if (tasks != null && des.length() <= 500 && user.can("CREATE_TASK")) {
       this.projectDescription = des;
-    }
-    else{
+    } else {
       System.out.println("Error, invalid input!");
     }
   }

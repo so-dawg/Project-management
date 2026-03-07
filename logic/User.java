@@ -7,7 +7,7 @@ public class User {
   private ArrayList<IUser> users = new ArrayList<>();
 
   // public User() {
-  //   this.users = new ArrayList<>();
+  // this.users = new ArrayList<>();
   // }
 
   // Add user to the list of users
