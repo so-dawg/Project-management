@@ -1,4 +1,4 @@
-
+USE project_management;
 CREATE TABLE users (
   user_id INT AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(100),

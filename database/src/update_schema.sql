@@ -29,5 +29,5 @@ SELECT
     COUNT(p.project_id) AS projects_owned
 FROM users u
 LEFT JOIN projects p ON u.user_id = p.owner_id
-GROUP BY u.user_id, u.user_name
+GROUP BY u.user_id, user_name
 ORDER BY projects_owned DESC;
