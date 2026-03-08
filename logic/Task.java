@@ -31,12 +31,10 @@ public class Task {
   /**
    * Constructor for Task
    */
-  public Task(String title, TaskPriority priority, LocalDate deadline, int assignTo, String taskDescription,
-      IUser user) {
+  public Task(String title, TaskPriority priority, LocalDate deadline, String taskDescription) {
     setNewTitle(title);
     setNewPriority(priority);
     setDeadline(deadline);
-    setAssignTo(assignTo, user);
     setNewTaskDescription(taskDescription);
     this.completed = false;
   }
@@ -59,7 +57,12 @@ public class Task {
   }
 
   public int getAssignTo() {
-    return this.assignTo;
+    if (this.assignTo == 0) {
+      System.out.println("Task Assigned to no one!");
+      return 0;
+    } else {
+      return this.assignTo;
+    }
   }
 
   public LocalDate getDeadline() {

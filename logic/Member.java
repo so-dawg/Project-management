@@ -13,6 +13,7 @@ public class Member implements IUser {
   public Member(String firstName, String lastName, String email, String username, String password) {
     this.Id = ++totalMembers;
     setFirstname(firstName);
+    setLastname(lastName);
     setEmail(email);
     setUsername(username);
     setPassword(password);
@@ -62,7 +63,7 @@ public class Member implements IUser {
       case "UPDATE_OWN_TASK":
         return true;
       case "CREATE_TASK":
-        return false; // All users can create tasks
+        return false; // All users can't create tasks
       case "CREATE_PROJECT":
         return true; // All users can create projects
       case "DELETE_TASK":
