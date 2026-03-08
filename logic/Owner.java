@@ -48,7 +48,7 @@ public class Owner extends Member {
 
   }
 
-  public void assignTask(Task task, int memberId, LocalDate deadline, LocalTime time) {
+  public void assignTask(Task task, int memberId, LocalDate deadline, LocalTime time, IUser user) {
     if (task == null) {
       System.out.println("Task cannot be null");
       return;
@@ -66,23 +66,23 @@ public class Owner extends Member {
     }
 
     task.setDeadline(deadline);
-    task.setAssignTo(memberId);
+    task.setAssignTo(memberId, user);
   }
 
-  public void assignTask(Task task, int memberId) {
+  public void assignTask(Task task, int memberId, IUser user) {
     if (task == null) {
       System.out.println("Task cannot be null");
       return;
     }
-    task.setAssignTo(memberId);
+    task.setAssignTo(memberId, user);
   }
 
-  public void unassignTask(Task task) {
+  public void unassignTask(Task task, IUser user) {
     if (task == null) {
       System.out.println("Task cannot be null");
       return;
     }
-    task.setAssignTo(0);
+    task.setAssignTo(0, user);
   }
 
   @Override

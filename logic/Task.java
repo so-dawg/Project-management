@@ -3,6 +3,8 @@ package logic;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import logic.IUser;
+
 /**
  * Task - Represents a task in the project management system
  */
@@ -29,11 +31,12 @@ public class Task {
   /**
    * Constructor for Task
    */
-  public Task(String title, TaskPriority priority, LocalDate deadline, int assignTo, String taskDescription) {
+  public Task(String title, TaskPriority priority, LocalDate deadline, int assignTo, String taskDescription,
+      IUser user) {
     setNewTitle(title);
     setNewPriority(priority);
     setDeadline(deadline);
-    setAssignTo(assignTo);
+    setAssignTo(assignTo, user);
     setNewTaskDescription(taskDescription);
     this.completed = false;
   }
@@ -133,7 +136,7 @@ public class Task {
     this.taskDescription = sanitizedDescrip;
   }
 
-  public void setAssignTo(int memberId) {
+  public void setAssignTo(int memberId, IUser user) {
     if (user.can("ASSIGN_TASK"))
       this.assignTo = memberId;
   }
