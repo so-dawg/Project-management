@@ -92,7 +92,7 @@ public class Project {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
       date = LocalDate.parse(deadline, formatter);
     }
-    Task task = new Task(title, priority, date, assignTo, taskDescription);
+    Task task = new Task(title, priority, date, assignTo, taskDescription, user);
     this.tasks.add(task);
   }
 
