@@ -46,6 +46,26 @@ public class Main {
 
   }
 
+  private void projectList() {
+
+  }
+
+  private void projectDetail() {
+
+  }
+
+  private void taskList() {
+
+  }
+
+  private void taskDetail() {
+
+  }
+
+  private void userManagement() {
+
+  }
+
   /**
    * Test Member class methods
    * 

@@ -74,14 +74,6 @@ public class Owner extends Member {
     task.setAssignTo(memberId, user);
   }
 
-  public void assignTask(Task task, int memberId, IUser user) {
-    if (task == null) {
-      System.out.println("Task cannot be null");
-      return;
-    }
-    task.setAssignTo(memberId, user);
-  }
-
   public void unassignTask(Task task, IUser user) {
     if (task == null) {
       System.out.println("Task cannot be null");
