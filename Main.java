@@ -34,34 +34,42 @@ public class Main {
 
   }
 
+  // implement logic with dashboard
   private void dashboard() {
 
   }
 
+  // implement logic with profile
   private void profile() {
 
   }
 
+  // implement logic with setting
   private void setting() {
 
   }
 
+  // implement logic with projectList
   private void projectList() {
 
   }
 
+  // implement logic with projectDetail
   private void projectDetail() {
 
   }
 
+  // implement logic with taskList
   private void taskList() {
 
   }
 
+  // implement logic with taskDetail
   private void taskDetail() {
 
   }
 
+  // implement logic with userManagement
   private void userManagement() {
 
   }
