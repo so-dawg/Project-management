@@ -3,8 +3,6 @@ package logic;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import logic.IUser;
-
 /**
  * Task - Represents a task in the project management system
  */
