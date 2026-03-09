@@ -50,11 +50,6 @@ public class Member implements IUser {
   }
 
   @Override
-  public String getRole() {
-    return "User"; // All users are equal now - anyone can own projects
-  }
-
-  @Override
   public boolean can(String action) {
     // All users have the same permissions now
     switch (action) {

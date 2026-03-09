@@ -24,11 +24,6 @@ public class Owner extends Member {
   }
 
   @Override
-  public String getRole() {
-    return "Owner";
-  }
-
-  @Override
   public boolean can(String action) {
     switch (action) {
       case "VIEW_TASK":
