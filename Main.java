@@ -5,18 +5,70 @@ import logic.Project;
 import logic.Task;
 import logic.IUser;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class Main {
+public class Main extends JFrame {
+
+  class CustomSwing extends JFrame {
+    public CustomSwing() {
+      setTitle("Custom Colors & Fonts");
+      setSize(400, 300);
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      setLocationRelativeTo(null);
+
+      // 1. Create a Panel with a custom background
+      JPanel panel = new JPanel();
+      panel.setBackground(new Color(200, 200, 255)); // Light Blue
+      panel.setOpaque(true); // Ensure background is painted
+
+      // 2. Create a Label with custom font and color
+      JLabel label = new JLabel("Custom Styled Text");
+      label.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 24));
+      label.setForeground(new Color(100, 0, 0)); // Dark Red
+      label.setOpaque(true); // Needed if you want background behind text too
+      label.setBackground(Color.WHITE);
+
+      // 3. Create a Button with custom colors
+      JButton button = new JButton("Click Me");
+      button.setBackground(Color.ORANGE);
+      button.setForeground(Color.BLACK);
+      button.setFont(new Font("Arial", Font.PLAIN, 16));
+      button.setFocusPainted(false); // Removes the dotted border on click
+      button.setOpaque(true);
+      button.setBorderPainted(true); // Keep the border visible
+
+      // 4. Add a Border (Line Border)
+      button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+
+      // Add components to panel
+      panel.add(label);
+      panel.add(button);
+
+      // Add panel to frame
+      add(panel);
+    }
+  }
+
+  public void launchGUI() {
+    new CustomSwing().setVisible(true);
+  }
+
   public static void main(String[] args) {
     System.out.println("========================================");
     System.out.println("   PROJECT MANAGEMENT SYSTEM           ");
     System.out.println("========================================\n");
 
     System.out.println("=== Running comprehensive tests ===\n");
+
+    SwingUtilities.invokeLater(() -> {
+      Main main = new Main();
+      main.launchGUI();
+    });
 
     // testMemberClass();
     // testOwnerClass();

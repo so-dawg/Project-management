@@ -6,6 +6,7 @@ import java.time.LocalTime;
 public class Owner extends Member {
 
   private static int totalOwners = 0;
+  private Project projects;
 
   public Owner(Member m) {
     super(m.getFirstName(), m.getLastName(), m.getEmail(), m.getUsername(), m.getPassword());
@@ -21,6 +22,10 @@ public class Owner extends Member {
 
   public static int getTotalOwners() {
     return totalOwners;
+  }
+
+  public Project getProject() {
+    return projects;
   }
 
   @Override
@@ -79,7 +84,7 @@ public class Owner extends Member {
 
   @Override
   public String toString() {
-    return super.toString() + " [Owner]";
+    return super.toString() + "owned" + projects;
   }
 
   @Override
