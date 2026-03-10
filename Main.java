@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class Main extends JFrame {
+public class Main {
 
   class CustomSwing extends JFrame {
     public CustomSwing() {
