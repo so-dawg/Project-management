@@ -6,7 +6,7 @@ import java.time.LocalTime;
 public class Owner extends Member {
 
   private static int totalOwners = 0;
-  private Project projects;
+  private Project project;
 
   public Owner(String firstName, String lastName, String username, String email, String password) {
     super(firstName, lastName, email, username, password);
@@ -25,7 +25,11 @@ public class Owner extends Member {
   }
 
   public Project getProject() {
-    return projects;
+    return project;
+  }
+
+  public void setProject(Project project) {
+    this.project = project;
   }
 
   @Override
@@ -53,9 +57,19 @@ public class Owner extends Member {
 
   }
 
-  public void assignTask(Task task, int memberId, LocalDate deadline, LocalTime time, IUser user) {
+  public void assignTask(Task task, Project project, int memberId, LocalDate deadline, LocalTime time, IUser user) {
     if (task == null) {
       System.out.println("Task cannot be null");
+      return;
+    }
+
+    if (project == null) {
+      System.out.println("Project cannot be null");
+      return;
+    }
+
+    if (!user.can("ASSIGN_TASK")) {
+      System.out.println("User does not have permission to assign tasks");
       return;
     }
 
@@ -64,7 +78,6 @@ public class Owner extends Member {
       return;
     }
 
-    // Check if deadline is in the past
     if (deadline.isBefore(LocalDate.now())) {
       System.out.println("Cannot assign task: deadline is in the past");
       return;
@@ -72,6 +85,7 @@ public class Owner extends Member {
 
     task.setDeadline(deadline);
     task.setAssignTo(memberId, user);
+    project.getTasks().add(task);
   }
 
   public void unassignTask(Task task, IUser user) {
@@ -84,7 +98,7 @@ public class Owner extends Member {
 
   @Override
   public String toString() {
-    return super.toString() + "owned" + projects;
+    return super.toString() + "owned" + project;
   }
 
   @Override

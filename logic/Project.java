@@ -21,7 +21,7 @@ public class Project {
     this.projectDescription = projectDescription;
   }
 
-  public  boolean addMemberById(String userId, User userRegistry) {
+  public boolean addMemberById(String userId, User userRegistry) {
     IUser user = userRegistry.searchUserById(userId);
     if (user != null) {
       members.add((Member) user);
@@ -85,8 +85,7 @@ public class Project {
     return owner;
   }
 
-  public void addTask(IUser user, String title, Task.TaskPriority priority, String deadline, String taskDescription,
-      int assignTo) {
+  public void addTask(IUser user, String title, Task.TaskPriority priority, String deadline, String taskDescription) {
     LocalDate date = null;
     if (deadline != null && user.can("ASSIGN_TASK")) {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

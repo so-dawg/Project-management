@@ -138,8 +138,19 @@ public class Task {
   }
 
   public void setAssignTo(int memberId, IUser user) {
-    if (user.can("ASSIGN_TASK"))
-      this.assignTo = memberId;
+    if (!user.can("ASSIGN_TASK")) {
+      System.out.println("User does not have permission to assign tasks");
+      return;
+    }
+    if (memberId <= 0) {
+      System.out.println("Invalid member ID");
+      return;
+    }
+    this.assignTo = memberId;
+  }
+
+  public void unassign() {
+    this.assignTo = 0;
   }
 
   public void markCompleted(IUser user) {

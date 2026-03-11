@@ -82,8 +82,7 @@ public class Main {
   }
 
   // implement logic with login screen
-  pirvate void loginScreen() {
-    
+  private void loginScreen() {
 
   }
 
