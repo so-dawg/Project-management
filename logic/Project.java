@@ -23,8 +23,8 @@ public class Project {
     this.projectDescription = projectDescription;
   }
 
-  public boolean addMemberById(String userId, User userRegistry, IUser users) {
-    if (!users.equals(users)) {
+  public boolean addMemberById(String userId, User userRegistry, IUser users, Object obj) {
+    if (!(obj instanceof Owner)) {
       return false;
     }
     IUser user = userRegistry.searchUserById(userId);
@@ -36,7 +36,10 @@ public class Project {
     return false;
   }
 
-  public boolean addMemberByName(String username, User userRegistry) {
+  public boolean addMemberByName(String username, User userRegistry, Object obj) {
+    if (!(obj instanceof Owner)) {
+      return false;
+    }
     IUser user = userRegistry.searchUserByUsername(username);
     if (user != null) {
       members.add((Member) user);
@@ -46,7 +49,10 @@ public class Project {
     return false;
   }
 
-  public boolean removeMemberById(String memberId) {
+  public boolean removeMemberById(String memberId, Object obj) {
+    if (!(obj instanceof Owner)) {
+      return false;
+    }
     Member member = searchMemberById(memberId);
     if (member != null) {
       members.remove(member);
@@ -55,7 +61,10 @@ public class Project {
     return false;
   }
 
-  public boolean removeMemberByName(String username) {
+  public boolean removeMemberByName(String username, Object obj) {
+    if (!(obj instanceof Owner)) {
+      return false;
+    }
     Member member = searchMemberByName(username);
     if (member != null) {
       members.remove(member);
