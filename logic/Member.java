@@ -31,6 +31,11 @@ public class Member extends User {
   }
 
   @Override
+  public String getRole() {
+    return "Member";
+  }
+
+  @Override
   public boolean can(String action) {
     // All users have the same permissions now
     switch (action) {

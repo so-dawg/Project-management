@@ -14,5 +14,7 @@ public interface IUser {
 
   String getPassword();
 
+  String getRole();
+
   boolean can(String action);
 }

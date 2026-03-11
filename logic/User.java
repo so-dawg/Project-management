@@ -1,12 +1,17 @@
 package logic;
 
+import java.util.ArrayList;
+
 public abstract class User implements IUser {
 
   private String firstName;
   private String lastName;
-  private String email;
+  protected String email;
   private String username;
-  private String password;
+  protected String password;
+  
+  // User registry
+  private ArrayList<IUser> users = new ArrayList<>();
 
   public User(String firstName, String lastName, String email, String username, String password) {
     setFirstname(firstName);
@@ -14,6 +19,55 @@ public abstract class User implements IUser {
     setEmail(email);
     setUsername(username);
     setPassword(password);
+  }
+  
+  // Default constructor for registry
+  public User() {
+  }
+  
+  public void addUser(IUser user) {
+    users.add(user);
+  }
+  
+  public IUser searchUserById(String userId) {
+    for (IUser user : users) {
+      if (user.getId().equals(userId)) {
+        return user;
+      }
+    }
+    return null;
+  }
+  
+  public IUser searchUserByEmail(String email) {
+    for (IUser user : users) {
+      if (user.getEmail().equals(email)) {
+        return user;
+      }
+    }
+    return null;
+  }
+  
+  public IUser searchUserByUsername(String username) {
+    for (IUser user : users) {
+      if (user.getUsername().equals(username)) {
+        return user;
+      }
+    }
+    return null;
+  }
+  
+  public IUser login(String emailOrUsername, String password, ArrayList<IUser> user_list) {
+    for (IUser user : user_list) {
+      if ((user.getEmail().equals(emailOrUsername) || user.getUsername().equals(emailOrUsername)) 
+          && user.getPassword().equals(password)) {
+        return user;
+      }
+    }
+    return null;
+  }
+  
+  public ArrayList<IUser> getArrayList() {
+    return users;
   }
 
   @Override
