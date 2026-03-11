@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import logic.IUser;
-
 public class Project {
 
   private static int nextProjectID = 1;
@@ -23,10 +21,7 @@ public class Project {
     this.projectDescription = projectDescription;
   }
 
-  public boolean addMemberById(String userId, User userRegistry, IUser users, Object obj) {
-    if (!(obj instanceof Owner)) {
-      return false;
-    }
+  public  boolean addMemberById(String userId, User userRegistry) {
     IUser user = userRegistry.searchUserById(userId);
     if (user != null) {
       members.add((Member) user);
@@ -36,10 +31,7 @@ public class Project {
     return false;
   }
 
-  public boolean addMemberByName(String username, User userRegistry, Object obj) {
-    if (!(obj instanceof Owner)) {
-      return false;
-    }
+  public boolean addMemberByName(String username, User userRegistry) {
     IUser user = userRegistry.searchUserByUsername(username);
     if (user != null) {
       members.add((Member) user);
@@ -49,10 +41,7 @@ public class Project {
     return false;
   }
 
-  public boolean removeMemberById(String memberId, Object obj) {
-    if (!(obj instanceof Owner)) {
-      return false;
-    }
+  public boolean removeMemberById(String memberId) {
     Member member = searchMemberById(memberId);
     if (member != null) {
       members.remove(member);
@@ -61,10 +50,7 @@ public class Project {
     return false;
   }
 
-  public boolean removeMemberByName(String username, Object obj) {
-    if (!(obj instanceof Owner)) {
-      return false;
-    }
+  public boolean removeMemberByName(String username) {
     Member member = searchMemberByName(username);
     if (member != null) {
       members.remove(member);
