@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import logic.IUser;
+
 public class Project {
 
   private static int nextProjectID = 1;
@@ -21,7 +23,10 @@ public class Project {
     this.projectDescription = projectDescription;
   }
 
-  public boolean addMemberById(String userId, User userRegistry) {
+  public boolean addMemberById(String userId, User userRegistry, IUser users) {
+    if (!users.equals(users)) {
+      return false;
+    }
     IUser user = userRegistry.searchUserById(userId);
     if (user != null) {
       members.add((Member) user);

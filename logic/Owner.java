@@ -8,8 +8,8 @@ public class Owner extends Member {
   private static int totalOwners = 0;
   private Project projects;
 
-  public Owner(Member m) {
-    super(m.getFirstName(), m.getLastName(), m.getEmail(), m.getUsername(), m.getPassword());
+  public Owner(String firstName, String lastName, String username, String email, String password) {
+    super(firstName, lastName, email, username, password);
     ++totalOwners;
   }
 
