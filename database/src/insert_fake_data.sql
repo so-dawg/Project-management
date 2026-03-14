@@ -15,20 +15,20 @@ ALTER TABLE task_comments AUTO_INCREMENT = 1;
 
 -- ==================== USERS ====================
 -- Owners
-INSERT INTO users (first_name, last_name, email, password, role) VALUES
-('Sarah', 'Johnson', 'sarah.johnson@company.com', 'Owner123@', 'owner'),
-('Michael', 'Chen', 'michael.chen@company.com', 'Owner123@', 'owner');
+INSERT INTO users (first_name, last_name, email, password) VALUES
+('Sarah', 'Johnson', 'sarah.johnson@company.com', 'Owner123@'),
+('Michael', 'Chen', 'michael.chen@company.com', 'Owner123@');
 
 -- Members (Developers, Designers, etc.)
-INSERT INTO users (first_name, last_name, email, password, role) VALUES
-('John', 'Doe', 'john.doe@company.com', 'Member123@', 'member'),
-('Emily', 'Smith', 'emily.smith@company.com', 'Member123@', 'member'),
-('David', 'Wilson', 'david.wilson@company.com', 'Member123@', 'member'),
-('Lisa', 'Brown', 'lisa.brown@company.com', 'Member123@', 'member'),
-('James', 'Taylor', 'james.taylor@company.com', 'Member123@', 'member'),
-('Anna', 'Martinez', 'anna.martinez@company.com', 'Member123@', 'member'),
-('Robert', 'Anderson', 'robert.anderson@company.com', 'Member123@', 'member'),
-('Jennifer', 'Lee', 'jennifer.lee@company.com', 'Member123@', 'member');
+INSERT INTO users (first_name, last_name, email, password) VALUES
+('John', 'Doe', 'john.doe@company.com', 'Member123@'),
+('Emily', 'Smith', 'emily.smith@company.com', 'Member123@'),
+('David', 'Wilson', 'david.wilson@company.com', 'Member123@'),
+('Lisa', 'Brown', 'lisa.brown@company.com', 'Member123@'),
+('James', 'Taylor', 'james.taylor@company.com', 'Member123@'),
+('Anna', 'Martinez', 'anna.martinez@company.com', 'Member123@'),
+('Robert', 'Anderson', 'robert.anderson@company.com', 'Member123@'),
+('Jennifer', 'Lee', 'jennifer.lee@company.com', 'Member123@');
 
 -- ==================== PROJECTS ====================
 -- Project 1: E-commerce Website (owned by Sarah)
@@ -137,7 +137,7 @@ UPDATE projects SET ntask = (SELECT COUNT(*) FROM tasks WHERE tasks.projects_id 
 
 -- ==================== VERIFY DATA ====================
 SELECT '=== USERS ===' AS '';
-SELECT user_id, CONCAT(first_name, ' ', last_name) AS name, email, role FROM users;
+SELECT user_id, CONCAT(first_name, ' ', last_name) AS name, email FROM users;
 
 SELECT '=== PROJECTS ===' AS '';
 SELECT project_id, pname, ntask, start_date, end_date, owner_id FROM projects;

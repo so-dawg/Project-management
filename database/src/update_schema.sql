@@ -1,29 +1,25 @@
--- Update schema: Remove role column, simplify to project ownership
+-- Updated schema: Clean users table (no role/projects columns)
 USE project_management;
 
--- Remove role column from users table
-ALTER TABLE users DROP COLUMN role;
-
--- Remove projects column (not needed)
-ALTER TABLE users DROP COLUMN projects;
-
--- Verify the changes
+-- Verify the current schema
 DESCRIBE users;
 DESCRIBE projects;
+DESCRIBE tasks;
+DESCRIBE task_comments;
 
 -- Show current data
-SELECT '=== USERS (after update) ===' AS '';
+SELECT '=== USERS ===' AS '';
 SELECT * FROM users;
 
 SELECT '=== PROJECTS ===' AS '';
-SELECT p.project_id, p.pname, p.owner_id, 
+SELECT p.project_id, p.pname, p.owner_id,
        CONCAT(u.first_name, ' ', u.last_name) AS owner_name
 FROM projects p
 JOIN users u ON p.owner_id = u.user_id;
 
 -- Show who owns how many projects
 SELECT '=== PROJECT OWNERSHIP SUMMARY ===' AS '';
-SELECT 
+SELECT
     u.user_id,
     CONCAT(u.first_name, ' ', u.last_name) AS user_name,
     COUNT(p.project_id) AS projects_owned

@@ -2,15 +2,15 @@
 USE project_management;
 
 -- Insert an Owner
-INSERT INTO users (first_name, last_name, email, password, role)
-VALUES ('Admin', 'User', 'admin@example.com', 'Password123@#', 'owner');
+INSERT INTO users (first_name, last_name, email, password)
+VALUES ('Admin', 'User', 'admin@example.com', 'Password123@#');
 
 -- Insert Members
-INSERT INTO users (first_name, last_name, email, password, role)
-VALUES 
-    ('John', 'Doe', 'john@example.com', 'Password1!', 'member'),
-    ('Alice', 'Smith', 'alice@example.com', 'Password2!', 'member'),
-    ('Bob', 'Wilson', 'bob@example.com', 'Password3!', 'member');
+INSERT INTO users (first_name, last_name, email, password)
+VALUES
+    ('John', 'Doe', 'john@example.com', 'Password1!'),
+    ('Alice', 'Smith', 'alice@example.com', 'Password2!'),
+    ('Bob', 'Wilson', 'bob@example.com', 'Password3!');
 
 -- Verify users
 SELECT * FROM users;
