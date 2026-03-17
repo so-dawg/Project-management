@@ -63,9 +63,9 @@ public class userManager {
   }
 
   public IUser createGuestUser() {
-    return new User("Guest", "User", "Gues123@gmail.com", "guest", "GuestPasswos&6"){
+    return new User("Guest", "User", "Gues123@gmail.com", "guest", "GuestPasswos&6") {
       @Override
-      public boolean can (action) {
+      public boolean can(String action) {
         switch (action) {
           case "VIEW_TASK":
             return true;
@@ -75,6 +75,16 @@ public class userManager {
             return false;
         }
       }
-    }
+
+      @Override
+      public String getId() {
+        return "Guest-User001";
+      }
+
+      @Override
+      public String getRole() {
+        return "Guest";
+      }
+    };
   }
 }
