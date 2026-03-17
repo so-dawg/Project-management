@@ -2,6 +2,8 @@ package logic;
 
 import java.util.ArrayList;
 
+import logic.Owner;
+
 public abstract class User implements IUser {
 
   private String firstName;
@@ -198,11 +200,11 @@ public abstract class User implements IUser {
     return password.matches(pattern);
   }
 
+
   @Override
   public String toString() {
     return "Name: " + firstName + " " + lastName + "\n" +
         "Email: " + email + "\n" +
         "Password: " + "........" + "\n";
   }
-
 }

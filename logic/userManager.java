@@ -62,4 +62,19 @@ public class userManager {
     return null;
   }
 
+  public IUser createGuestUser() {
+    return new User("Guest", "User", "Gues123@gmail.com", "guest", "GuestPasswos&6"){
+      @Override
+      public boolean can (action) {
+        switch (action) {
+          case "VIEW_TASK":
+            return true;
+          case "VIEW_REPORT":
+            return true;
+          default:
+            return false;
+        }
+      }
+    }
+  }
 }
