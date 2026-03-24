@@ -242,7 +242,6 @@ public class TerminalApp {
             System.out.println("Name: " + currentUser.getFirstName() + " " + currentUser.getLastName());
             System.out.println("Email: " + currentUser.getEmail());
             System.out.println("Username: " + currentUser.getUsername());
-            System.out.println("Role: " + currentUser.getRole());
         } catch (Exception e) {
             System.out.println("Error viewing profile: " + e.getMessage());
         }
