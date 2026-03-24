@@ -28,58 +28,97 @@ public abstract class User implements IUser {
   }
   
   public void addUser(IUser user) {
-    users.add(user);
+    try {
+      users.add(user);
+    } catch (Exception e) {
+      System.out.println("Error adding user: " + e.getMessage());
+    }
   }
-  
+
   public IUser searchUserById(String userId) {
-    for (IUser user : users) {
-      if (user.getId().equals(userId)) {
-        return user;
+    try {
+      for (IUser user : users) {
+        if (user.getId().equals(userId)) {
+          return user;
+        }
       }
+      return null;
+    } catch (Exception e) {
+      System.out.println("Error searching user by ID: " + e.getMessage());
+      return null;
     }
-    return null;
   }
-  
+
   public IUser searchUserByEmail(String email) {
-    for (IUser user : users) {
-      if (user.getEmail().equals(email)) {
-        return user;
+    try {
+      for (IUser user : users) {
+        if (user.getEmail().equals(email)) {
+          return user;
+        }
       }
+      return null;
+    } catch (Exception e) {
+      System.out.println("Error searching user by email: " + e.getMessage());
+      return null;
     }
-    return null;
   }
-  
+
   public IUser searchUserByUsername(String username) {
-    for (IUser user : users) {
-      if (user.getUsername().equals(username)) {
-        return user;
+    try {
+      for (IUser user : users) {
+        if (user.getUsername().equals(username)) {
+          return user;
+        }
       }
+      return null;
+    } catch (Exception e) {
+      System.out.println("Error searching user by username: " + e.getMessage());
+      return null;
     }
-    return null;
   }
-  
+
   public IUser login(String emailOrUsername, String password, ArrayList<IUser> user_list) {
-    for (IUser user : user_list) {
-      if ((user.getEmail().equals(emailOrUsername) || user.getUsername().equals(emailOrUsername)) 
-          && user.getPassword().equals(password)) {
-        return user;
+    try {
+      for (IUser user : user_list) {
+        if ((user.getEmail().equals(emailOrUsername) || user.getUsername().equals(emailOrUsername))
+            && user.getPassword().equals(password)) {
+          return user;
+        }
       }
+      return null;
+    } catch (Exception e) {
+      System.out.println("Error during login: " + e.getMessage());
+      return null;
     }
-    return null;
   }
-  
+
   public ArrayList<IUser> getArrayList() {
-    return users;
+    try {
+      return users;
+    } catch (Exception e) {
+      System.out.println("Error getting user list: " + e.getMessage());
+      return new ArrayList<>();
+    }
   }
 
   @Override
   public String getUsername() {
-    return this.username != null ? this.username : this.email;
+    try {
+      return this.username != null ? this.username : this.email;
+    } catch (Exception e) {
+      System.out.println("Error getting username: " + e.getMessage());
+      return null;
+    }
   }
 
   @Override
   public String getPassword() {
-    return this.password;
+    try {
+      return this.password;
+    } catch (Exception e) {
+      System.out.println("Error getting password: " + e.getMessage());
+      return null;
+    }
   }
 
   @Override
@@ -87,117 +126,162 @@ public abstract class User implements IUser {
 
   @Override
   public String getFirstName() {
-    if (firstName == null || firstName.isEmpty()) {
-      System.out.println("Warning: First name not set!");
+    try {
+      if (firstName == null || firstName.isEmpty()) {
+        System.out.println("Warning: First name not set!");
+        return "Unknown";
+      }
+      return firstName;
+    } catch (Exception e) {
+      System.out.println("Error getting first name: " + e.getMessage());
       return "Unknown";
     }
-    return firstName;
   }
 
   @Override
   public String getLastName() {
-    if (lastName == null || lastName.isEmpty()) {
-      System.out.println("Warning: Last name not set!");
+    try {
+      if (lastName == null || lastName.isEmpty()) {
+        System.out.println("Warning: Last name not set!");
+        return "Unknown";
+      }
+      return lastName;
+    } catch (Exception e) {
+      System.out.println("Error getting last name: " + e.getMessage());
       return "Unknown";
     }
-    return lastName;
   }
 
   @Override
   public String getEmail() {
-    if (!isValidEmail(email)) {
+    try {
+      if (!isValidEmail(email)) {
+        return "Warning: Email invalid or not set!";
+      }
+      return email;
+    } catch (Exception e) {
+      System.out.println("Error getting email: " + e.getMessage());
       return "Warning: Email invalid or not set!";
     }
-    return email;
   }
 
   // Setter
   public void setEmail(String email) {
-    if (isValidEmail(email)) {
-      this.email = email;
-    } else {
-      System.out.println("Invalid email!");
+    try {
+      if (isValidEmail(email)) {
+        this.email = email;
+      } else {
+        System.out.println("Invalid email!");
+      }
+    } catch (Exception e) {
+      System.out.println("Error setting email: " + e.getMessage());
     }
   }
 
   public void setPassword(String password) {
-    if (isValidPassword(password)) {
-      this.password = password;
-    } else {
-      System.out.println("Invalid password!");
+    try {
+      if (isValidPassword(password)) {
+        this.password = password;
+      } else {
+        System.out.println("Invalid password!");
+      }
+    } catch (Exception e) {
+      System.out.println("Error setting password: " + e.getMessage());
     }
   }
 
   public void setUsername(String username) {
-    if (username != null) {
-      if (username.length() <= 510) {
-        this.username = username;
+    try {
+      if (username != null) {
+        if (username.length() <= 510) {
+          this.username = username;
+        } else {
+          System.out.println("Error, invalid input!");
+        }
       } else {
         System.out.println("Error, invalid input!");
       }
-    } else {
-      System.out.println("Error, invalid input!");
+    } catch (Exception e) {
+      System.out.println("Error setting username: " + e.getMessage());
     }
   }
 
   public void setFirstname(String firstName) {
-    if (firstName != null) {
-      if (firstName.length() <= 255) {
-        this.firstName = firstName;
+    try {
+      if (firstName != null) {
+        if (firstName.length() <= 255) {
+          this.firstName = firstName;
+        } else {
+          System.out.println("Error, invalid input!");
+        }
       } else {
         System.out.println("Error, invalid input!");
       }
-    } else {
-      System.out.println("Error, invalid input!");
+    } catch (Exception e) {
+      System.out.println("Error setting first name: " + e.getMessage());
     }
   }
 
   public void setLastname(String lastName) {
-    if (lastName != null) {
-      if (lastName.length() <= 255) {
-        this.lastName = lastName;
+    try {
+      if (lastName != null) {
+        if (lastName.length() <= 255) {
+          this.lastName = lastName;
+        } else {
+          System.out.println("Error, invalid input!");
+        }
       } else {
         System.out.println("Error, invalid input!");
       }
-    } else {
-      System.out.println("Error, invalid input!");
+    } catch (Exception e) {
+      System.out.println("Error setting last name: " + e.getMessage());
     }
   }
 
   public static boolean isValidEmail(String email) {
-    if (email == null) {
+    try {
+      if (email == null) {
+        return false;
+      }
+
+      int atIndex = email.indexOf("@");
+      int dotIndex = email.lastIndexOf(".");
+
+      if (atIndex <= 0) {
+        return false;
+      }
+
+      if (dotIndex <= atIndex + 1) {
+        return false;
+      }
+
+      if (dotIndex >= email.length() - 1) {
+        return false;
+      }
+      return true;
+    } catch (Exception e) {
+      System.out.println("Error validating email: " + e.getMessage());
       return false;
     }
-
-    int atIndex = email.indexOf("@");
-    int dotIndex = email.lastIndexOf(".");
-
-    if (atIndex <= 0) {
-      return false;
-    }
-
-    if (dotIndex <= atIndex + 1) {
-      return false;
-    }
-
-    if (dotIndex >= email.length() - 1) {
-      return false;
-    }
-    return true;
   }
 
   public static boolean isValidPassword(String password) {
-    if (password == null) {
+    try {
+      if (password == null) {
+        return false;
+      }
+
+      if (password.length() < 8) {
+        return false;
+      }
+
+      String pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()]).+$";
+
+      return password.matches(pattern);
+    } catch (Exception e) {
+      System.out.println("Error validating password: " + e.getMessage());
       return false;
     }
-
-    if (password.length() < 8) {
-      return false;
-    }
-
-    String pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()]).+$";
-
-    return password.matches(pattern);
   }
 
 

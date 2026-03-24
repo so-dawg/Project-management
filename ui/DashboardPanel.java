@@ -47,37 +47,79 @@ public class DashboardPanel extends JPanel {
 
     private void setupSidebarActions() {
         sidebar.setOnDashboardClick(() -> {
-            cardLayout.show(contentPanel, "dashboard");
-            sidebar.setActiveButton("dashboard");
+            try {
+                cardLayout.show(contentPanel, "dashboard");
+                sidebar.setActiveButton("dashboard");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error loading dashboard: " + e.getMessage(),
+                    "Navigation Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         sidebar.setOnProjectsClick(() -> {
-            cardLayout.show(contentPanel, "projects");
-            sidebar.setActiveButton("projects");
+            try {
+                cardLayout.show(contentPanel, "projects");
+                sidebar.setActiveButton("projects");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error loading projects: " + e.getMessage(),
+                    "Navigation Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         sidebar.setOnTasksClick(() -> {
-            cardLayout.show(contentPanel, "tasks");
-            sidebar.setActiveButton("tasks");
+            try {
+                cardLayout.show(contentPanel, "tasks");
+                sidebar.setActiveButton("tasks");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error loading tasks: " + e.getMessage(),
+                    "Navigation Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         sidebar.setOnProfileClick(() -> {
-            cardLayout.show(contentPanel, "profile");
-            sidebar.setActiveButton("profile");
+            try {
+                cardLayout.show(contentPanel, "profile");
+                sidebar.setActiveButton("profile");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error loading profile: " + e.getMessage(),
+                    "Navigation Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         sidebar.setOnSettingsClick(() -> {
-            cardLayout.show(contentPanel, "settings");
-            sidebar.setActiveButton("settings");
+            try {
+                cardLayout.show(contentPanel, "settings");
+                sidebar.setActiveButton("settings");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error loading settings: " + e.getMessage(),
+                    "Navigation Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         sidebar.setOnLogoutClick(() -> {
-            int result = JOptionPane.showConfirmDialog(this,
-                "Are you sure you want to logout?", "Confirm Logout",
-                JOptionPane.YES_NO_OPTION);
+            try {
+                int result = JOptionPane.showConfirmDialog(this,
+                    "Are you sure you want to logout?", "Confirm Logout",
+                    JOptionPane.YES_NO_OPTION);
 
-            if (result == JOptionPane.YES_OPTION) {
-                appFrame.showLogin();
+                if (result == JOptionPane.YES_OPTION) {
+                    appFrame.showLogin();
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error during logout: " + e.getMessage(),
+                    "Logout Error",
+                    JOptionPane.ERROR_MESSAGE);
             }
         });
     }

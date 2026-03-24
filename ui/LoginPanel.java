@@ -127,23 +127,32 @@ public class LoginPanel extends JPanel {
     }
 
     private void handleLogin() {
-        String input = emailOrUsernameField.getText().trim();
-        String password = new String(passwordField.getPassword());
+        try {
+            String input = emailOrUsernameField.getText().trim();
+            String password = new String(passwordField.getPassword());
 
-        if (input.isEmpty() || password.isEmpty()) {
-            messageLabel.setText("Please enter both email/username and password");
-            return;
-        }
+            if (input.isEmpty() || password.isEmpty()) {
+                messageLabel.setText("Please enter both email/username and password");
+                return;
+            }
 
-        IUser loggedInUser = userRegistry.login(input, password);
+            IUser loggedInUser = userRegistry.login(input, password);
 
-        if (loggedInUser != null) {
-            messageLabel.setForeground(new Color(0, 150, 0));
-            messageLabel.setText("Login successful! Opening dashboard...");
-            appFrame.showDashboard(loggedInUser);
-        } else {
+            if (loggedInUser != null) {
+                messageLabel.setForeground(new Color(0, 150, 0));
+                messageLabel.setText("Login successful! Opening dashboard...");
+                appFrame.showDashboard(loggedInUser);
+            } else {
+                messageLabel.setForeground(Color.RED);
+                messageLabel.setText("Invalid credentials. Please try again.");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                "An error occurred during login: " + e.getMessage(),
+                "Login Error",
+                JOptionPane.ERROR_MESSAGE);
             messageLabel.setForeground(Color.RED);
-            messageLabel.setText("Invalid credentials. Please try again.");
+            messageLabel.setText("Login failed. Please try again.");
         }
     }
 

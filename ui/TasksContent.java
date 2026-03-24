@@ -92,101 +92,121 @@ public class TasksContent extends JPanel {
     }
 
     private void showAddTaskDialog() {
-        JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Create New Task", true);
-        dialog.setSize(450, 450);
-        dialog.setLocationRelativeTo(this);
+        try {
+            JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Create New Task", true);
+            dialog.setSize(450, 450);
+            dialog.setLocationRelativeTo(this);
 
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBorder(new EmptyBorder(20, 20, 20, 20));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(8, 8, 8, 8);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+            JPanel panel = new JPanel(new GridBagLayout());
+            panel.setBorder(new EmptyBorder(20, 20, 20, 20));
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.insets = new Insets(8, 8, 8, 8);
+            gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel titleLabel = new JLabel("Task Title:");
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        panel.add(titleLabel, gbc);
+            JLabel titleLabel = new JLabel("Task Title:");
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            panel.add(titleLabel, gbc);
 
-        JTextField titleField = new JTextField(25);
-        gbc.gridx = 1;
-        panel.add(titleField, gbc);
+            JTextField titleField = new JTextField(25);
+            gbc.gridx = 1;
+            panel.add(titleField, gbc);
 
-        JLabel priorityLabel = new JLabel("Priority:");
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        panel.add(priorityLabel, gbc);
+            JLabel priorityLabel = new JLabel("Priority:");
+            gbc.gridx = 0;
+            gbc.gridy = 1;
+            panel.add(priorityLabel, gbc);
 
-        JComboBox<String> priorityCombo = new JComboBox<>(
-            new String[]{"LOW", "MEDIUM", "HIGH", "URGENT"});
-        gbc.gridx = 1;
-        panel.add(priorityCombo, gbc);
+            JComboBox<String> priorityCombo = new JComboBox<>(
+                new String[]{"LOW", "MEDIUM", "HIGH", "URGENT"});
+            gbc.gridx = 1;
+            panel.add(priorityCombo, gbc);
 
-        JLabel deadlineLabel = new JLabel("Deadline (YYYY-MM-DD):");
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        panel.add(deadlineLabel, gbc);
+            JLabel deadlineLabel = new JLabel("Deadline (YYYY-MM-DD):");
+            gbc.gridx = 0;
+            gbc.gridy = 2;
+            panel.add(deadlineLabel, gbc);
 
-        JTextField deadlineField = new JTextField(25);
-        deadlineField.setText(LocalDate.now().plusDays(7).toString());
-        gbc.gridx = 1;
-        panel.add(deadlineField, gbc);
+            JTextField deadlineField = new JTextField(25);
+            deadlineField.setText(LocalDate.now().plusDays(7).toString());
+            gbc.gridx = 1;
+            panel.add(deadlineField, gbc);
 
-        JLabel descLabel = new JLabel("Description:");
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        panel.add(descLabel, gbc);
+            JLabel descLabel = new JLabel("Description:");
+            gbc.gridx = 0;
+            gbc.gridy = 3;
+            panel.add(descLabel, gbc);
 
-        JTextArea descArea = new JTextArea(5, 25);
-        descArea.setLineWrap(true);
-        descArea.setWrapStyleWord(true);
-        JScrollPane scrollPane = new JScrollPane(descArea);
-        gbc.gridx = 1;
-        gbc.gridy = 3;
-        panel.add(scrollPane, gbc);
+            JTextArea descArea = new JTextArea(5, 25);
+            descArea.setLineWrap(true);
+            descArea.setWrapStyleWord(true);
+            JScrollPane scrollPane = new JScrollPane(descArea);
+            gbc.gridx = 1;
+            gbc.gridy = 3;
+            panel.add(scrollPane, gbc);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton createBtn = new JButton("Create");
-        createBtn.setBackground(new Color(100, 180, 100));
-        createBtn.setForeground(Color.WHITE);
-        JButton cancelBtn = new JButton("Cancel");
+            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            JButton createBtn = new JButton("Create");
+            createBtn.setBackground(new Color(100, 180, 100));
+            createBtn.setForeground(Color.WHITE);
+            JButton cancelBtn = new JButton("Cancel");
 
-        createBtn.addActionListener(e -> {
-            String title = titleField.getText().trim();
-            String priority = (String) priorityCombo.getSelectedItem();
-            String deadlineStr = deadlineField.getText().trim();
-            String description = descArea.getText().trim();
+            createBtn.addActionListener(e -> {
+                try {
+                    String title = titleField.getText().trim();
+                    String priority = (String) priorityCombo.getSelectedItem();
+                    String deadlineStr = deadlineField.getText().trim();
+                    String description = descArea.getText().trim();
 
-            if (title.isEmpty()) {
-                JOptionPane.showMessageDialog(dialog, "Please enter a task title");
-                return;
-            }
+                    if (title.isEmpty()) {
+                        JOptionPane.showMessageDialog(dialog, "Please enter a task title");
+                        return;
+                    }
 
-            Task.TaskPriority taskPriority = Task.TaskPriority.valueOf(priority);
-            LocalDate deadline = null;
-            try {
-                if (!deadlineStr.isEmpty()) {
-                    deadline = LocalDate.parse(deadlineStr);
+                    Task.TaskPriority taskPriority = Task.TaskPriority.valueOf(priority);
+                    LocalDate deadline = null;
+                    try {
+                        if (!deadlineStr.isEmpty()) {
+                            deadline = LocalDate.parse(deadlineStr);
+                        }
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(dialog, "Invalid date format. Use YYYY-MM-DD");
+                        return;
+                    }
+
+                    Task task = new Task(title, taskPriority, deadline, description);
+                    JOptionPane.showMessageDialog(dialog, "Task created successfully!");
+                    dialog.dispose();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(dialog,
+                        "Error creating task: " + ex.getMessage(),
+                        "Task Creation Error",
+                        JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(dialog, "Invalid date format. Use YYYY-MM-DD");
-                return;
-            }
+            });
 
-            Task task = new Task(title, taskPriority, deadline, description);
-            JOptionPane.showMessageDialog(dialog, "Task created successfully!");
-            dialog.dispose();
-        });
+            cancelBtn.addActionListener(e -> {
+                try {
+                    dialog.dispose();
+                } catch (Exception ex) {
+                    System.out.println("Error closing dialog: " + ex.getMessage());
+                }
+            });
 
-        cancelBtn.addActionListener(e -> dialog.dispose());
+            buttonPanel.add(createBtn);
+            buttonPanel.add(cancelBtn);
 
-        buttonPanel.add(createBtn);
-        buttonPanel.add(cancelBtn);
+            gbc.gridx = 1;
+            gbc.gridy = 4;
+            panel.add(buttonPanel, gbc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 4;
-        panel.add(buttonPanel, gbc);
-
-        dialog.add(panel);
-        dialog.setVisible(true);
+            dialog.add(panel);
+            dialog.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                "Error opening task dialog: " + e.getMessage(),
+                "Dialog Error",
+                JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

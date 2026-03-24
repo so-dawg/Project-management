@@ -170,52 +170,60 @@ public class RegisterDialog extends JDialog {
     }
 
     private void handleRegister() {
-        String firstName = firstNameField.getText().trim();
-        String lastName = lastNameField.getText().trim();
-        String email = emailField.getText().trim();
-        String username = usernameField.getText().trim();
-        String password = new String(passwordField.getPassword());
-        String confirmPassword = new String(confirmPasswordField.getPassword());
+        try {
+            String firstName = firstNameField.getText().trim();
+            String lastName = lastNameField.getText().trim();
+            String email = emailField.getText().trim();
+            String username = usernameField.getText().trim();
+            String password = new String(passwordField.getPassword());
+            String confirmPassword = new String(confirmPasswordField.getPassword());
 
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || 
-            username.isEmpty() || password.isEmpty()) {
-            messageLabel.setText("All fields are required");
-            return;
+            if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() ||
+                username.isEmpty() || password.isEmpty()) {
+                messageLabel.setText("All fields are required");
+                return;
+            }
+
+            if (!password.equals(confirmPassword)) {
+                messageLabel.setText("Passwords do not match");
+                return;
+            }
+
+            if (!User.isValidEmail(email)) {
+                messageLabel.setText("Invalid email format");
+                return;
+            }
+
+            if (!User.isValidPassword(password)) {
+                messageLabel.setText("Password must be 8+ chars with uppercase, lowercase, number, and special char");
+                return;
+            }
+
+            if (userRegistry.searchUserByUsername(username) != null) {
+                messageLabel.setText("Username already taken");
+                return;
+            }
+
+            if (userRegistry.searchUserByEmail(email) != null) {
+                messageLabel.setText("Email already registered");
+                return;
+            }
+
+            Member newMember = new Member(firstName, lastName, email, username, password);
+            userRegistry.addUser(newMember);
+
+            JOptionPane.showMessageDialog(this,
+                "Registration successful! Please login.",
+                "Success",
+                JOptionPane.INFORMATION_MESSAGE);
+
+            dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                "An error occurred during registration: " + e.getMessage(),
+                "Registration Error",
+                JOptionPane.ERROR_MESSAGE);
+            messageLabel.setText("Registration failed. Please try again.");
         }
-
-        if (!password.equals(confirmPassword)) {
-            messageLabel.setText("Passwords do not match");
-            return;
-        }
-
-        if (!User.isValidEmail(email)) {
-            messageLabel.setText("Invalid email format");
-            return;
-        }
-
-        if (!User.isValidPassword(password)) {
-            messageLabel.setText("Password must be 8+ chars with uppercase, lowercase, number, and special char");
-            return;
-        }
-
-        if (userRegistry.searchUserByUsername(username) != null) {
-            messageLabel.setText("Username already taken");
-            return;
-        }
-
-        if (userRegistry.searchUserByEmail(email) != null) {
-            messageLabel.setText("Email already registered");
-            return;
-        }
-
-        Member newMember = new Member(firstName, lastName, email, username, password);
-        userRegistry.addUser(newMember);
-
-        JOptionPane.showMessageDialog(this, 
-            "Registration successful! Please login.", 
-            "Success", 
-            JOptionPane.INFORMATION_MESSAGE);
-        
-        dispose();
     }
 }

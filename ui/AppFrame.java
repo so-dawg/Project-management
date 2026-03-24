@@ -40,12 +40,26 @@ public class AppFrame extends JFrame {
     }
 
     public void showDashboard(IUser user) {
-        DashboardPanel dashboardPanel = new DashboardPanel(this, user, userRegistry);
-        mainPanel.add(dashboardPanel, "dashboard");
-        cardLayout.show(mainPanel, "dashboard");
+        try {
+            DashboardPanel dashboardPanel = new DashboardPanel(this, user, userRegistry);
+            mainPanel.add(dashboardPanel, "dashboard");
+            cardLayout.show(mainPanel, "dashboard");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                "Error loading dashboard: " + e.getMessage(),
+                "Dashboard Error",
+                JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public void showLogin() {
-        cardLayout.show(mainPanel, "login");
+        try {
+            cardLayout.show(mainPanel, "login");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                "Error showing login screen: " + e.getMessage(),
+                "Navigation Error",
+                JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

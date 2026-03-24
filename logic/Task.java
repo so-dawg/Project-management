@@ -93,74 +93,102 @@ public class Task {
   // ==================== Setters ====================
 
   public void setNewPriority(TaskPriority p) {
-    if (p == null) {
-      System.out.println("Priority cannot be null");
-      return;
+    try {
+      if (p == null) {
+        System.out.println("Priority cannot be null");
+        return;
+      }
+      this.priority = p;
+    } catch (Exception e) {
+      System.out.println("Error setting priority: " + e.getMessage());
     }
-    this.priority = p;
   }
 
   public void setNewTitle(String t) {
-    if (t == null) {
-      System.out.println("Title cannot be null");
-      return;
+    try {
+      if (t == null) {
+        System.out.println("Title cannot be null");
+        return;
+      }
+
+      String sanitizedTitle = t.trim();
+
+      if (sanitizedTitle.length() > 255) {
+        System.out.println("Title exceeds maximum length of 255 characters");
+        return;
+      }
+
+      if (sanitizedTitle.isEmpty()) {
+        System.out.println("Title cannot be empty");
+        return;
+      }
+
+      this.title = sanitizedTitle;
+    } catch (Exception e) {
+      System.out.println("Error setting title: " + e.getMessage());
     }
-
-    String sanitizedTitle = t.trim();
-
-    if (sanitizedTitle.length() > 255) {
-      System.out.println("Title exceeds maximum length of 255 characters");
-      return;
-    }
-
-    if (sanitizedTitle.isEmpty()) {
-      System.out.println("Title cannot be empty");
-      return;
-    }
-
-    this.title = sanitizedTitle;
   }
 
   public void setNewTaskDescription(String description) {
-    if (description == null) {
-      System.out.println("Task description cannot be null");
-      return;
+    try {
+      if (description == null) {
+        System.out.println("Task description cannot be null");
+        return;
+      }
+
+      String sanitizedDescrip = description.trim();
+
+      if (sanitizedDescrip.length() > 10000) {
+        System.out.println("Task description exceeds maximum length of 10000 characters");
+        return;
+      }
+
+      this.taskDescription = sanitizedDescrip;
+    } catch (Exception e) {
+      System.out.println("Error setting task description: " + e.getMessage());
     }
-
-    String sanitizedDescrip = description.trim();
-
-    if (sanitizedDescrip.length() > 10000) {
-      System.out.println("Task description exceeds maximum length of 10000 characters");
-      return;
-    }
-
-    this.taskDescription = sanitizedDescrip;
   }
 
   public void setAssignTo(int memberId, IUser user) {
-    if (!user.can("ASSIGN_TASK")) {
-      System.out.println("User does not have permission to assign tasks");
-      return;
+    try {
+      if (!user.can("ASSIGN_TASK")) {
+        System.out.println("User does not have permission to assign tasks");
+        return;
+      }
+      if (memberId <= 0) {
+        System.out.println("Invalid member ID");
+        return;
+      }
+      this.assignTo = memberId;
+    } catch (Exception e) {
+      System.out.println("Error assigning task: " + e.getMessage());
     }
-    if (memberId <= 0) {
-      System.out.println("Invalid member ID");
-      return;
-    }
-    this.assignTo = memberId;
   }
 
   public void unassign() {
-    this.assignTo = 0;
+    try {
+      this.assignTo = 0;
+    } catch (Exception e) {
+      System.out.println("Error unassigning task: " + e.getMessage());
+    }
   }
 
   public void markCompleted(IUser user) {
-    if (user.can("UPDATE_OWN_TASK"))
-      this.completed = true;
+    try {
+      if (user.can("UPDATE_OWN_TASK"))
+        this.completed = true;
+    } catch (Exception e) {
+      System.out.println("Error marking task completed: " + e.getMessage());
+    }
   }
 
   public void markIncomplete(IUser user) {
-    if (user.can("UPDATE_OWN_TASK"))
-      this.completed = false;
+    try {
+      if (user.can("UPDATE_OWN_TASK"))
+        this.completed = false;
+    } catch (Exception e) {
+      System.out.println("Error marking task incomplete: " + e.getMessage());
+    }
   }
 
   // ==================== Utility Methods ====================

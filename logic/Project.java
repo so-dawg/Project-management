@@ -22,23 +22,49 @@ public class Project {
   }
 
   public boolean addMemberById(String userId, User userRegistry) {
-    IUser user = userRegistry.searchUserById(userId);
-    if (user != null) {
-      members.add((Member) user);
-      return true;
+    try {
+      IUser user = userRegistry.searchUserById(userId);
+      if (user != null) {
+        if (user instanceof Member) {
+          members.add((Member) user);
+          return true;
+        } else {
+          System.out.println("User is not a Member instance");
+          return false;
+        }
+      }
+      System.out.println("User with ID '" + userId + "' not found");
+      return false;
+    } catch (ClassCastException e) {
+      System.out.println("Error casting user to Member: " + e.getMessage());
+      return false;
+    } catch (Exception e) {
+      System.out.println("Error adding member by ID: " + e.getMessage());
+      return false;
     }
-    System.out.println("User with ID '" + userId + "' not found");
-    return false;
   }
 
   public boolean addMemberByName(String username, User userRegistry) {
-    IUser user = userRegistry.searchUserByUsername(username);
-    if (user != null) {
-      members.add((Member) user);
-      return true;
+    try {
+      IUser user = userRegistry.searchUserByUsername(username);
+      if (user != null) {
+        if (user instanceof Member) {
+          members.add((Member) user);
+          return true;
+        } else {
+          System.out.println("User is not a Member instance");
+          return false;
+        }
+      }
+      System.out.println("User with username '" + username + "' not found");
+      return false;
+    } catch (ClassCastException e) {
+      System.out.println("Error casting user to Member: " + e.getMessage());
+      return false;
+    } catch (Exception e) {
+      System.out.println("Error adding member by name: " + e.getMessage());
+      return false;
     }
-    System.out.println("User with username '" + username + "' not found");
-    return false;
   }
 
   public boolean removeMemberById(String memberId) {
@@ -86,13 +112,17 @@ public class Project {
   }
 
   public void addTask(IUser user, String title, Task.TaskPriority priority, String deadline, String taskDescription) {
-    LocalDate date = null;
-    if (deadline != null && user.can("ASSIGN_TASK")) {
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-      date = LocalDate.parse(deadline, formatter);
+    try {
+      LocalDate date = null;
+      if (deadline != null && user.can("ASSIGN_TASK")) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        date = LocalDate.parse(deadline, formatter);
+      }
+      Task task = new Task(title, priority, date, taskDescription);
+      this.tasks.add(task);
+    } catch (Exception e) {
+      System.out.println("Error adding task: " + e.getMessage());
     }
-    Task task = new Task(title, priority, date, taskDescription);
-    this.tasks.add(task);
   }
 
   public boolean removeTaskByIndex(IUser user, int index) {
@@ -146,18 +176,34 @@ public class Project {
   }
 
   public void setTitle(IUser user, String title) {
-    if (title.length() <= 255 && user.can("CREATE_PROJECT")) {
-      this.title = title;
-    } else {
-      System.out.println("Error, invalid input!");
+    try {
+      if (title == null) {
+        System.out.println("Error: title cannot be null!");
+        return;
+      }
+      if (title.length() <= 255 && user.can("CREATE_PROJECT")) {
+        this.title = title;
+      } else {
+        System.out.println("Error, invalid input!");
+      }
+    } catch (Exception e) {
+      System.out.println("Error setting title: " + e.getMessage());
     }
   }
 
   public void setDescript(IUser user, String des) {
-    if (des.length() <= 500 && user.can("CREATE_TASK")) {
-      this.projectDescription = des;
-    } else {
-      System.out.println("Error, invalid input!");
+    try {
+      if (des == null) {
+        System.out.println("Error: description cannot be null!");
+        return;
+      }
+      if (des.length() <= 500 && user.can("CREATE_TASK")) {
+        this.projectDescription = des;
+      } else {
+        System.out.println("Error, invalid input!");
+      }
+    } catch (Exception e) {
+      System.out.println("Error setting description: " + e.getMessage());
     }
   }
 }

@@ -63,42 +63,55 @@ public class Owner extends Member {
   }
 
   public void assignTask(Task task, Project project, int memberId, LocalDate deadline, LocalTime time, IUser user) {
-    if (task == null) {
-      System.out.println("Task cannot be null");
-      return;
-    }
+    try {
+      if (task == null) {
+        System.out.println("Task cannot be null");
+        return;
+      }
 
-    if (project == null) {
-      System.out.println("Project cannot be null");
-      return;
-    }
+      if (project == null) {
+        System.out.println("Project cannot be null");
+        return;
+      }
 
-    if (!user.can("ASSIGN_TASK")) {
-      System.out.println("User does not have permission to assign tasks");
-      return;
-    }
+      if (!user.can("ASSIGN_TASK")) {
+        System.out.println("User does not have permission to assign tasks");
+        return;
+      }
 
-    if (deadline == null) {
-      System.out.println("Deadline cannot be null");
-      return;
-    }
+      if (deadline == null) {
+        System.out.println("Deadline cannot be null");
+        return;
+      }
 
-    if (deadline.isBefore(LocalDate.now())) {
-      System.out.println("Cannot assign task: deadline is in the past");
-      return;
-    }
+      if (memberId <= 0) {
+        System.out.println("Invalid member ID");
+        return;
+      }
 
-    task.setDeadline(deadline);
-    task.setAssignTo(memberId, user);
-    project.getTasks().add(task);
+      if (deadline.isBefore(LocalDate.now())) {
+        System.out.println("Cannot assign task: deadline is in the past");
+        return;
+      }
+
+      task.setDeadline(deadline);
+      task.setAssignTo(memberId, user);
+      project.getTasks().add(task);
+    } catch (Exception e) {
+      System.out.println("Error assigning task: " + e.getMessage());
+    }
   }
 
   public void unassignTask(Task task, IUser user) {
-    if (task == null) {
-      System.out.println("Task cannot be null");
-      return;
+    try {
+      if (task == null) {
+        System.out.println("Task cannot be null");
+        return;
+      }
+      task.setAssignTo(0, user);
+    } catch (Exception e) {
+      System.out.println("Error unassigning task: " + e.getMessage());
     }
-    task.setAssignTo(0, user);
   }
 
   @Override

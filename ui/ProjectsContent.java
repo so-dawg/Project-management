@@ -60,72 +60,89 @@ public class ProjectsContent extends JPanel {
     }
 
     private void showAddProjectDialog() {
-        JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Create New Project", true);
-        dialog.setSize(450, 400);
-        dialog.setLocationRelativeTo(this);
+        try {
+            JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Create New Project", true);
+            dialog.setSize(450, 400);
+            dialog.setLocationRelativeTo(this);
 
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBorder(new EmptyBorder(20, 20, 20, 20));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(8, 8, 8, 8);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+            JPanel panel = new JPanel(new GridBagLayout());
+            panel.setBorder(new EmptyBorder(20, 20, 20, 20));
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.insets = new Insets(8, 8, 8, 8);
+            gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel titleLabel = new JLabel("Project Title:");
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        panel.add(titleLabel, gbc);
+            JLabel titleLabel = new JLabel("Project Title:");
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            panel.add(titleLabel, gbc);
 
-        JTextField titleField = new JTextField(25);
-        gbc.gridx = 1;
-        panel.add(titleField, gbc);
+            JTextField titleField = new JTextField(25);
+            gbc.gridx = 1;
+            panel.add(titleField, gbc);
 
-        JLabel descLabel = new JLabel("Description:");
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        panel.add(descLabel, gbc);
+            JLabel descLabel = new JLabel("Description:");
+            gbc.gridx = 0;
+            gbc.gridy = 1;
+            panel.add(descLabel, gbc);
 
-        JTextArea descArea = new JTextArea(5, 25);
-        descArea.setLineWrap(true);
-        descArea.setWrapStyleWord(true);
-        JScrollPane scrollPane = new JScrollPane(descArea);
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        panel.add(scrollPane, gbc);
+            JTextArea descArea = new JTextArea(5, 25);
+            descArea.setLineWrap(true);
+            descArea.setWrapStyleWord(true);
+            JScrollPane scrollPane = new JScrollPane(descArea);
+            gbc.gridx = 1;
+            gbc.gridy = 1;
+            panel.add(scrollPane, gbc);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton createBtn = new JButton("Create");
-        createBtn.setBackground(new Color(70, 130, 180));
-        createBtn.setForeground(Color.WHITE);
-        JButton cancelBtn = new JButton("Cancel");
+            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            JButton createBtn = new JButton("Create");
+            createBtn.setBackground(new Color(70, 130, 180));
+            createBtn.setForeground(Color.WHITE);
+            JButton cancelBtn = new JButton("Cancel");
 
-        createBtn.addActionListener(e -> {
-            String title = titleField.getText().trim();
-            String description = descArea.getText().trim();
+            createBtn.addActionListener(e -> {
+                try {
+                    String title = titleField.getText().trim();
+                    String description = descArea.getText().trim();
 
-            if (title.isEmpty()) {
-                JOptionPane.showMessageDialog(dialog, "Please enter a project title");
-                return;
-            }
+                    if (title.isEmpty()) {
+                        JOptionPane.showMessageDialog(dialog, "Please enter a project title");
+                        return;
+                    }
 
-            if (currentUser instanceof Owner) {
-                Project project = new Project(title, description, (Owner) currentUser);
-                JOptionPane.showMessageDialog(dialog, "Project created successfully!");
-                dialog.dispose();
-            } else {
-                JOptionPane.showMessageDialog(dialog, "Only Owners can create projects");
-            }
-        });
+                    if (currentUser instanceof Owner) {
+                        Project project = new Project(title, description, (Owner) currentUser);
+                        JOptionPane.showMessageDialog(dialog, "Project created successfully!");
+                        dialog.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(dialog, "Only Owners can create projects");
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(dialog,
+                        "Error creating project: " + ex.getMessage(),
+                        "Project Creation Error",
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            });
 
-        cancelBtn.addActionListener(e -> dialog.dispose());
+            cancelBtn.addActionListener(e -> {
+                try {
+                    dialog.dispose();
+                } catch (Exception ex) {
+                    System.out.println("Error closing dialog: " + ex.getMessage());
+                }
+            });
 
-        buttonPanel.add(createBtn);
-        buttonPanel.add(cancelBtn);
+            gbc.gridx = 1;
+            gbc.gridy = 2;
+            panel.add(buttonPanel, gbc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        panel.add(buttonPanel, gbc);
-
-        dialog.add(panel);
-        dialog.setVisible(true);
+            dialog.add(panel);
+            dialog.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                "Error opening project dialog: " + e.getMessage(),
+                "Dialog Error",
+                JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
