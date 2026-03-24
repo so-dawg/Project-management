@@ -8,6 +8,8 @@ import java.time.format.DateTimeFormatter;
  */
 public class Task {
 
+  private static int nextTaskId = 1;
+
   /**
    * TaskPriority - Enum representing the priority levels of a task
    */
@@ -30,6 +32,7 @@ public class Task {
    * Constructor for Task
    */
   public Task(String title, TaskPriority priority, LocalDate deadline, String taskDescription) {
+    this.taskID = nextTaskId++;
     setNewTitle(title);
     setNewPriority(priority);
     setDeadline(deadline);
@@ -163,6 +166,14 @@ public class Task {
     } catch (Exception e) {
       System.out.println("Error assigning task: " + e.getMessage());
     }
+  }
+
+  public int getAssignToId() {
+    return this.assignTo;
+  }
+
+  public void setAssignToDirect(int memberId) {
+    this.assignTo = memberId;
   }
 
   public void unassign() {

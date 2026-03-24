@@ -6,9 +6,9 @@ public class ProjectManager {
   private ArrayList<Project> projects = new ArrayList<>();
 
   /**
-   * Create a new project (only Owner can create)
+   * Create a new project (users with CREATE_PROJECT permission)
    */
-  public Project createProject(String title, String description, Owner owner) {
+  public Project createProject(String title, String description, IUser owner) {
     Project project = new Project(title, description, owner);
     projects.add(project);
     return project;
@@ -34,9 +34,9 @@ public class ProjectManager {
   }
 
   /**
-   * Get all projects owned by a specific owner
+   * Get all projects owned by a specific user
    */
-  public ArrayList<Project> getProjectsByOwner(Owner owner) {
+  public ArrayList<Project> getProjectsByOwner(IUser owner) {
     ArrayList<Project> ownedProjects = new ArrayList<>();
     for (Project project : projects) {
       if (project.getOwner().getId().equals(owner.getId())) {

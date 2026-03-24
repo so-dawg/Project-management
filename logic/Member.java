@@ -3,12 +3,13 @@ package logic;
 public class Member extends User {
 
   private static int totalMembers = 0;
+  private static int nextId = 1;
   private int Id;
 
   public Member(String firstName, String lastName, String email, String username, String password) {
     super(firstName, lastName, email, username, password);
     totalMembers++;
-    Id++;
+    Id = nextId++;
   }
 
   // Constructor for database users (with existing ID)
@@ -37,20 +38,20 @@ public class Member extends User {
 
   @Override
   public boolean can(String action) {
-    // All users have the same permissions now
+    // Members can view and manage their own tasks
     switch (action) {
       case "VIEW_TASK":
         return true;
       case "UPDATE_OWN_TASK":
         return true;
       case "CREATE_TASK":
-        return false; // All users can't create tasks
+        return true; // Members can create tasks
       case "CREATE_PROJECT":
-        return true; // All users can create projects
+        return true; // Members can create projects
       case "DELETE_TASK":
-        return false;
+        return true; // Members can delete tasks
       case "ASSIGN_TASK":
-        return false;
+        return false; // Only owners can assign
       case "CREATE_USER":
         return false;
       case "VIEW_REPORT":

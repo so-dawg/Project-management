@@ -9,12 +9,12 @@ public class Project {
   private static int nextProjectID = 1;
   private ArrayList<Task> tasks = new ArrayList<>();
   private ArrayList<Member> members = new ArrayList<>();
-  private Owner owner;
+  private IUser owner;
   private String title;
   private String projectDescription;
   private int projectID;
 
-  public Project(String title, String projectDescription, Owner owner) {
+  public Project(String title, String projectDescription, IUser owner) {
     this.projectID = nextProjectID++;
     this.owner = owner;
     this.title = title;
@@ -107,7 +107,7 @@ public class Project {
     return members;
   }
 
-  public Owner getOwner() {
+  public IUser getOwner() {
     return owner;
   }
 
@@ -134,9 +134,12 @@ public class Project {
   }
 
   public boolean removeTaskByID(IUser user, int id) {
-    for (Task task : tasks) {
-      if (task.getTaskId() == id && user.can("DELETE_TASK")) {
-        tasks.remove(task);
+    if (!user.can("DELETE_TASK")) {
+      return false;
+    }
+    for (int i = 0; i < tasks.size(); i++) {
+      if (tasks.get(i).getTaskId() == id) {
+        tasks.remove(i);
         return true;
       }
     }
