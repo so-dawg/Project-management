@@ -2,47 +2,46 @@
 
 A comprehensive Java-based project management application with terminal UI and database persistence.
 
-## 🚀 Features
+## Features
 
 ### User Management
 
-- ✅ User Registration & Login
-- ✅ Edit Profile (Name, Email, Password)
-- ✅ Role-based Permissions (Owner, Member)
-- ✅ Guest User for Testing
+- User Registration & Login
+- Edit Profile (Name, Email, Password)
+- Role-based Permissions (Owner, Member)
+- Guest User for Testing
 
 ### Project Management
 
-- ✅ Create Projects
-- ✅ Edit Projects
-- ✅ View Projects (Owned & Member)
-- ✅ Delete Projects
-- ✅ Join Projects
-- ✅ Leave Projects
-- ✅ Add Members to Projects (Owners)
+- Create Projects
+- Edit Projects
+- View Projects (Owned & Member)
+- Delete Projects
+- Join Projects
+- Leave Projects
+- Add Members to Projects (Owners)
 
 ### Task Management
 
-- ✅ Create Tasks
-- ✅ Edit Tasks (Title, Priority, Deadline, Description)
-- ✅ View Tasks with Project Names
-- ✅ Delete Tasks
-- ✅ Mark Tasks Complete/Incomplete
-- ✅ Task Filtering (All, To Do, Completed, Overdue)
-- ✅ Task Assignment
-- ✅ Deadline Validation (No past dates)
-- ✅ Priority Levels (LOW, MEDIUM, HIGH, URGENT)
+- Create Tasks
+- Edit Tasks (Title, Priority, Deadline, Description)
+- View Tasks with Project Names
+- Delete Tasks
+- Mark Tasks Complete/Incomplete
+- Task Filtering (All, To Do, Completed, Overdue)
+- Task Assignment
+- Deadline Validation (No past dates)
+- Priority Levels (LOW, MEDIUM, HIGH, URGENT)
 
 ### Database Features
 
-- ✅ MariaDB/MySQL Persistence
-- ✅ Offline Mode (In-memory)
-- ✅ Auto-sync Changes
-- ✅ Task Comments Support
+- MariaDB/MySQL Persistence
+- Offline Mode (In-memory)
+- Auto-sync Changes
 
 ---
 
-## 📋 Main Menu Options
+## Main Menu Options
 
 **Main Menu:**
 
@@ -51,8 +50,9 @@ A comprehensive Java-based project management application with terminal UI and d
 1. Projects       (All project operations)
 2. Tasks          (All task operations)
 3. Members        (Manage project members)
-4. Profile        (Edit your profile)
-5. Logout
+4. View Profile
+5. Edit Profile
+6. Exit
 ```
 
 **Projects Menu:**
@@ -65,7 +65,8 @@ A comprehensive Java-based project management application with terminal UI and d
 4. Delete Project
 5. Join Project
 6. Leave Project
-0. Back
+0. Back to Main Menu
+9. Logout
 ```
 
 **Tasks Menu:**
@@ -77,7 +78,8 @@ A comprehensive Java-based project management application with terminal UI and d
 3. Edit Task
 4. Delete Task
 5. Mark Complete/Incomplete
-0. Back
+0. Back to Main Menu
+9. Logout
 ```
 
 **Members Menu:**
@@ -86,12 +88,13 @@ A comprehensive Java-based project management application with terminal UI and d
 [===== MEMBERS MENU =====]
 1. Add Member to Project (Owner)
 2. View Project Members
-0. Back
+0. Back to Main Menu
+9. Logout
 ```
 
 ---
 
-## 🛠️ Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
 
@@ -111,7 +114,7 @@ mysql -u root -p < database/src/init_database.sql
 sudo mariadb < database/src/init_database.sql
 ```
 
-**That's it!** The script will:
+The script will:
 
 - Create the `project_management` database
 - Create all tables (users, projects, tasks, etc.)
@@ -162,7 +165,7 @@ java -cp .:database/mariadb-java-client-3.1.4.jar Main
 
 ---
 
-## 👥 Default Test Accounts
+## Default Test Accounts
 
 After running the database setup, these accounts are available:
 
@@ -182,7 +185,7 @@ After running the database setup, these accounts are available:
 
 ---
 
-## 📖 Usage Guide
+## Usage Guide
 
 ### Starting the Application
 
@@ -205,63 +208,63 @@ When viewing tasks, you can filter by:
 
 ### Task Status
 
-Use option 13 to toggle task completion:
+Use the "Mark Complete/Incomplete" option to toggle task completion:
 
-- Completed → Pending
-- Pending → Completed
+- Completed to Pending
+- Pending to Completed
 
 ### Edit Profile
 
-Use option 15 to update:
+Use the "Edit Profile" option to update:
 
 - First Name
 - Last Name
+- Username
 - Email
 - Password
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                      Main.java (UI Layer)                    │
-│  - Terminal menu system (16 options)                         │
-│  - User input handling                                       │
-│  - Display formatting                                        │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                   Logic Layer (Business Logic)               │
-│  ┌──────────────┐  ┌──────────────┐  ┌─────────────────┐   │
-│  │   User.java  │  │  Project.java │  │    Task.java    │   │
-│  │  (Base User) │  │  (Projects)  │  │    (Tasks)      │   │
-│  └──────────────┘  └──────────────┘  └─────────────────┘   │
-│  ┌──────────────┐  ┌──────────────┐  ┌─────────────────┐   │
-│  │  Member.java │  │ProjectManager│  │ UserRegistry.java│   │
-│  │  (Member)    │  │  (Manager)   │  │   (Registry)    │   │
-│  └──────────────┘  └──────────────┘  └─────────────────┘   │
-│  ┌──────────────┐  ┌──────────────┐                        │
-│  │  Owner.java  │  │DatabaseManager│                        │
-│  │  (Admin)     │  │   (Database)  │                        │
-│  └──────────────┘  └──────────────┘                        │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                  MariaDB/MySQL Database                      │
-│  - users (with username column)                              │
-│  - projects                                                  │
-│  - project_members                                           │
-│  - tasks                                                     │
-│  - task_comments                                             │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                      Main.java (UI Layer)                    |
+|  - Terminal menu system                                      |
+|  - User input handling                                       |
+|  - Display formatting                                        |
++-------------------------------------------------------------+
+                              |
+                              v
++-------------------------------------------------------------+
+|                   Logic Layer (Business Logic)               |
+|  +--------------+  +--------------+  +------------------+   |
+|  |   User.java  |  |  Project.java |  |    Task.java     |   |
+|  |  (Base User) |  |  (Projects)  |  |    (Tasks)       |   |
+|  +--------------+  +--------------+  +------------------+   |
+|  +--------------+  +--------------+  +------------------+   |
+|  |  Member.java |  |ProjectManager|  | UserRegistry.java|   |
+|  |  (Member)    |  |  (Manager)   |  |   (Registry)     |   |
+|  +--------------+  +--------------+  +------------------+   |
+|  +--------------+  +--------------+                        |
+|  |  Owner.java  |  |DatabaseManager|                        |
+|  |  (Admin)     |  |   (Database)  |                        |
+|  +--------------+  +--------------+                        |
++-------------------------------------------------------------+
+                              |
+                              v
++-------------------------------------------------------------+
+|                  MariaDB/MySQL Database                      |
+|  - users (with username column)                              |
+|  - projects                                                  |
+|  - project_members                                           |
+|  - tasks                                                     |
++-------------------------------------------------------------+
 ```
 
 ---
 
-## 🗄️ Database Schema
+## Database Schema
 
 ### Users Table
 
@@ -322,23 +325,9 @@ CREATE TABLE tasks (
 );
 ```
 
-### Task Comments Table
-
-```sql
-CREATE TABLE task_comments (
-    comment_id INT AUTO_INCREMENT PRIMARY KEY,
-    task_id INT NOT NULL,
-    user_id INT NOT NULL,
-    comment TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (task_id) REFERENCES tasks(task_id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-```
-
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### MySQL/MariaDB Not Found
 
@@ -348,7 +337,7 @@ CREATE TABLE task_comments (
 # Add MySQL to PATH temporarily
 set PATH=%PATH%;C:\Program Files\MySQL\MySQL Server 8.0\bin
 
-# Or permanently: System Properties → Environment Variables → Path → Add MySQL bin path
+# Or permanently: System Properties -> Environment Variables -> Path -> Add MySQL bin path
 ```
 
 **Linux:**
@@ -416,18 +405,19 @@ sudo mariadb < database/src/init_database.sql
 
 ---
 
-## 📁 File Structure
+## File Structure
 
 ```
 Project-management/
-├── Main.java                    # Main application (16 menu options)
+├── Main.java                    # Main application entry point
 ├── README.md                    # This file
 ├── SETUP_GUIDE.md              # Quick setup guide
 ├── LICENSE                      # MIT License
+├── run.sh                       # Run script (auto-starts MariaDB)
 ├── database/
 │   ├── mariadb-java-client-3.1.4.jar  # JDBC driver
 │   └── src/
-│       └── init_database.sql   # Complete database setup (USE THIS!)
+│       └── init_database.sql   # Complete database setup
 └── logic/
     ├── IUser.java              # User interface
     ├── User.java               # Base user class
@@ -437,37 +427,37 @@ Project-management/
     ├── Task.java               # Task entity
     ├── ProjectManager.java     # Project management
     ├── UserRegistry.java       # User registry
-    ├── UserManager.java        # User management
     ├── TaskFilter.java         # Task filtering
     └── DatabaseManager.java    # Database operations
 ```
 
 ---
 
-## 🎯 Recent Updates
+## Recent Updates
 
 ### Version 2.0 - Latest
 
-- ✅ Edit Task (Title, Priority, Deadline, Description)
-- ✅ Edit Project (Limited - requires database methods)
-- ✅ Mark Task Complete/Incomplete
-- ✅ Edit User Profile
-- ✅ View Task Comments (Placeholder)
-- ✅ Task Filtering with Project Names
-- ✅ Deadline Validation (No past dates)
-- ✅ Fixed Task Assignment Display
-- ✅ Fixed Join/Leave Project
-- ✅ Fixed Add Member to Project
+- Edit Task (Title, Priority, Deadline, Description)
+- Edit Project (Title, Description)
+- Mark Task Complete/Incomplete
+- Edit User Profile (with password verification)
+- Task Filtering with Project Names
+- Deadline Validation (No past dates)
+- Fixed Task Assignment Display
+- Fixed Join/Leave Project
+- Fixed Add Member to Project
+- Fixed View Project Members
+- Organized code into cli/ folder for better structure
 
 ---
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Windows
 
@@ -495,12 +485,10 @@ sudo mariadb < database/src/init_database.sql
 # 2. Compile
 javac -d . logic/*.java Main.java
 
-# 3. Run
+# 3. Run (or use ./run.sh to auto-start MariaDB)
 java -cp .:database/mariadb-java-client-3.1.4.jar Main
 
 # 4. Login
 Email: sarah.johnson@company.com
 Password: Owner123@
 ```
-
-Enjoy managing your projects! 🎉
