@@ -133,11 +133,11 @@ Install Java JDK (not just JRE):
 ## What Gets Installed
 
 The setup script creates:
-- ✅ `project_management` database
-- ✅ 5 tables (users, projects, project_members, tasks, task_comments)
-- ✅ 10 test users
-- ✅ 5 sample projects
-- ✅ 10 sample tasks
+-  `project_management` database
+-  5 tables (users, projects, project_members, tasks, task_comments)
+-  10 test users
+-  5 sample projects
+-  10 sample tasks
 
 ---
 
@@ -150,4 +150,4 @@ After setup:
 4. Go to **Tasks** → Add tasks to your project
 5. Go to **Members** → Invite members to join
 
-Enjoy! 🎉
+Enjoy! 
