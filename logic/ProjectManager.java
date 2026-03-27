@@ -3,20 +3,14 @@ package logic;
 import java.util.ArrayList;
 
 public class ProjectManager {
-  private ArrayList<Project> projects = new ArrayList<>();
+  private final ArrayList<Project> projects = new ArrayList<>();
 
-  /**
-   * Create a new project (users with CREATE_PROJECT permission)
-   */
   public Project createProject(String title, String description, IUser owner) {
     Project project = new Project(title, description, owner);
     projects.add(project);
     return project;
   }
 
-  /**
-   * Remove a project by ID
-   */
   public boolean removeProject(int projectId) {
     Project project = getProjectById(projectId);
     if (project != null) {
@@ -26,16 +20,10 @@ public class ProjectManager {
     return false;
   }
 
-  /**
-   * Remove a project by object
-   */
   public boolean removeProject(Project project) {
     return projects.remove(project);
   }
 
-  /**
-   * Get all projects owned by a specific user
-   */
   public ArrayList<Project> getProjectsByOwner(IUser owner) {
     ArrayList<Project> ownedProjects = new ArrayList<>();
     for (Project project : projects) {
@@ -46,9 +34,6 @@ public class ProjectManager {
     return ownedProjects;
   }
 
-  /**
-   * Get all projects where a user is a member
-   */
   public ArrayList<Project> getProjectsByMember(Member member) {
     ArrayList<Project> memberProjects = new ArrayList<>();
     for (Project project : projects) {
@@ -59,24 +44,17 @@ public class ProjectManager {
     return memberProjects;
   }
 
-  /**
-   * Get all projects where a user is either owner or member
-   */
   public ArrayList<Project> getAllUserProjects(IUser user) {
     ArrayList<Project> userProjects = new ArrayList<>();
     for (Project project : projects) {
-      if (project.getOwner().getId().equals(user.getId())) {
-        userProjects.add(project);
-      } else if (project.searchMemberById(user.getId()) != null) {
+      if (project.getOwner().getId().equals(user.getId()) ||
+          project.searchMemberById(user.getId()) != null) {
         userProjects.add(project);
       }
     }
     return userProjects;
   }
 
-  /**
-   * Get a project by ID
-   */
   public Project getProjectById(int projectId) {
     for (Project project : projects) {
       if (project.getProjectID() == projectId) {
@@ -86,16 +64,10 @@ public class ProjectManager {
     return null;
   }
 
-  /**
-   * Get all projects
-   */
   public ArrayList<Project> getAllProjects() {
     return projects;
   }
 
-  /**
-   * Get total number of projects
-   */
   public int getProjectCount() {
     return projects.size();
   }

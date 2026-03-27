@@ -7,12 +7,12 @@ import java.util.ArrayList;
 public class Project {
 
   private static int nextProjectID = 1;
-  private ArrayList<Task> tasks = new ArrayList<>();
-  private ArrayList<Member> members = new ArrayList<>();
-  private IUser owner;
-  private String title;
-  private String projectDescription;
-  private int projectID;
+  private final ArrayList<Task> tasks = new ArrayList<>();
+  private final ArrayList<Member> members = new ArrayList<>();
+  private final IUser owner;
+  private final String title;
+  private final String projectDescription;
+  private final int projectID;
 
   public Project(String title, String projectDescription, IUser owner) {
     this.projectID = nextProjectID++;
@@ -21,48 +21,32 @@ public class Project {
     this.projectDescription = projectDescription;
   }
 
-  public boolean addMemberById(String userId, User userRegistry) {
+  public boolean addMemberById(String userId, UserRegistry userRegistry) {
     try {
       IUser user = userRegistry.searchUserById(userId);
-      if (user != null) {
-        if (user instanceof Member) {
-          members.add((Member) user);
-          return true;
-        } else {
-          System.out.println("User is not a Member instance");
-          return false;
-        }
+      if (user instanceof Member) {
+        members.add((Member) user);
+        return true;
       }
-      System.out.println("User with ID '" + userId + "' not found");
+      System.out.println("User is not a Member instance");
       return false;
     } catch (ClassCastException e) {
       System.out.println("Error casting user to Member: " + e.getMessage());
-      return false;
-    } catch (Exception e) {
-      System.out.println("Error adding member by ID: " + e.getMessage());
       return false;
     }
   }
 
-  public boolean addMemberByName(String username, User userRegistry) {
+  public boolean addMemberByName(String username, UserRegistry userRegistry) {
     try {
       IUser user = userRegistry.searchUserByUsername(username);
-      if (user != null) {
-        if (user instanceof Member) {
-          members.add((Member) user);
-          return true;
-        } else {
-          System.out.println("User is not a Member instance");
-          return false;
-        }
+      if (user instanceof Member) {
+        members.add((Member) user);
+        return true;
       }
-      System.out.println("User with username '" + username + "' not found");
+      System.out.println("User is not a Member instance");
       return false;
     } catch (ClassCastException e) {
       System.out.println("Error casting user to Member: " + e.getMessage());
-      return false;
-    } catch (Exception e) {
-      System.out.println("Error adding member by name: " + e.getMessage());
       return false;
     }
   }
@@ -107,6 +91,14 @@ public class Project {
     return members;
   }
 
+  public boolean addMember(Member member) {
+    if (member != null && !members.contains(member)) {
+      members.add(member);
+      return true;
+    }
+    return false;
+  }
+
   public IUser getOwner() {
     return owner;
   }
@@ -119,7 +111,7 @@ public class Project {
         date = LocalDate.parse(deadline, formatter);
       }
       Task task = new Task(title, priority, date, taskDescription);
-      this.tasks.add(task);
+      tasks.add(task);
     } catch (Exception e) {
       System.out.println("Error adding task: " + e.getMessage());
     }
@@ -157,7 +149,6 @@ public class Project {
     return tasks;
   }
 
-  // getter
   public String getTitle() {
     return title;
   }
@@ -174,39 +165,21 @@ public class Project {
     return projectID;
   }
 
+  /**
+   * Set project ID directly (used when loading from database)
+   * Note: This uses reflection to modify the final field
+   */
+  public void setProjectIdDirect(int projectId) {
+    try {
+      java.lang.reflect.Field field = Project.class.getDeclaredField("projectID");
+      field.setAccessible(true);
+      field.setInt(this, projectId);
+    } catch (Exception e) {
+      System.out.println("Error setting project ID: " + e.getMessage());
+    }
+  }
+
   public int getTaskCount() {
     return tasks.size();
-  }
-
-  public void setTitle(IUser user, String title) {
-    try {
-      if (title == null) {
-        System.out.println("Error: title cannot be null!");
-        return;
-      }
-      if (title.length() <= 255 && user.can("CREATE_PROJECT")) {
-        this.title = title;
-      } else {
-        System.out.println("Error, invalid input!");
-      }
-    } catch (Exception e) {
-      System.out.println("Error setting title: " + e.getMessage());
-    }
-  }
-
-  public void setDescript(IUser user, String des) {
-    try {
-      if (des == null) {
-        System.out.println("Error: description cannot be null!");
-        return;
-      }
-      if (des.length() <= 500 && user.can("CREATE_TASK")) {
-        this.projectDescription = des;
-      } else {
-        System.out.println("Error, invalid input!");
-      }
-    } catch (Exception e) {
-      System.out.println("Error setting description: " + e.getMessage());
-    }
   }
 }

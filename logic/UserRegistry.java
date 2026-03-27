@@ -2,116 +2,78 @@ package logic;
 
 import java.util.ArrayList;
 
-/**
- * UserRegistry - Central registry for managing users in the system
- */
+import logic.IUser;
+
 public class UserRegistry {
-    private ArrayList<IUser> users;
+  private final ArrayList<IUser> users = new ArrayList<>();
 
-    public UserRegistry() {
-        this.users = new ArrayList<>();
-    }
+  public void addUser(IUser user) {
+    users.add(user);
+  }
 
-    /**
-     * Add a user to the registry
-     * @param user The user to add
-     */
-    public void addUser(IUser user) {
-        try {
-            users.add(user);
-        } catch (Exception e) {
-            System.out.println("Error adding user: " + e.getMessage());
+  public IUser createGuestUser() {
+    return new User("Guest", "User", "Guest123@gmail.com", "guest", "GuestPassword") {
+      @Override
+      public boolean can(String action) {
+        switch (action) {
+          case "VIEW_TASK":
+          case "VIEW_REPORT":
+            return true;
+          default:
+            return false;
         }
-    }
+      }
 
-    /**
-     * Search for a user by ID
-     * @param userId The user ID to search for
-     * @return The user if found, null otherwise
-     */
-    public IUser searchUserById(String userId) {
-        try {
-            for (IUser user : users) {
-                if (user.getId().equals(userId)) {
-                    return user;
-                }
-            }
-            return null;
-        } catch (Exception e) {
-            System.out.println("Error searching user by ID: " + e.getMessage());
-            return null;
-        }
-    }
+      @Override
+      public String getId() {
+        return "Guest-User001";
+      }
 
-    /**
-     * Search for a user by email
-     * @param email The email to search for
-     * @return The user if found, null otherwise
-     */
-    public IUser searchUserByEmail(String email) {
-        try {
-            for (IUser user : users) {
-                if (user.getEmail().equals(email)) {
-                    return user;
-                }
-            }
-            return null;
-        } catch (Exception e) {
-            System.out.println("Error searching user by email: " + e.getMessage());
-            return null;
-        }
-    }
+      @Override
+      public String getRole() {
+        return "Guest";
+      }
+    };
+  }
 
-    /**
-     * Search for a user by username
-     * @param username The username to search for
-     * @return The user if found, null otherwise
-     */
-    public IUser searchUserByUsername(String username) {
-        try {
-            for (IUser user : users) {
-                if (user.getUsername().equals(username)) {
-                    return user;
-                }
-            }
-            return null;
-        } catch (Exception e) {
-            System.out.println("Error searching user by username: " + e.getMessage());
-            return null;
-        }
+  public IUser searchUserById(String userId) {
+    for (IUser user : users) {
+      if (user.getId().equals(userId)) {
+        return user;
+      }
     }
+    return null;
+  }
 
-    /**
-     * Login with email/username and password
-     * @param emailOrUsername Email or username
-     * @param password Password
-     * @return The logged-in user if successful, null otherwise
-     */
-    public IUser login(String emailOrUsername, String password) {
-        try {
-            for (IUser user : users) {
-                if ((user.getEmail().equals(emailOrUsername) || user.getUsername().equals(emailOrUsername))
-                    && user.getPassword().equals(password)) {
-                    return user;
-                }
-            }
-            return null;
-        } catch (Exception e) {
-            System.out.println("Error during login: " + e.getMessage());
-            return null;
-        }
+  public IUser searchUserByEmail(String email) {
+    for (IUser user : users) {
+      if (user.getEmail().equals(email)) {
+        return user;
+      }
     }
+    return null;
+  }
 
-    /**
-     * Get all users in the registry
-     * @return ArrayList of all users
-     */
-    public ArrayList<IUser> getAllUsers() {
-        try {
-            return users;
-        } catch (Exception e) {
-            System.out.println("Error getting user list: " + e.getMessage());
-            return new ArrayList<>();
-        }
+  public IUser searchUserByUsername(String username) {
+    for (IUser user : users) {
+      if (user.getUsername().equals(username)) {
+        return user;
+      }
     }
+    return null;
+  }
+
+  public IUser login(String emailOrUsername, String password) {
+    for (IUser user : users) {
+      if ((user.getEmail().equals(emailOrUsername) || user.getUsername().equals(emailOrUsername))
+          && user.getPassword().equals(password)) {
+        return user;
+      }
+    }
+    return null;
+  }
+
+  public ArrayList<IUser> getAllUsers() {
+    return users;
+  }
 }

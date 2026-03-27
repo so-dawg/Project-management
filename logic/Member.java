@@ -1,34 +1,38 @@
 package logic;
 
+import java.util.ArrayList;
+
 public class Member extends User {
 
   private static int totalMembers = 0;
   private static int nextId = 1;
-  private int Id;
+  private int id;
 
   public Member(String firstName, String lastName, String email, String username, String password) {
     super(firstName, lastName, email, username, password);
     totalMembers++;
-    Id = nextId++;
+    this.id = nextId++;
   }
 
-  // Constructor for database users (with existing ID)
-  // public Member(int id, String firstName, String lastName, String email, String
-  // username, String password) {
-  // this.Id = id;
-  // this.firstName = firstName;
-  // this.lastName = lastName;
-  // setEmail(email);
-  // this.username = username;
-  // setPassword(password);
-  // }
+  public Member(int id, String firstName, String lastName, String email, String username, String password) {
+    super(firstName, lastName, email, username, password);
+    this.id = id;
+  }
 
   public static int getTotalMembers() {
     return totalMembers;
   }
 
   public String getId() {
-    return String.valueOf(Id);
+    return String.valueOf(id);
+  }
+
+  public void setIdDirect(String id) {
+    try {
+      this.id = Integer.parseInt(id);
+    } catch (NumberFormatException e) {
+      System.out.println("Invalid ID format: " + id);
+    }
   }
 
   @Override
@@ -38,32 +42,35 @@ public class Member extends User {
 
   @Override
   public boolean can(String action) {
-    // Members can view and manage their own tasks
     switch (action) {
       case "VIEW_TASK":
-        return true;
       case "UPDATE_OWN_TASK":
-        return true;
       case "CREATE_TASK":
-        return true; // Members can create tasks
       case "CREATE_PROJECT":
-        return true; // Members can create projects
       case "DELETE_TASK":
-        return true; // Members can delete tasks
+        return true;
       case "ASSIGN_TASK":
-        return false; // Only owners can assign
       case "CREATE_USER":
-        return false;
       case "VIEW_REPORT":
-        return false;
       default:
         return false;
     }
   }
 
-  @Override
-  public String toString() {
-    return super.toString() + "Id: " + Id;
+  public void addUser(IUser user) {
+    // Placeholder for compatibility
   }
 
+  public IUser searchUserById(String userId) {
+    return null;
+  }
+
+  public IUser searchUserByUsername(String username) {
+    return null;
+  }
+
+  @Override
+  public String toString() {
+    return super.toString() + "Id: " + id;
+  }
 }

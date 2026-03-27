@@ -1,6 +1,6 @@
 package logic;
 
 @FunctionalInterface
-interface TaskFilter {
-  boolean isDone(Task task);
+public interface TaskFilter {
+  boolean matches(Task task);
 }
