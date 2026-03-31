@@ -433,24 +433,6 @@ Project-management/
 
 ---
 
-## Recent Updates
-
-### Version 2.0 - Latest
-
-- Edit Task (Title, Priority, Deadline, Description)
-- Edit Project (Title, Description)
-- Mark Task Complete/Incomplete
-- Edit User Profile (with password verification)
-- Task Filtering with Project Names
-- Deadline Validation (No past dates)
-- Fixed Task Assignment Display
-- Fixed Join/Leave Project
-- Fixed Add Member to Project
-- Fixed View Project Members
-- Organized code into cli/ folder for better structure
-
----
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
