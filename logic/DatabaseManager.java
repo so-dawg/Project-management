@@ -774,9 +774,9 @@ public class DatabaseManager {
   /**
    * Insert a new project into database
    *
-   * @param title Project title
+   * @param title       Project title
    * @param description Project description
-   * @param ownerId Owner user ID
+   * @param ownerId     Owner user ID
    * @return The generated project ID, or -1 if failed
    */
   public int insertProject(String title, String description, int ownerId) {
@@ -805,7 +805,7 @@ public class DatabaseManager {
    * Update project title in database
    *
    * @param projectId Project ID
-   * @param newTitle New project title
+   * @param newTitle  New project title
    * @return true if updated successfully
    */
   public boolean updateProjectTitle(int projectId, String newTitle) {
@@ -826,7 +826,7 @@ public class DatabaseManager {
   /**
    * Update project description in database
    *
-   * @param projectId Project ID
+   * @param projectId      Project ID
    * @param newDescription New project description
    * @return true if updated successfully
    */
@@ -849,7 +849,7 @@ public class DatabaseManager {
    * Add a member to a project in database
    *
    * @param projectId Project ID
-   * @param memberId Member user ID
+   * @param memberId  Member user ID
    * @return true if added successfully
    */
   public boolean addMemberToProject(int projectId, int memberId) {
@@ -976,7 +976,8 @@ public class DatabaseManager {
         String description = "";
         try {
           description = rs.getString("description");
-          if (description == null) description = "";
+          if (description == null)
+            description = "";
         } catch (SQLException e) {
           // description column doesn't exist, use empty string
         }
@@ -987,7 +988,7 @@ public class DatabaseManager {
             deadline,
             description);
         task.setTaskId(rs.getInt("task_id"));
-        
+
         // Handle NULL assigned_to (unassigned tasks)
         int assignedTo = rs.getInt("assigned_to");
         if (rs.wasNull()) {
