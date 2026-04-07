@@ -19,22 +19,41 @@ public class TasksMenu {
       System.out.println("3. Edit Task");
       System.out.println("4. Delete Task");
       System.out.println("5. Mark Complete/Incomplete");
+      System.out.println("6. Unassign Task");
       System.out.println("0. Back to Main Menu");
       System.out.println("9. Logout");
       System.out.print("Choose option: ");
 
       String choice = app.readLinePublic();
-      if (choice == null) return;
+      if (choice == null)
+        return;
 
       switch (choice) {
-        case "1": viewTasks(); break;
-        case "2": createTask(); break;
-        case "3": editTask(); break;
-        case "4": deleteTask(); break;
-        case "5": markTaskStatus(); break;
-        case "9": doLogout(); return;
-        case "0": return;
-        default: System.out.println("[SYSTEM] Invalid option!");
+        case "1":
+          viewTasks();
+          break;
+        case "2":
+          createTask();
+          break;
+        case "3":
+          editTask();
+          break;
+        case "4":
+          deleteTask();
+          break;
+        case "5":
+          markTaskStatus();
+          break;
+        case "6":
+          unassignTask();
+          break;
+        case "9":
+          doLogout();
+          return;
+        case "0":
+          return;
+        default:
+          System.out.println("[SYSTEM] Invalid option!");
       }
     }
   }
@@ -78,10 +97,11 @@ public class TasksMenu {
       System.out.println("3. Completed");
       System.out.println("4. Past Deadline");
       System.out.print("Choose filter (or Enter for All): ");
-      
+
       String filterChoice = app.readLinePublic();
-      if (filterChoice == null) filterChoice = "1";
-      
+      if (filterChoice == null)
+        filterChoice = "1";
+
       java.util.ArrayList<Task> allUserTasks = new java.util.ArrayList<>();
       for (Project project : userProjects) {
         allUserTasks.addAll(project.getTasks());
@@ -95,10 +115,20 @@ public class TasksMenu {
       java.util.ArrayList<Task> userTasks = new java.util.ArrayList<>();
       for (Task task : allUserTasks) {
         switch (filterChoice) {
-          case "2": if (!task.isCompleted()) userTasks.add(task); break;
-          case "3": if (task.isCompleted()) userTasks.add(task); break;
-          case "4": if (task.isPastDeadline() && !task.isCompleted()) userTasks.add(task); break;
-          default: userTasks.add(task);
+          case "2":
+            if (!task.isCompleted())
+              userTasks.add(task);
+            break;
+          case "3":
+            if (task.isCompleted())
+              userTasks.add(task);
+            break;
+          case "4":
+            if (task.isPastDeadline() && !task.isCompleted())
+              userTasks.add(task);
+            break;
+          default:
+            userTasks.add(task);
         }
       }
 
@@ -107,14 +137,16 @@ public class TasksMenu {
         return;
       }
 
-      System.out.printf("%-5s %-25s %-30s %-10s %-12s %-10s %-15s%n", "ID", "Project", "Title", "Priority", "Deadline", "Status", "Assigned To");
-      System.out.println("---------------------------------------------------------------------------------------------------------------");
+      System.out.printf("%-5s %-25s %-30s %-10s %-12s %-10s %-15s%n", "ID", "Project", "Title", "Priority", "Deadline",
+          "Status", "Assigned To");
+      System.out.println(
+          "---------------------------------------------------------------------------------------------------------------");
 
       for (Task task : userTasks) {
         String status = task.isCompleted() ? "Completed" : "Pending";
         String deadline = task.getDeadline() != null ? task.getDeadline().toString() : "Not set";
         String assignee = getTaskAssigneeName(task, userProjects);
-        
+
         String projectName = "Unknown";
         for (Project project : userProjects) {
           if (project.getTasks().contains(task)) {
@@ -122,7 +154,7 @@ public class TasksMenu {
             break;
           }
         }
-        
+
         if (task.isPastDeadline() && !task.isCompleted()) {
           System.out.printf("%-5d %-25s %-30s %-10s %-12s %-10s %-15s [OVERDUE]%n",
               task.getTaskId(), projectName, task.getTitle(), task.getPriority(),
@@ -133,15 +165,18 @@ public class TasksMenu {
               deadline, status, assignee);
         }
       }
-      
+
       System.out.println("\n--- Summary ---");
       int completed = 0, pending = 0, overdue = 0;
       for (Task task : allUserTasks) {
-        if (task.isCompleted()) completed++;
-        else if (task.isPastDeadline()) overdue++;
-        else pending++;
+        if (task.isCompleted())
+          completed++;
+        else if (task.isPastDeadline())
+          overdue++;
+        else
+          pending++;
       }
-      System.out.printf("Total: %d | To Do: %d | Completed: %d | Overdue: %d%n", 
+      System.out.printf("Total: %d | To Do: %d | Completed: %d | Overdue: %d%n",
           allUserTasks.size(), pending, completed, overdue);
     } catch (Exception e) {
       System.out.println("[SYSTEM] Error viewing tasks: " + e.getMessage());
@@ -179,7 +214,8 @@ public class TasksMenu {
 
       System.out.print("\nSelect Project ID: ");
       String projectIdStr = app.readLinePublic();
-      if (projectIdStr == null) return;
+      if (projectIdStr == null)
+        return;
 
       int projectId;
       try {
@@ -208,11 +244,13 @@ public class TasksMenu {
 
       System.out.print("Task Title: ");
       String title = app.readLinePublic();
-      if (title == null) return;
+      if (title == null)
+        return;
 
       System.out.print("Priority (LOW/MEDIUM/HIGH/URGENT): ");
       String priorityStr = app.readLinePublic();
-      if (priorityStr == null) return;
+      if (priorityStr == null)
+        return;
       priorityStr = priorityStr.toUpperCase();
 
       System.out.print("Deadline (YYYY-MM-DD) or empty for none: ");
@@ -220,7 +258,8 @@ public class TasksMenu {
 
       System.out.print("Description: ");
       String description = app.readLinePublic();
-      if (description == null) return;
+      if (description == null)
+        return;
 
       if (title.isEmpty()) {
         System.out.println("[SYSTEM] Error: Title is required!");
@@ -267,6 +306,14 @@ public class TasksMenu {
       System.out.println("Project: " + selectedProject.getTitle());
 
       if (selectedProject.getOwner().getId().equals(app.getCurrentUser().getId())) {
+        // load data from database
+        if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+          java.util.ArrayList<Member> dbMembers = app.getDbManager().getProjectMembers(selectedProject.getProjectID());
+          for (Member member : dbMembers) {
+            selectedProject.addMember(member);
+          }
+        }
+
         System.out.println("\n--- Assign Task ---");
         System.out.println("Project Members:");
         System.out.println("  0. Unassigned");
@@ -364,7 +411,8 @@ public class TasksMenu {
 
       System.out.print("\nEnter Task ID to edit (or -1 to cancel): ");
       String taskIdStr = app.readLinePublic();
-      if (taskIdStr == null) return;
+      if (taskIdStr == null)
+        return;
 
       int taskId;
       try {
@@ -400,7 +448,8 @@ public class TasksMenu {
       System.out.print("Choose what to edit: ");
 
       String choice = app.readLinePublic();
-      if (choice == null) return;
+      if (choice == null)
+        return;
 
       switch (choice) {
         case "1":
@@ -488,7 +537,7 @@ public class TasksMenu {
 
           System.out.println("\nAssign to:");
           System.out.println("  0. Unassigned");
-          
+
           Project taskProject = null;
           for (Project p : userProjects) {
             if (p.getTasks().contains(taskToEdit)) {
@@ -496,12 +545,12 @@ public class TasksMenu {
               break;
             }
           }
-          
+
           if (taskProject != null) {
             System.out.printf("  1. %s %s (Owner)%n",
                 taskProject.getOwner().getFirstName(),
                 taskProject.getOwner().getLastName());
-            
+
             int memberNum = 2;
             for (Member member : taskProject.getMembers()) {
               System.out.printf("  %d. %s %s%n",
@@ -510,7 +559,7 @@ public class TasksMenu {
                   member.getLastName());
               memberNum++;
             }
-            
+
             System.out.print("\nEnter number: ");
             String assignChoice = app.readLinePublic();
             if (assignChoice != null) {
@@ -526,7 +575,7 @@ public class TasksMenu {
                 } else if (choice2 == 1) {
                   int ownerId = Integer.parseInt(taskProject.getOwner().getId());
                   taskToEdit.setAssignToDirect(ownerId);
-                  System.out.println("[SYSTEM] Assigned to: " + taskProject.getOwner().getFirstName() + " " 
+                  System.out.println("[SYSTEM] Assigned to: " + taskProject.getOwner().getFirstName() + " "
                       + taskProject.getOwner().getLastName());
                   if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
                     app.getDbManager().updateTaskAssignedTo(taskToEdit.getTaskId(), ownerId);
@@ -536,7 +585,7 @@ public class TasksMenu {
                   Member assignee = taskProject.getMembers().get(choice2 - 2);
                   int memberId = Integer.parseInt(assignee.getId());
                   taskToEdit.setAssignToDirect(memberId);
-                  System.out.println("[SYSTEM] Assigned to: " + assignee.getFirstName() + " " 
+                  System.out.println("[SYSTEM] Assigned to: " + assignee.getFirstName() + " "
                       + assignee.getLastName());
                   if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
                     app.getDbManager().updateTaskAssignedTo(taskToEdit.getTaskId(), memberId);
@@ -610,7 +659,8 @@ public class TasksMenu {
 
       System.out.print("\nEnter Task ID to delete (or -1 to cancel): ");
       String taskIdStr = app.readLinePublic();
-      if (taskIdStr == null) return;
+      if (taskIdStr == null)
+        return;
 
       int taskId;
       try {
@@ -627,7 +677,8 @@ public class TasksMenu {
 
       boolean deleted = false;
       for (Project project : userProjects) {
-        if (project.getOwner().getId().equals(app.getCurrentUser().getId()) || app.getCurrentUser().can("DELETE_TASK")) {
+        if (project.getOwner().getId().equals(app.getCurrentUser().getId())
+            || app.getCurrentUser().can("DELETE_TASK")) {
           if (project.removeTaskByID(app.getCurrentUser(), taskId)) {
             deleted = true;
             if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
@@ -690,7 +741,8 @@ public class TasksMenu {
 
       System.out.print("\nEnter Task ID to toggle status (or -1 to cancel): ");
       String taskIdStr = app.readLinePublic();
-      if (taskIdStr == null) return;
+      if (taskIdStr == null)
+        return;
 
       int taskId;
       try {
@@ -752,7 +804,8 @@ public class TasksMenu {
       try {
         LocalDate deadline = LocalDate.parse(deadlineStr);
         if (deadline.isBefore(LocalDate.now())) {
-          System.out.println("[SYSTEM] Deadline cannot be in the past. Please enter a future date or empty to cancel: ");
+          System.out
+              .println("[SYSTEM] Deadline cannot be in the past. Please enter a future date or empty to cancel: ");
           continue;
         }
         return deadlineStr;
@@ -768,14 +821,14 @@ public class TasksMenu {
       return "Unassigned";
     }
     String assignToStr = String.valueOf(assignToId);
-    
+
     for (Project project : userProjects) {
       Member member = project.searchMemberById(assignToStr);
       if (member != null) {
         return member.getFirstName() + " " + member.getLastName();
       }
     }
-    
+
     for (Project project : userProjects) {
       try {
         int ownerId = Integer.parseInt(project.getOwner().getId());
@@ -788,8 +841,106 @@ public class TasksMenu {
         }
       }
     }
-    
+
     return "Unknown (ID: " + assignToId + ")";
+  }
+
+  private void unassignTask() {
+    try {
+       System.out.println("\n[===== UNASSIGN TASK =====]");
+
+       if (!app.getCurrentUser().can("ASSIGN_TASK")) {
+          System.out.println("[SYSTEM] Error: Only project owners can unassign tasks!");
+          return;
+       }
+
+       java.util.ArrayList<Project> userProjects;
+       if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+          int userId = Integer.parseInt(app.getCurrentUser().getId());
+          userProjects = app.getDbManager().getUserProjects(userId);
+          for (Project project : userProjects) {
+            java.util.ArrayList<Task> tasks = app.getDbManager().getProjectTasks(project.getProjectID());
+            project.getTasks().clear();
+            project.getTasks().addAll(tasks);
+            java.util.ArrayList<Member> members = app.getDbManager().getProjectMembers(project.getProjectID());
+            for (Member member : members) {
+              project.addMember(member);
+            }
+          }
+       } else {
+          java.util.ArrayList<Project> allProjects = app.getProjectManager().getAllProjects();
+          userProjects = new java.util.ArrayList<>();
+          for (Project project : allProjects) {
+            if (project.getOwner().getId().equals(app.getCurrentUser().getId())) {
+              userProjects.add(project);
+            }
+          }
+       }
+
+       if (userProjects.isEmpty()) {
+          System.out.println("[SYSTEM] Error: No projects found!");
+          return;
+       }
+
+       java.util.ArrayList<Task> allTasks = new java.util.ArrayList<>();
+       System.out.println("\nAssigned Tasks:");
+       for (Project project : userProjects) {
+          for (Task task : project.getTasks()) {
+            if (task.getAssignToId() != 0) {
+              allTasks.add(task);
+              String assignee = getTaskAssigneeName(task, userProjects);
+              System.out.printf("  [%d] %s (Project: %s, Assigned to: %s)%n",
+                  task.getTaskId(), task.getTitle(), project.getTitle(), assignee);
+            }
+          }
+       }
+
+       if (allTasks.isEmpty()) {
+          System.out.println("[SYSTEM] No assigned tasks found!");
+          return;
+       }
+
+       System.out.print("\nEnter Task ID to unassign (or -1 to cancel): ");
+       String taskIdStr = app.readLinePublic();
+       if (taskIdStr == null) return;
+
+       int taskId;
+       try {
+          taskId = Integer.parseInt(taskIdStr);
+       } catch (NumberFormatException e) {
+          System.out.println("[SYSTEM] Error: Invalid task ID!");
+          return;
+       }
+
+       if (taskId == -1) {
+          System.out.println("[SYSTEM] Unassign cancelled.");
+          return;
+       }
+
+       Task taskToUnassign = null;
+       for (Task task : allTasks) {
+          if (task.getTaskId() == taskId) {
+            taskToUnassign = task;
+            break;
+          }
+       }
+
+       if (taskToUnassign == null) {
+          System.out.println("[SYSTEM] Task not found!");
+          return;
+       }
+
+       String oldAssignee = getTaskAssigneeName(taskToUnassign, userProjects);
+       taskToUnassign.setAssignToDirect(0);
+       System.out.println("[SYSTEM] ✓ Task unassigned from: " + oldAssignee);
+
+       if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+          app.getDbManager().updateTaskAssignedTo(taskToUnassign.getTaskId(), 0);
+          System.out.println("[SYSTEM] ✓ Database updated!");
+       }
+    } catch (Exception e) {
+       System.out.println("[SYSTEM] Error unassigning task: " + e.getMessage());
+    }
   }
 
   private void doLogout() {
