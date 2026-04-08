@@ -847,99 +847,100 @@ public class TasksMenu {
 
   private void unassignTask() {
     try {
-       System.out.println("\n[===== UNASSIGN TASK =====]");
+      System.out.println("\n[===== UNASSIGN TASK =====]");
 
-       if (!app.getCurrentUser().can("ASSIGN_TASK")) {
-          System.out.println("[SYSTEM] Error: Only project owners can unassign tasks!");
-          return;
-       }
+      if (!app.getCurrentUser().can("ASSIGN_TASK")) {
+        System.out.println("[SYSTEM] Error: Only project owners can unassign tasks!");
+        return;
+      }
 
-       java.util.ArrayList<Project> userProjects;
-       if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
-          int userId = Integer.parseInt(app.getCurrentUser().getId());
-          userProjects = app.getDbManager().getUserProjects(userId);
-          for (Project project : userProjects) {
-            java.util.ArrayList<Task> tasks = app.getDbManager().getProjectTasks(project.getProjectID());
-            project.getTasks().clear();
-            project.getTasks().addAll(tasks);
-            java.util.ArrayList<Member> members = app.getDbManager().getProjectMembers(project.getProjectID());
-            for (Member member : members) {
-              project.addMember(member);
-            }
+      java.util.ArrayList<Project> userProjects;
+      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+        int userId = Integer.parseInt(app.getCurrentUser().getId());
+        userProjects = app.getDbManager().getUserProjects(userId);
+        for (Project project : userProjects) {
+          java.util.ArrayList<Task> tasks = app.getDbManager().getProjectTasks(project.getProjectID());
+          project.getTasks().clear();
+          project.getTasks().addAll(tasks);
+          java.util.ArrayList<Member> members = app.getDbManager().getProjectMembers(project.getProjectID());
+          for (Member member : members) {
+            project.addMember(member);
           }
-       } else {
-          java.util.ArrayList<Project> allProjects = app.getProjectManager().getAllProjects();
-          userProjects = new java.util.ArrayList<>();
-          for (Project project : allProjects) {
-            if (project.getOwner().getId().equals(app.getCurrentUser().getId())) {
-              userProjects.add(project);
-            }
+        }
+      } else {
+        java.util.ArrayList<Project> allProjects = app.getProjectManager().getAllProjects();
+        userProjects = new java.util.ArrayList<>();
+        for (Project project : allProjects) {
+          if (project.getOwner().getId().equals(app.getCurrentUser().getId())) {
+            userProjects.add(project);
           }
-       }
+        }
+      }
 
-       if (userProjects.isEmpty()) {
-          System.out.println("[SYSTEM] Error: No projects found!");
-          return;
-       }
+      if (userProjects.isEmpty()) {
+        System.out.println("[SYSTEM] Error: No projects found!");
+        return;
+      }
 
-       java.util.ArrayList<Task> allTasks = new java.util.ArrayList<>();
-       System.out.println("\nAssigned Tasks:");
-       for (Project project : userProjects) {
-          for (Task task : project.getTasks()) {
-            if (task.getAssignToId() != 0) {
-              allTasks.add(task);
-              String assignee = getTaskAssigneeName(task, userProjects);
-              System.out.printf("  [%d] %s (Project: %s, Assigned to: %s)%n",
-                  task.getTaskId(), task.getTitle(), project.getTitle(), assignee);
-            }
+      java.util.ArrayList<Task> allTasks = new java.util.ArrayList<>();
+      System.out.println("\nAssigned Tasks:");
+      for (Project project : userProjects) {
+        for (Task task : project.getTasks()) {
+          if (task.getAssignToId() != 0) {
+            allTasks.add(task);
+            String assignee = getTaskAssigneeName(task, userProjects);
+            System.out.printf("  [%d] %s (Project: %s, Assigned to: %s)%n",
+                task.getTaskId(), task.getTitle(), project.getTitle(), assignee);
           }
-       }
+        }
+      }
 
-       if (allTasks.isEmpty()) {
-          System.out.println("[SYSTEM] No assigned tasks found!");
-          return;
-       }
+      if (allTasks.isEmpty()) {
+        System.out.println("[SYSTEM] No assigned tasks found!");
+        return;
+      }
 
-       System.out.print("\nEnter Task ID to unassign (or -1 to cancel): ");
-       String taskIdStr = app.readLinePublic();
-       if (taskIdStr == null) return;
+      System.out.print("\nEnter Task ID to unassign (or -1 to cancel): ");
+      String taskIdStr = app.readLinePublic();
+      if (taskIdStr == null)
+        return;
 
-       int taskId;
-       try {
-          taskId = Integer.parseInt(taskIdStr);
-       } catch (NumberFormatException e) {
-          System.out.println("[SYSTEM] Error: Invalid task ID!");
-          return;
-       }
+      int taskId;
+      try {
+        taskId = Integer.parseInt(taskIdStr);
+      } catch (NumberFormatException e) {
+        System.out.println("[SYSTEM] Error: Invalid task ID!");
+        return;
+      }
 
-       if (taskId == -1) {
-          System.out.println("[SYSTEM] Unassign cancelled.");
-          return;
-       }
+      if (taskId == -1) {
+        System.out.println("[SYSTEM] Unassign cancelled.");
+        return;
+      }
 
-       Task taskToUnassign = null;
-       for (Task task : allTasks) {
-          if (task.getTaskId() == taskId) {
-            taskToUnassign = task;
-            break;
-          }
-       }
+      Task taskToUnassign = null;
+      for (Task task : allTasks) {
+        if (task.getTaskId() == taskId) {
+          taskToUnassign = task;
+          break;
+        }
+      }
 
-       if (taskToUnassign == null) {
-          System.out.println("[SYSTEM] Task not found!");
-          return;
-       }
+      if (taskToUnassign == null) {
+        System.out.println("[SYSTEM] Task not found!");
+        return;
+      }
 
-       String oldAssignee = getTaskAssigneeName(taskToUnassign, userProjects);
-       taskToUnassign.setAssignToDirect(0);
-       System.out.println("[SYSTEM] ✓ Task unassigned from: " + oldAssignee);
+      String oldAssignee = getTaskAssigneeName(taskToUnassign, userProjects);
+      taskToUnassign.setAssignToDirect(0);
+      System.out.println("[SYSTEM] ✓ Task unassigned from: " + oldAssignee);
 
-       if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
-          app.getDbManager().updateTaskAssignedTo(taskToUnassign.getTaskId(), 0);
-          System.out.println("[SYSTEM] ✓ Database updated!");
-       }
+      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+        app.getDbManager().updateTaskAssignedTo(taskToUnassign.getTaskId(), 0);
+        System.out.println("[SYSTEM] ✓ Database updated!");
+      }
     } catch (Exception e) {
-       System.out.println("[SYSTEM] Error unassigning task: " + e.getMessage());
+      System.out.println("[SYSTEM] Error unassigning task: " + e.getMessage());
     }
   }
 
