@@ -73,4 +73,17 @@ public class Member extends User {
   public String toString() {
     return super.toString() + "Id: " + id;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    Member other = (Member) obj;
+    return this.id == other.id;
+  }
+
+  @Override
+  public int hashCode() {
+    return Integer.hashCode(id);
+  }
 }

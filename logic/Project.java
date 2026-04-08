@@ -23,6 +23,10 @@ public class Project {
 
   public boolean addMemberById(String userId, UserRegistry userRegistry) {
     try {
+      // Check if already a member
+      if (searchMemberById(userId) != null) {
+        return false;  // Already a member
+      }
       IUser user = userRegistry.searchUserById(userId);
       if (user instanceof Member) {
         members.add((Member) user);
@@ -38,6 +42,10 @@ public class Project {
 
   public boolean addMemberByName(String username, UserRegistry userRegistry) {
     try {
+      // Check if already a member
+      if (searchMemberByName(username) != null) {
+        return false;  // Already a member
+      }
       IUser user = userRegistry.searchUserByUsername(username);
       if (user instanceof Member) {
         members.add((Member) user);
