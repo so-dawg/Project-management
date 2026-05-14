@@ -43,10 +43,6 @@ public class Task {
     this.taskID = taskId;
   }
 
-  public int getAssignTo() {
-    return assignTo;
-  }
-
   public int getAssignToId() {
     return assignTo;
   }
@@ -121,10 +117,6 @@ public class Task {
 
   public void setAssignToDirect(int memberId) {
     this.assignTo = memberId;
-  }
-
-  public void unassign() {
-    this.assignTo = 0;
   }
 
   public void markCompleted(IUser user) {

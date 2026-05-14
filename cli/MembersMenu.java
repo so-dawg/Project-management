@@ -37,7 +37,7 @@ public class MembersMenu {
 
       java.util.ArrayList<Project> allProjects;
       
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         int userId = Integer.parseInt(app.getCurrentUser().getId());
         allProjects = app.getDbManager().getProjectsByOwnerId(userId);
         for (Project project : allProjects) {
@@ -87,7 +87,7 @@ public class MembersMenu {
       }
 
       java.util.ArrayList<Integer> memberIds = new java.util.ArrayList<>();
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         java.util.ArrayList<Member> members = app.getDbManager().getProjectMembers(projectId);
         for (Member m : members) {
           memberIds.add(Integer.parseInt(m.getId()));
@@ -151,11 +151,10 @@ public class MembersMenu {
         added = true;
       }
       
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         int memberId = Integer.parseInt(userToAdd.getId());
         if (app.getDbManager().addMemberToProject(projectId, memberId)) {
           added = true;
-          System.out.println("[DEBUG] Membership saved to database");
         }
       }
       
@@ -174,7 +173,7 @@ public class MembersMenu {
       System.out.println("\n[===== VIEW PROJECT MEMBERS =====]");
 
       java.util.ArrayList<Project> allProjects;
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         int userId = Integer.parseInt(app.getCurrentUser().getId());
         allProjects = app.getDbManager().getUserProjects(userId);
       } else {
@@ -218,7 +217,7 @@ public class MembersMenu {
         return;
       }
 
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         java.util.ArrayList<Member> dbMembers = app.getDbManager().getProjectMembers(projectId);
         for (Member member : dbMembers) {
           selectedProject.addMember(member);

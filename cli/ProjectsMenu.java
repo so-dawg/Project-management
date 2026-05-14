@@ -44,7 +44,7 @@ public class ProjectsMenu {
       System.out.println("\n[===== YOUR PROJECTS =====]");
 
       java.util.ArrayList<Project> userProjects;
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         int userId = Integer.parseInt(app.getCurrentUser().getId());
         userProjects = app.getDbManager().getUserProjects(userId);
         for (Project project : userProjects) {
@@ -79,7 +79,7 @@ public class ProjectsMenu {
 
       for (Project project : userProjects) {
         int taskCount = project.getTaskCount();
-        if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+        if (app.isDbReady()) {
           java.util.ArrayList<Task> tasks = app.getDbManager().getProjectTasks(project.getProjectID());
           taskCount = tasks.size();
         }
@@ -119,12 +119,9 @@ public class ProjectsMenu {
 
       Project project = app.getProjectManager().createProject(title, description, app.getCurrentUser());
 
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         int ownerId = Integer.parseInt(app.getCurrentUser().getId());
-        int projectId = app.getDbManager().insertProject(title, description, ownerId);
-        if (projectId != -1) {
-          System.out.println("[DEBUG] Project saved to database with ID: " + projectId);
-        }
+        app.getDbManager().insertProject(title, description, ownerId);
       }
 
       System.out.println("\n✓ Project created successfully!");
@@ -140,7 +137,7 @@ public class ProjectsMenu {
       System.out.println("\n[===== EDIT PROJECT =====]");
 
       java.util.ArrayList<Project> allProjects;
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         int userId = Integer.parseInt(app.getCurrentUser().getId());
         allProjects = app.getDbManager().getProjectsByOwnerId(userId);
       } else {
@@ -202,7 +199,7 @@ public class ProjectsMenu {
           System.out.print("New Title (or empty to keep): ");
           String newTitle = app.readLinePublic();
           if (newTitle != null && !newTitle.isEmpty()) {
-            if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+            if (app.isDbReady()) {
               if (app.getDbManager().updateProjectTitle(projectId, newTitle)) {
                 System.out.println("[SYSTEM] ✓ Title updated in database!");
               } else {
@@ -218,7 +215,7 @@ public class ProjectsMenu {
           System.out.print("New Description (or empty to keep): ");
           String newDesc = app.readLinePublic();
           if (newDesc != null && !newDesc.isEmpty()) {
-            if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+            if (app.isDbReady()) {
               if (app.getDbManager().updateProjectDescription(projectId, newDesc)) {
                 System.out.println("[SYSTEM] ✓ Description updated in database!");
               } else {
@@ -242,7 +239,7 @@ public class ProjectsMenu {
       System.out.println("\n[===== DELETE PROJECT =====]");
 
       java.util.ArrayList<Project> allProjects;
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         int userId = Integer.parseInt(app.getCurrentUser().getId());
         allProjects = app.getDbManager().getUserProjects(userId);
       } else {
@@ -302,11 +299,10 @@ public class ProjectsMenu {
 
       app.getProjectManager().removeProject(projectId);
       
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         app.getDbManager().removeProject(projectId);
-        System.out.println("[DEBUG] Project deleted from database");
       }
-      
+
       System.out.println("\n[SYSTEM] ✓ Project deleted successfully!");
     } catch (Exception e) {
       System.out.println("[SYSTEM] Error deleting project: " + e.getMessage());
@@ -325,7 +321,7 @@ public class ProjectsMenu {
       java.util.ArrayList<Project> allProjects;
       java.util.ArrayList<Integer> joinedProjectIds = new java.util.ArrayList<>();
       
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         int userId = Integer.parseInt(app.getCurrentUser().getId());
         allProjects = app.getDbManager().getAllProjects();
         java.util.ArrayList<Project> userProjects = app.getDbManager().getUserProjects(userId);
@@ -414,10 +410,9 @@ public class ProjectsMenu {
       }
 
       if (projectToJoin.addMemberById(app.getCurrentUser().getId(), app.getUserRegistry())) {
-        if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+        if (app.isDbReady()) {
           int memberId = Integer.parseInt(app.getCurrentUser().getId());
           app.getDbManager().addMemberToProject(projectId, memberId);
-          System.out.println("[DEBUG] Membership saved to database");
         }
         System.out.println("\n[SYSTEM] ✓ Successfully joined the project!");
       } else {
@@ -435,7 +430,7 @@ public class ProjectsMenu {
       java.util.ArrayList<Project> allProjects;
       java.util.ArrayList<Integer> memberProjectIds = new java.util.ArrayList<>();
       
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         int userId = Integer.parseInt(app.getCurrentUser().getId());
         allProjects = app.getDbManager().getUserProjects(userId);
         for (Project project : allProjects) {
@@ -498,12 +493,9 @@ public class ProjectsMenu {
       }
 
       boolean removed = false;
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         int memberId = Integer.parseInt(app.getCurrentUser().getId());
         removed = app.getDbManager().removeMemberFromProject(projectId, memberId);
-        if (removed) {
-          System.out.println("[DEBUG] Membership removed from database");
-        }
       }
       
       if (projectToLeave.removeMemberById(app.getCurrentUser().getId())) {

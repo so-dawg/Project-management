@@ -96,69 +96,8 @@ public class DatabaseManager {
       stmt.close();
     } catch (SQLException e) {
       System.out.println("Login failed: " + e.getMessage());
-      e.printStackTrace();
     }
     return loggedInUser;
-  }
-
-  /**
-   * Login using User registry (faster, no database query)
-   *
-   * @param email        Email address
-   * @param password     Password
-   * @param userRegistry The User registry to search in
-   * @return IUser if found, null otherwise
-   */
-  public IUser loginWithRegistry(String email, String password, UserRegistry userRegistry) {
-    return userRegistry.login(email, password);
-  }
-
-  /**
-   * Get all users from database
-   *
-   * @return ArrayList of Member
-   */
-  public ArrayList<Member> getAllUsers() {
-    ArrayList<Member> users = new ArrayList<>();
-    String sql = "SELECT * FROM users";
-
-    try {
-      Statement stmt = conn.createStatement();
-      ResultSet rs = stmt.executeQuery(sql);
-
-      while (rs.next()) {
-        users.add(createMemberFromResultSet(rs));
-      }
-      rs.close();
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println("Get users failed: " + e.getMessage());
-    }
-    return users;
-  }
-
-  /**
-   * Get user by ID from database
-   *
-   * @param userId The user ID
-   * @return Member if found, null otherwise
-   */
-  public Member getUserById(String userId) {
-    String sql = "SELECT * FROM users WHERE user_id = ?";
-    try {
-      PreparedStatement stmt = conn.prepareStatement(sql);
-      stmt.setInt(1, Integer.parseInt(userId));
-      ResultSet rs = stmt.executeQuery();
-
-      if (rs.next()) {
-        return createMemberFromResultSet(rs);
-      }
-      rs.close();
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println("Get user by ID failed: " + e.getMessage());
-    }
-    return null;
   }
 
   /**
@@ -229,63 +168,6 @@ public class DatabaseManager {
   }
 
   /**
-   * Get projects where user is a member
-   *
-   * @param userId The user ID
-   * @return ArrayList of Project
-   */
-  public ArrayList<Project> getProjectsByMemberId(int userId) {
-    ArrayList<Project> projects = new ArrayList<>();
-    String sql = "SELECT p.* FROM projects p " +
-        "JOIN project_members pm ON p.project_id = pm.project_id " +
-        "WHERE pm.user_id = ?";
-    try {
-      PreparedStatement stmt = conn.prepareStatement(sql);
-      stmt.setInt(1, userId);
-      ResultSet rs = stmt.executeQuery();
-
-      while (rs.next()) {
-        int projectId = rs.getInt("project_id");
-        Owner owner = getOwnerById(rs.getInt("owner_id"));
-        if (owner != null) {
-          Project project = new Project(
-              rs.getString("pname"),
-              "",
-              owner);
-          project.setProjectIdDirect(projectId);
-          projects.add(project);
-        }
-      }
-      rs.close();
-      stmt.close();
-    } catch (SQLException e) {
-      System.out.println("Get projects by member failed: " + e.getMessage());
-    }
-    return projects;
-  }
-
-  /**
-   * Get count of projects owned by a user
-   *
-   * @param userId The user ID
-   * @return Number of projects owned
-   */
-  public int getProjectCountByOwnerId(int userId) {
-    String sql = "SELECT COUNT(*) AS count FROM projects WHERE owner_id = ?";
-    try {
-      PreparedStatement stmt = conn.prepareStatement(sql);
-      stmt.setInt(1, userId);
-      ResultSet rs = stmt.executeQuery();
-      if (rs.next()) {
-        return rs.getInt("count");
-      }
-    } catch (SQLException e) {
-      System.out.println("Get project count failed: " + e.getMessage());
-    }
-    return 0;
-  }
-
-  /**
    * Get owner by ID
    */
   private Owner getOwnerById(int ownerId) {
@@ -296,12 +178,18 @@ public class DatabaseManager {
       ResultSet rs = stmt.executeQuery();
 
       if (rs.next()) {
+        String username = rs.getString("username");
+        if (username == null || username.isEmpty()) {
+          String email = rs.getString("email");
+          int at = email.indexOf("@");
+          username = at > 0 ? email.substring(0, at) : email;
+        }
         return new Owner(
-            rs.getInt("user_id"), // Use database ID
+            rs.getInt("user_id"),
             rs.getString("first_name"),
             rs.getString("last_name"),
             rs.getString("email"),
-            rs.getString("email"), // Use email as username
+            username,
             rs.getString("password"));
       }
       rs.close();
@@ -451,7 +339,7 @@ public class DatabaseManager {
   public boolean insertTaskAndSetId(Task task, int projectId) {
     int taskId = insertTask(
         projectId,
-        task.getAssignTo(),
+        task.getAssignToId(),
         task.getTitle(),
         "todo", // default status
         task.getPriority().toString().toLowerCase(),
@@ -534,23 +422,6 @@ public class DatabaseManager {
       return rows > 0;
     } catch (SQLException e) {
       System.out.println("Update password failed: " + e.getMessage());
-      return false;
-    }
-  }
-
-  /**
-   * Delete user from database
-   */
-  public boolean deleteUser(String userId) {
-    String sql = "DELETE FROM users WHERE user_id = ?";
-    try {
-      PreparedStatement stmt = conn.prepareStatement(sql);
-      stmt.setInt(1, Integer.parseInt(userId));
-      int rows = stmt.executeUpdate();
-      stmt.close();
-      return rows > 0;
-    } catch (SQLException e) {
-      System.out.println("Delete user failed: " + e.getMessage());
       return false;
     }
   }
@@ -712,26 +583,6 @@ public class DatabaseManager {
   }
 
   /**
-   * Remove all tasks from a project
-   *
-   * @param projectId The project ID
-   * @return Number of tasks removed
-   */
-  public int removeAllTasksFromProject(int projectId) {
-    String sql = "DELETE FROM tasks WHERE projects_id = ?";
-    try {
-      PreparedStatement stmt = conn.prepareStatement(sql);
-      stmt.setInt(1, projectId);
-      int rows = stmt.executeUpdate();
-      stmt.close();
-      return rows;
-    } catch (SQLException e) {
-      System.out.println("Remove tasks failed: " + e.getMessage());
-      return 0;
-    }
-  }
-
-  /**
    * Remove a project from database
    *
    * @param projectId The project ID to delete
@@ -749,13 +600,6 @@ public class DatabaseManager {
       System.out.println("Remove project failed: " + e.getMessage());
       return false;
     }
-  }
-
-  /**
-   * Get connection (for advanced queries)
-   */
-  public Connection getConnection() {
-    return conn;
   }
 
   /**
@@ -923,14 +767,7 @@ public class DatabaseManager {
       ResultSet rs = stmt.executeQuery();
 
       while (rs.next()) {
-        Member member = new Member(
-            rs.getInt("user_id"),
-            rs.getString("first_name"),
-            rs.getString("last_name"),
-            rs.getString("email"),
-            rs.getString("email"),
-            rs.getString("password"));
-        members.add(member);
+        members.add(createMemberFromResultSet(rs));
       }
       rs.close();
       stmt.close();

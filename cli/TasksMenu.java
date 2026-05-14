@@ -63,7 +63,7 @@ public class TasksMenu {
       System.out.println("\n[===== YOUR TASKS =====]");
 
       java.util.ArrayList<Project> userProjects;
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         int userId = Integer.parseInt(app.getCurrentUser().getId());
         userProjects = app.getDbManager().getUserProjects(userId);
         for (Project project : userProjects) {
@@ -188,7 +188,7 @@ public class TasksMenu {
       System.out.println("\n[===== CREATE TASK =====]");
 
       java.util.ArrayList<Project> allProjects;
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         allProjects = app.getDbManager().getAllProjects();
       } else {
         allProjects = app.getProjectManager().getAllProjects();
@@ -290,12 +290,8 @@ public class TasksMenu {
       java.util.ArrayList<Task> tasks = selectedProject.getTasks();
       Task newTask = tasks.get(tasks.size() - 1);
 
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
-        int dbProjectId = selectedProject.getProjectID();
-        boolean saved = app.getDbManager().insertTaskAndSetId(newTask, dbProjectId);
-        if (saved) {
-          System.out.println("[DEBUG] Task saved to database with ID: " + newTask.getTaskId());
-        }
+      if (app.isDbReady()) {
+        app.getDbManager().insertTaskAndSetId(newTask, selectedProject.getProjectID());
       }
 
       System.out.println("\n[SYSTEM] ✓ Task created successfully!");
@@ -307,7 +303,7 @@ public class TasksMenu {
 
       if (selectedProject.getOwner().getId().equals(app.getCurrentUser().getId())) {
         // load data from database
-        if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+        if (app.isDbReady()) {
           java.util.ArrayList<Member> dbMembers = app.getDbManager().getProjectMembers(selectedProject.getProjectID());
           for (Member member : dbMembers) {
             selectedProject.addMember(member);
@@ -339,7 +335,7 @@ public class TasksMenu {
               newTask.setAssignToDirect(ownerId);
               System.out.println("Assigned To: " + selectedProject.getOwner().getFirstName() + " "
                   + selectedProject.getOwner().getLastName());
-              if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+              if (app.isDbReady()) {
                 app.getDbManager().updateTaskAssignedTo(newTask.getTaskId(), ownerId);
               }
             } else if (choice >= 2 && choice <= members.size() + 1) {
@@ -347,7 +343,7 @@ public class TasksMenu {
               int memberId = Integer.parseInt(assignee.getId());
               newTask.setAssignToDirect(memberId);
               System.out.println("Assigned To: " + assignee.getFirstName() + " " + assignee.getLastName());
-              if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+              if (app.isDbReady()) {
                 app.getDbManager().updateTaskAssignedTo(newTask.getTaskId(), memberId);
               }
             } else {
@@ -370,7 +366,7 @@ public class TasksMenu {
       System.out.println("\n[===== EDIT TASK =====]");
 
       java.util.ArrayList<Project> userProjects;
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         int userId = Integer.parseInt(app.getCurrentUser().getId());
         userProjects = app.getDbManager().getUserProjects(userId);
         for (Project project : userProjects) {
@@ -457,7 +453,7 @@ public class TasksMenu {
           String newTitle = app.readLinePublic();
           if (newTitle != null && !newTitle.isEmpty()) {
             taskToEdit.setNewTitle(newTitle);
-            if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+            if (app.isDbReady()) {
               if (app.getDbManager().updateTaskTitle(taskToEdit.getTaskId(), newTitle)) {
                 System.out.println("[SYSTEM] ✓ Title updated in database!");
               } else {
@@ -474,7 +470,7 @@ public class TasksMenu {
           if (newPriority != null) {
             try {
               taskToEdit.setNewPriority(Task.TaskPriority.valueOf(newPriority.toUpperCase()));
-              if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+              if (app.isDbReady()) {
                 if (app.getDbManager().updateTaskPriority(taskToEdit.getTaskId(), newPriority.toLowerCase())) {
                   System.out.println("[SYSTEM] ✓ Priority updated in database!");
                 } else {
@@ -493,7 +489,7 @@ public class TasksMenu {
           String newDeadline = readDeadline();
           if (newDeadline != null && !newDeadline.isEmpty()) {
             taskToEdit.setDeadline(LocalDate.parse(newDeadline));
-            if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+            if (app.isDbReady()) {
               if (app.getDbManager().updateTaskDeadline(taskToEdit.getTaskId(), newDeadline)) {
                 System.out.println("[SYSTEM] ✓ Deadline updated in database!");
               } else {
@@ -516,7 +512,7 @@ public class TasksMenu {
           String newDesc = app.readLinePublic();
           if (newDesc != null && !newDesc.isEmpty()) {
             taskToEdit.setNewTaskDescription(newDesc);
-            if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+            if (app.isDbReady()) {
               if (app.getDbManager().updateTaskDescription(taskToEdit.getTaskId(), newDesc)) {
                 System.out.println("[SYSTEM] ✓ Description updated in database!");
               } else {
@@ -568,7 +564,7 @@ public class TasksMenu {
                 if (choice2 == 0) {
                   taskToEdit.setAssignToDirect(0);
                   System.out.println("[SYSTEM] Task set to Unassigned");
-                  if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+                  if (app.isDbReady()) {
                     app.getDbManager().updateTaskAssignedTo(taskToEdit.getTaskId(), 0);
                     System.out.println("[SYSTEM] ✓ Assignment updated in database!");
                   }
@@ -577,7 +573,7 @@ public class TasksMenu {
                   taskToEdit.setAssignToDirect(ownerId);
                   System.out.println("[SYSTEM] Assigned to: " + taskProject.getOwner().getFirstName() + " "
                       + taskProject.getOwner().getLastName());
-                  if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+                  if (app.isDbReady()) {
                     app.getDbManager().updateTaskAssignedTo(taskToEdit.getTaskId(), ownerId);
                     System.out.println("[SYSTEM] ✓ Assignment updated in database!");
                   }
@@ -587,7 +583,7 @@ public class TasksMenu {
                   taskToEdit.setAssignToDirect(memberId);
                   System.out.println("[SYSTEM] Assigned to: " + assignee.getFirstName() + " "
                       + assignee.getLastName());
-                  if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+                  if (app.isDbReady()) {
                     app.getDbManager().updateTaskAssignedTo(taskToEdit.getTaskId(), memberId);
                     System.out.println("[SYSTEM] ✓ Assignment updated in database!");
                   }
@@ -615,7 +611,7 @@ public class TasksMenu {
       System.out.println("\n[===== DELETE TASK =====]");
 
       java.util.ArrayList<Project> userProjects;
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         int userId = Integer.parseInt(app.getCurrentUser().getId());
         userProjects = app.getDbManager().getUserProjects(userId);
         for (Project project : userProjects) {
@@ -681,7 +677,7 @@ public class TasksMenu {
             || app.getCurrentUser().can("DELETE_TASK")) {
           if (project.removeTaskByID(app.getCurrentUser(), taskId)) {
             deleted = true;
-            if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+            if (app.isDbReady()) {
               app.getDbManager().removeTask(taskId);
             }
             break;
@@ -704,7 +700,7 @@ public class TasksMenu {
       System.out.println("\n[===== MARK TASK STATUS =====]");
 
       java.util.ArrayList<Project> userProjects;
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         int userId = Integer.parseInt(app.getCurrentUser().getId());
         userProjects = app.getDbManager().getUserProjects(userId);
         for (Project project : userProjects) {
@@ -773,14 +769,14 @@ public class TasksMenu {
       if (taskToToggle.isCompleted()) {
         taskToToggle.markIncomplete(app.getCurrentUser());
         System.out.println("\n[SYSTEM] ✓ Task marked as Pending");
-        if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+        if (app.isDbReady()) {
           app.getDbManager().updateTaskStatus(taskToToggle.getTaskId(), "todo");
           System.out.println("[SYSTEM] ✓ Status updated in database!");
         }
       } else {
         taskToToggle.markCompleted(app.getCurrentUser());
         System.out.println("\n[SYSTEM] ✓ Task marked as Completed");
-        if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+        if (app.isDbReady()) {
           app.getDbManager().updateTaskStatus(taskToToggle.getTaskId(), "done");
           System.out.println("[SYSTEM] ✓ Status updated in database!");
         }
@@ -855,7 +851,7 @@ public class TasksMenu {
       }
 
       java.util.ArrayList<Project> userProjects;
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         int userId = Integer.parseInt(app.getCurrentUser().getId());
         userProjects = app.getDbManager().getUserProjects(userId);
         for (Project project : userProjects) {
@@ -935,7 +931,7 @@ public class TasksMenu {
       taskToUnassign.setAssignToDirect(0);
       System.out.println("[SYSTEM] ✓ Task unassigned from: " + oldAssignee);
 
-      if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+      if (app.isDbReady()) {
         app.getDbManager().updateTaskAssignedTo(taskToUnassign.getTaskId(), 0);
         System.out.println("[SYSTEM] ✓ Database updated!");
       }

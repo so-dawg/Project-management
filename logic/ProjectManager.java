@@ -20,10 +20,6 @@ public class ProjectManager {
     return false;
   }
 
-  public boolean removeProject(Project project) {
-    return projects.remove(project);
-  }
-
   public ArrayList<Project> getProjectsByOwner(IUser owner) {
     ArrayList<Project> ownedProjects = new ArrayList<>();
     for (Project project : projects) {
@@ -32,16 +28,6 @@ public class ProjectManager {
       }
     }
     return ownedProjects;
-  }
-
-  public ArrayList<Project> getProjectsByMember(Member member) {
-    ArrayList<Project> memberProjects = new ArrayList<>();
-    for (Project project : projects) {
-      if (project.searchMemberById(member.getId()) != null) {
-        memberProjects.add(project);
-      }
-    }
-    return memberProjects;
   }
 
   public ArrayList<Project> getAllUserProjects(IUser user) {
@@ -66,9 +52,5 @@ public class ProjectManager {
 
   public ArrayList<Project> getAllProjects() {
     return projects;
-  }
-
-  public int getProjectCount() {
-    return projects.size();
   }
 }

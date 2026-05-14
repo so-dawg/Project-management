@@ -40,36 +40,8 @@ public class Project {
     }
   }
 
-  public boolean addMemberByName(String username, UserRegistry userRegistry) {
-    try {
-      // Check if already a member
-      if (searchMemberByName(username) != null) {
-        return false;  // Already a member
-      }
-      IUser user = userRegistry.searchUserByUsername(username);
-      if (user instanceof Member) {
-        members.add((Member) user);
-        return true;
-      }
-      System.out.println("User is not a Member instance");
-      return false;
-    } catch (ClassCastException e) {
-      System.out.println("Error casting user to Member: " + e.getMessage());
-      return false;
-    }
-  }
-
   public boolean removeMemberById(String memberId) {
     Member member = searchMemberById(memberId);
-    if (member != null) {
-      members.remove(member);
-      return true;
-    }
-    return false;
-  }
-
-  public boolean removeMemberByName(String username) {
-    Member member = searchMemberByName(username);
     if (member != null) {
       members.remove(member);
       return true;
@@ -80,15 +52,6 @@ public class Project {
   public Member searchMemberById(String memberId) {
     for (Member member : members) {
       if (member.getId().equals(memberId)) {
-        return member;
-      }
-    }
-    return null;
-  }
-
-  public Member searchMemberByName(String username) {
-    for (Member member : members) {
-      if (member.getUsername().equals(username)) {
         return member;
       }
     }
@@ -125,14 +88,6 @@ public class Project {
     }
   }
 
-  public boolean removeTaskByIndex(IUser user, int index) {
-    if (index >= 0 && index < tasks.size() && user.can("DELETE_TASK")) {
-      tasks.remove(index);
-      return true;
-    }
-    return false;
-  }
-
   public boolean removeTaskByID(IUser user, int id) {
     if (!user.can("DELETE_TASK")) {
       return false;
@@ -144,13 +99,6 @@ public class Project {
       }
     }
     return false;
-  }
-
-  public Task getTask(IUser user, int index) {
-    if (index >= 0 && index < tasks.size() && user.can("VIEW_TASK")) {
-      return tasks.get(index);
-    }
-    return null;
   }
 
   public ArrayList<Task> getTasks() {

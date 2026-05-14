@@ -299,7 +299,11 @@ public class TerminalApp {
   public ProjectManager getProjectManager() { return projectManager; }
   public DatabaseManager getDbManager() { return dbManager; }
   public boolean isUseDatabase() { return useDatabase; }
-  
+
+  public boolean isDbReady() {
+    return useDatabase && dbManager != null && dbManager.isConnected();
+  }
+
   public void logout() {
     currentUser = null;
   }

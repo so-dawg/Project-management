@@ -54,7 +54,7 @@ public class ProfileMenu {
           if (firstName != null && !firstName.isEmpty()) {
             ((User) app.getCurrentUser()).setFirstname(firstName);
             System.out.println("[SYSTEM] ✓ First name updated!");
-            if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+            if (app.isDbReady()) {
               app.getDbManager().updateUser(app.getCurrentUser());
               System.out.println("[SYSTEM] ✓ Saved to database!");
             }
@@ -66,7 +66,7 @@ public class ProfileMenu {
           if (lastName != null && !lastName.isEmpty()) {
             ((User) app.getCurrentUser()).setLastname(lastName);
             System.out.println("[SYSTEM] ✓ Last name updated!");
-            if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+            if (app.isDbReady()) {
               app.getDbManager().updateUser(app.getCurrentUser());
               System.out.println("[SYSTEM] ✓ Saved to database!");
             }
@@ -81,7 +81,7 @@ public class ProfileMenu {
             } else {
               ((User) app.getCurrentUser()).setUsername(newUsername);
               System.out.println("[SYSTEM] ✓ Username updated!");
-              if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+              if (app.isDbReady()) {
                 app.getDbManager().updateUsername(app.getCurrentUser().getId(), newUsername);
                 System.out.println("[SYSTEM] ✓ Saved to database!");
               }
@@ -97,7 +97,7 @@ public class ProfileMenu {
             } else {
               ((User) app.getCurrentUser()).setEmail(email);
               System.out.println("[SYSTEM] ✓ Email updated!");
-              if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+              if (app.isDbReady()) {
                 app.getDbManager().updateUserEmail(app.getCurrentUser().getId(), email);
                 System.out.println("[SYSTEM] ✓ Saved to database!");
               }
@@ -112,7 +112,7 @@ public class ProfileMenu {
           if (newPassword != null && User.isValidPassword(newPassword)) {
             ((User) app.getCurrentUser()).setPassword(newPassword);
             System.out.println("[SYSTEM] ✓ Password updated!");
-            if (app.isUseDatabase() && app.getDbManager() != null && app.getDbManager().isConnected()) {
+            if (app.isDbReady()) {
               app.getDbManager().updateUserPassword(app.getCurrentUser().getId(), newPassword);
               System.out.println("[SYSTEM] ✓ Saved to database!");
             }
